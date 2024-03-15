@@ -3,7 +3,7 @@
     <!--  头部  -->
     <div class="manager-header">
       <div class="manager-header-left">
-        <img src="@/assets/imgs/logo.png" />
+        <img src="@/assets/imgs/bupt_sp_logo.png" />
         <div class="title">后台管理系统</div>
       </div>
 
@@ -50,12 +50,14 @@
               <i class="el-icon-menu"></i><span>用户管理</span>
             </template>
             <el-menu-item index="/admin">管理员信息</el-menu-item>
+            <el-menu-item index="/user">用户信息</el-menu-item>
           </el-submenu>
         </el-menu>
       </div>
 
       <!--  数据表格  -->
       <div class="manager-main-right">
+      <!--    路由，页面变化    -->
         <router-view @update:user="updateUser" />
       </div>
     </div>

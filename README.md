@@ -123,4 +123,24 @@
     - manager
 
   - App.vue
+  
+    > Vue的入口
+  
+  - main.js
+  
+    > 导入所有需要的文件
+  
+-  [.env.development](vue\.env.development) 
+
+  > 后台URL
+
+-  [.env.production](vue\.env.production) 
+
+-  [package.json](vue\package.json) 
+
+  > 依赖配置
+
+-  [vue.config.js](vue\vue.config.js) 
+
+  > Vue全局配置文件
 

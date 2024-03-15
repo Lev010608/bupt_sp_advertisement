@@ -9,7 +9,9 @@ import request from "@/utils/request";
 
 Vue.config.productionTip = false
 
+// request工具类
 Vue.prototype.$request = request
+//定义URL，打包上线时使用
 Vue.prototype.$baseUrl = process.env.VUE_APP_BASEURL
 
 Vue.use(ElementUI, {size: "small"})
