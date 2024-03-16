@@ -30,6 +30,9 @@
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
+                <div style="text-decoration: none" @click="navTo('/front/person')">个人中心</div>
+              </el-dropdown-item>
+              <el-dropdown-item>
                 <div style="text-decoration: none" @click="logout">退出</div>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -86,6 +89,11 @@ export default {
       localStorage.removeItem("xm-user");
       this.$router.push("/login");
     },
+
+    //跳转URL
+    navTo(url){
+      location.href = url;
+    }
   }
 
 }
