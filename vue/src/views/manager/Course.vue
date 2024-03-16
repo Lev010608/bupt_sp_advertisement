@@ -24,7 +24,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="课程名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="content" label="内容" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="content" label="内容" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="success" size="mini" @click="viewDataInit(scope.row.content)">点击查看</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="type" label="课程类型"></el-table-column>
         <el-table-column prop="video" label="课程视频" show-overflow-tooltip>
           <template v-slot="scope">
@@ -98,7 +102,7 @@
           <el-input v-model="form.file" autocomplete="off" placeholder="请输入资料链接"></el-input>
         </el-form-item>
         <el-form-item prop="content" label="课程介绍">
-          <el-input type="textarea" :rows="4" v-model="form.content" autocomplete="off" placeholder="请输入课程介绍"></el-input>
+          <div id="editor"></div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -107,11 +111,15 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="课程内容" :visible.sync="editorVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+      <div v-html="viewData" class="w-e-text w-e-text-container"></div>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
+import E from 'wangeditor'
 export default {
   name: "Course",
   data() {
@@ -122,6 +130,7 @@ export default {
       total: 0,
       name: null,
       fromVisible: false,
+      editorVisible:false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
@@ -142,17 +151,32 @@ export default {
     this.load(1)
   },
   methods: {
+    initWangEditor(content) {
+      this.$nextTick(() => {
+        this.editor = new E('#editor')
+        this.editor.config.placeholder = '请输入内容'
+        this.editor.config.uploadFileName = 'file'
+        this.editor.config.uploadImgServer = 'http://localhost:9090/files/wang/upload'
+        this.editor.create()
+        setTimeout(() => {
+          this.editor.txt.html(content)
+        })
+      })
+    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
+      this.initWangEditor('')
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗
+      this.initWangEditor(this.form.content || '')
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          this.form.content = this.editor.txt.html()
           this.$request({
             url: this.form.id ? '/course/update' : '/course/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -169,6 +193,14 @@ export default {
         }
       })
     },
+    viewDataInit(data) {
+      this.viewData = data
+      this.editorVisible = true
+    },
+    // viewData(data) {
+    //   this.viewData = data
+    //   this.editorVisible = true
+    // },
     del(id) {   // 单个删除
       this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
         this.$request.delete('/course/delete/' + id).then(res => {
@@ -214,6 +246,13 @@ export default {
         this.tableData = res.data?.list
         this.total = res.data?.total
       })
+    },
+    data() {
+      return {
+        editor: null,
+        viewData: null,
+    editorVisible: false,
+    }
     },
     reset() {
       this.name = null
