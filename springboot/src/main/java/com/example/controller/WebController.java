@@ -23,6 +23,7 @@ public class WebController {
     @Resource
     private UserService userService;
 
+
     @GetMapping("/")
     public Result hello() {
         return Result.success("访问成功");
