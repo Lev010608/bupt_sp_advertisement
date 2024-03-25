@@ -97,7 +97,7 @@
 
     <!--  尾部-->
     <div class="footer">
-      <div class="footer-con">
+      <div class="footer-con" style="width: 80%; margin: 50px auto">
         <div class="footer-logo">
         </div>
         <div class="footer-text"></div>
