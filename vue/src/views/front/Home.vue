@@ -1,7 +1,120 @@
 <template>
   <div class="main-content">
 
-  </div>
+    <div>
+      <div class="carousel-image-container">
+        <el-carousel height="600px">
+          <div class="overlay">
+            <div class="overlay-content">
+              <h2>Welcome to my website</h2>
+              <p>Discover amazing content</p>
+            </div>
+          </div>
+          <el-carousel-item v-for="item in carouselData" :key="item">
+            <img :src="item" class="carousel-image">
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <div style="width: 80%; margin: 50px auto">
+        <div>
+          <h2>体验南太异域风情</h2>
+          <p>Discover amazing content</p>
+          <el-divider></el-divider>
+          <div class="editable-area-1">
+            <div class="first-card">
+              <el-carousel  :interval="4000" type="card" >
+                <el-carousel-item v-for="item1 in courseImg" :key="item">
+                  <img :src="item1" class="push-content">
+                </el-carousel-item>
+              </el-carousel>
+              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+            </div>
+            <div class="second-card">
+              <el-row :gutter="20">
+<!--                一行24份-->
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+          </div>
+
+        <div>
+          <h2>体验南太异域风情</h2>
+          <p>Discover amazing content</p>
+          <el-divider></el-divider>
+          <div class="editable-area-2">
+            <div class="first-card">
+
+              <el-row :gutter="20">
+                <!--                一行24份-->
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
+                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                </el-col>
+              </el-row>
+
+            </div>
+            <div class="second-card">
+
+              <el-carousel  :interval="4000" type="card" >
+                <el-carousel-item v-for="item1 in courseImg" :key="item">
+                  <img :src="item1" class="push-content">
+                </el-carousel-item>
+              </el-carousel>
+              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+
+            </div>
+          </div>
+        </div>
+
+        </div>
+
+      </div>
+
+    </div>
 </template>
 
 <script>
@@ -10,7 +123,15 @@ export default {
 
   data() {
     return {
-
+      carouselData:[
+          require('@/assets/imgs/bupt_sp_bg.png'),
+          require('@/assets/imgs/maobi.jpg')
+      ],
+      courseImg:[
+        require('@/assets/imgs/view1.jpg'),
+        require('@/assets/imgs/view2.jpg'),
+        require('@/assets/imgs/view3.jpg')
+      ]
     }
   },
   mounted() {
@@ -22,3 +143,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@import "@/assets/css/home.css";
+</style>

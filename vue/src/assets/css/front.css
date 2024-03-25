@@ -1,27 +1,55 @@
 .front-notice {
     padding: 5px 20px;
+    margin-top: 10px;
+    margin-left: 10px;
     color: #666;
+    background-color: #cbdad3;
+    width:300px;
+    border-radius: 30px;
     font-size: 12px
 }
-.front-header {
+
+.navbar {
     display: flex;
-    height: 60px;
-    line-height: 60px;
-    border-bottom: 1px solid #eee;
-    background: white;
+    width: 100%;
+    margin: 0px;
+    margin-top: 0px;
+    min-height: 100px;
+    border: 0px;
+    border-radius: 0px;
+    /*position: fixed;会导致导航栏覆盖在内容上，先取消这个功能*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 0.8s ease 0s;
 }
-.front-header-left {
-    width: 350px;
+.navbar-default {
+    background-color: #b0d2bf;
+    border-color: #7aaf90;
+    /*background-color: #f8f8f8;*/
+    /*border-color: #e7e7e7;*/
+}
+.navbar-static-top {
+    z-index: 1000;
+    border-width: 0 0 1px;
+}
+.navbar-hidden {
+    top: -120px;
+    background-color: rgba(255, 255, 255, 0.8);
+    position: fixed;
+    transform: translateY(-100%);
+    transition: all 0.8s ease 0s;
+}
+
+.container_index {
+    padding: 0 20px;
+    width: 100%;
     display: flex;
     align-items: center;
-    padding-left: 30px;
 }
-.front-header-left img, .front-header-dropdown img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%
-}
-.front-header-left .title {
+
+.container_index .title{
     flex: 1;
     color: #355476;
     cursor: pointer;
@@ -29,14 +57,84 @@
     font-size: 20px;
     font-weight: bold;
 }
-.front-header-center {
-    flex: 1;
+
+.container {
+    /* padding-left: 15px; */
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
 }
-.front-header-right {
+.navbar .bupt-sp-logo-container {
+    /*position: relative;*/
+    /*overflow: hidden;*/
+    background-image: url(@/assets/imgs/logo.png);
+    width: 40px;
+    height: 40px;
+    background-size: auto 40px;
+    margin-top: 10px;
+}
+
+.left-header{
+
+    display: flex;
+    flex-direction:column;
+}
+
+.center-header{
+    background-color: #b0d2bf;
+    flex: 1;
+    justify-content:center;
+}
+
+.header-nav{
+    background-color: #b0d2bf;
+    padding-top: 40px;
+    padding-left: 100px;
+}
+
+.right-header{
+    align-items: center;
     width: 200px;
     padding-right: 20px;
+    padding-top: 30px;
     text-align: right;
 }
+
+
+/*.front-header {*/
+/*    display: flex;*/
+/*    height: 60px;*/
+/*    line-height: 60px;*/
+/*    border-bottom: 1px solid #eee;*/
+/*    background: white;*/
+/*}*/
+/*.front-header-left {*/
+/*    width: 350px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    padding-left: 30px;*/
+/*}*/
+.front-header-left img, .front-header-dropdown img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%
+}
+/*.front-header-left .title {*/
+/*    flex: 1;*/
+/*    color: #355476;*/
+/*    cursor: pointer;*/
+/*    margin-left: 10px;*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*}*/
+/*.front-header-center {*/
+/*    flex: 1;*/
+/*}*/
+/*.front-header-right {*/
+/*    width: 200px;*/
+/*    padding-right: 20px;*/
+/*    text-align: right;*/
+/*}*/
 .front-header-dropdown {
     display: flex;
     align-items: center;
@@ -55,5 +153,32 @@
 /* ElementUI 样式覆盖 */
 .el-menu.el-menu--horizontal {
     border: none !important;
-    height: 59px;
+    height: 59px !important;
+}
+
+.el-menu-item {
+    background-color: #b0d2bf !important;
+    color: white !important;
+}
+
+.el-menu {
+    /*background-color: #286a46;*/
+}
+
+.el-menu-item.is-active {
+    background-color: #7aaf90 !important;
+    font-weight: 550;
+}
+
+.overflowShow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.footer{
+    width: 100%;
+    height: 300px;
+    box-sizing: border-box;
+    background: #163440;
 }
