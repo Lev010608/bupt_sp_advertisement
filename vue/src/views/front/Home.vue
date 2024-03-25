@@ -33,18 +33,16 @@
           <div class="editable-area-1" >
             <div class="first-card">
               <el-carousel  :interval="4000" type="card" >
-                <el-carousel-item v-for="item1 in courseImg" :key="item">
-                  <img :src="item1" class="push-content">
+                <el-carousel-item v-for="course in recommend" :key="course.id">
+                  <img :src="course.img" class="push-content">
                   <div class="overflowShow" style="
-position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
+                  position: relative;
+  bottom: 35px;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 5px;
   border-radius: 5px;
-">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+">{{course.name}}</div>
                 </el-carousel-item>
               </el-carousel>
               <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
@@ -111,15 +109,24 @@ export default {
         require('@/assets/imgs/view1.jpg'),
         require('@/assets/imgs/view2.jpg'),
         require('@/assets/imgs/view3.jpg')
-      ]
+      ],
+      recommend:[]
     }
   },
   mounted() {
-
+    this.loadRecommend()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-
+    loadRecommend(){
+      this.$request.get('/course/getRecommend').then(res =>{
+        if(res.code === '200'){
+          this.recommend = res.data
+        }else {
+          this.$message.error(res.msg)
+        }
+      });
+    }
   }
 }
 </script>

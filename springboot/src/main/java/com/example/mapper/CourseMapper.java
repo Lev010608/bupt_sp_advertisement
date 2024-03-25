@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Course;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -33,5 +34,11 @@ public interface CourseMapper {
       * 查询所有
     */
     List<Course> selectAll(Course course);
+
+    /**
+     * 查询所有推荐课程
+     */
+    @Select("select * from course where recommend = '是'")
+    List<Course> getRecommend();
 
 }

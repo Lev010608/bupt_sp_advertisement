@@ -60,6 +60,13 @@ public class CourseService {
     }
 
     /**
+     * 查询所有推荐课程
+     */
+    public List<Course> getRecommend(){
+        return courseMapper.getRecommend();
+    }
+
+    /**
      * 分页查询
      */
     public PageInfo<Course> selectPage(Course course, Integer pageNum, Integer pageSize) {

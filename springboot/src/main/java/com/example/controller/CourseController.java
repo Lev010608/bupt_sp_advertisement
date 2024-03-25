@@ -71,6 +71,15 @@ public class CourseController {
     }
 
     /**
+     * 查询推荐
+     */
+    @GetMapping("/getRecommend")
+    public Result getRecommend(){
+        List<Course> courses = courseService.getRecommend();
+        return Result.success(courses);
+    }
+
+    /**
      * 分页查询
      */
     @GetMapping("/selectPage")
