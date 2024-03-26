@@ -1,6 +1,8 @@
 # BUPT南太孔院宣传门户开发
 
 > BUPT_sp advertisement
+>
+> author：**Lev**  **Dream_Autumn**
 
 
 
@@ -19,6 +21,8 @@
 - 3.26
   - 完成首页前台推荐课程前后端接口编写
   - 完成推荐课程的筛选规则
+  - 完成推荐数量限制的后端逻辑与前端交互
+  - 完成课程信息主页展示功能
 
 
 
@@ -28,7 +32,7 @@
 
 - [x] [02. 用户登录注册、个人中心和修改密码](https://www.yuque.com/xiaqing-en2ii/skflxg/ep5pcvnr7grnt0eu)
 
-- [ ] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容
+- [ ] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容（这部分内容需要修改的逻辑较多，先放下，不在雏雁结项中完成该功能）
 
 
 - [x] [03. 课程信息模块功能的开发（上）](https://www.yuque.com/xiaqing-en2ii/skflxg/sav42v1esfpugrqm)
@@ -97,5 +101,7 @@
      > 编辑配置->  +  ->  npm  ->  package.jason(P)：选择jason  ->  脚本(T)选择：serve
 
    - 启动
-   
+
 3. 富文本编辑器配置
+
+   > 待更新
