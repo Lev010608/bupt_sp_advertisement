@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.entity.Course;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -40,5 +41,12 @@ public interface CourseMapper {
      */
     @Select("select * from course where recommend = '是'")
     List<Course> getRecommend();
+
+    @Select("SELECT COUNT(*) FROM course WHERE recommend = '是'")
+    int countRecommend();
+
+    @Update("UPDATE course SET recommend = '否' WHERE id = (SELECT id FROM (SELECT id FROM course WHERE recommend = '是' ORDER BY recommendTime LIMIT 1) AS temp)")
+    void cancelEarliestRecommend();
+
 
 }

@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.example.common.Result;
 import com.example.entity.Course;
+import com.example.mapper.CourseMapper;
 import com.example.service.CourseService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;

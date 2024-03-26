@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 公告信息表
@@ -17,6 +18,7 @@ public class Course implements Serializable {
     private String video;
     private String file;
     private String recommend;
+    private Date recommendTime; // 新添加的属性
 
     public Integer getId() {
         return id;
@@ -83,5 +85,13 @@ public class Course implements Serializable {
 
     public void setRecommend(String recommend) {
         this.recommend = recommend;
+    }
+
+    public Date getRecommendTime() {
+        return recommendTime;
+    }
+
+    public void setRecommendTime(Date recommendTime) {
+        this.recommendTime = recommendTime;
     }
 }
