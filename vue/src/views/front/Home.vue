@@ -50,9 +50,9 @@
             <div class="second-card">
               <el-row :gutter="20">
 <!--                一行24份-->
-                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
-                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
-                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+                <el-col :span="6" style="margin-bottom:50px; margin-top:15px" v-for="item in homepageData">
+                  <img :src="item.img" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <div style="color: #333333; margin-top: 10px" class="overflowShow">{{item.name}}</div>
                 </el-col>
               </el-row>
             </div>
@@ -110,11 +110,13 @@ export default {
         require('@/assets/imgs/view2.jpg'),
         require('@/assets/imgs/view3.jpg')
       ],
-      recommend:[]
+      recommend:[],
+      homepageData:[],
     }
   },
   mounted() {
     this.loadRecommend()
+    this.loadHomepageData()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
@@ -126,6 +128,19 @@ export default {
           this.$message.error(res.msg)
         }
       });
+    },
+    loadHomepageData(){
+      this.$request.get('/course/selectFresh8',{
+        params:{
+          recommend:'否'
+        }
+      }).then(res =>{
+        if (res.code === '200'){
+          this.homepageData = res.data
+        }else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   }
 }

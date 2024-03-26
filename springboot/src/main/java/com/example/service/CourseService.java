@@ -89,6 +89,11 @@ public class CourseService {
     }
 
     /**
+     * 查询8个放在首页
+     */
+    public List<Course> selectFresh8(){return courseMapper.selectFresh8();}
+
+    /**
      * 查询所有推荐课程
      */
     public List<Course> getRecommend(){

@@ -42,11 +42,21 @@ public interface CourseMapper {
     @Select("select * from course where recommend = '是'")
     List<Course> getRecommend();
 
+    /**
+     * 查询前8个课程置于首页
+     */
+    @Select("select * from course where recommend = '否' order by id desc limit 8")
+    List<Course> selectFresh8();
+
+    /**
+     * 推荐课程上限
+     */
     @Select("SELECT COUNT(*) FROM course WHERE recommend = '是'")
     int countRecommend();
 
+    /**
+     * 取消推荐课程
+     */
     @Update("UPDATE course SET recommend = '否' WHERE id = (SELECT id FROM (SELECT id FROM course WHERE recommend = '是' ORDER BY recommendTime LIMIT 1) AS temp)")
     void cancelEarliestRecommend();
-
-
 }

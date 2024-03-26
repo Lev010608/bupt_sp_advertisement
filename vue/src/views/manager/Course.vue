@@ -83,7 +83,7 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="recommend" label="是否推荐">
-          <el-select v-model="form.recommend" placeholder="请选择" style="width: 100%">
+          <el-select v-model="form.recommend" placeholder="请选择" style="width: 100%" @change="handleRecommendChange">
             <el-option label="是" value="是"></el-option>
             <el-option label="否" value="否"></el-option>
           </el-select>
@@ -172,6 +172,32 @@ export default {
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗
       this.initWangEditor(this.form.content || '')
+    },
+    isRecommendFull() {  // 判断推荐位是否已满
+      // 假设推荐位上限为3
+      const recommendLimit = 3
+      // 统计当前已推荐课程数量
+      const recommendedCount = this.tableData.filter(item => item.recommend === '是').length
+      // 如果已推荐课程数量达到上限，返回true；否则返回false
+      return recommendedCount >= recommendLimit
+    },
+    handleRecommendChange() {
+      if (this.form.recommend === '是') {
+        // 判断推荐位是否已满
+        if (this.isRecommendFull()) {
+          // 推荐位已满，弹出提醒框
+          this.$confirm('您已达到推荐课程上限（3个），是否继续推荐？如果选择`继续`将取消推荐最早推荐的课程', '推荐课程上限', {
+            confirmButtonText: '继续',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            // 继续推荐，不执行任何操作
+          }).catch(() => {
+            // 取消推荐，将下拉框选项设为“否”
+            this.form.recommend = '否'
+          })
+        }
+      }
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {

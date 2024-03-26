@@ -72,6 +72,12 @@ public class CourseController {
         return Result.success(list);
     }
 
+    @GetMapping("/selectFresh8")
+    public Result selectFresh8(){
+        List<Course> list = courseService.selectFresh8();
+        return Result.success(list);
+    }
+
     /**
      * 查询推荐
      */
