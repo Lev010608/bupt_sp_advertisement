@@ -42,6 +42,7 @@
             <if test="video != null">video,</if>
             <if test="file != null">file,</if>
             <if test="recommend != null">recommend,</if>
+            <if test="recommendTime != null">recommendTime,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -52,6 +53,7 @@
             <if test="video != null">#{video},</if>
             <if test="file != null">#{file},</if>
             <if test="recommend != null">#{recommend},</if>
+            <if test="recommendTime != null">#{recommendTime},</if>
         </trim>
     </insert>
 
@@ -78,6 +80,9 @@
             </if>
             <if test="recommend != null">
                 recommend = #{recommend},
+            </if>
+            <if test="recommendTime != null">
+                recommendTime = #{recommendTime},
             </if>
         </set>
         where id = #{id}

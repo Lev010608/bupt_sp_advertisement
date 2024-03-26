@@ -87,11 +87,7 @@ public class Course implements Serializable {
         this.recommend = recommend;
     }
 
-    public Date getRecommendTime() {
-        return recommendTime;
-    }
+    public Date getRecommendTime() {return recommendTime;}
 
-    public void setRecommendTime(Date recommendTime) {
-        this.recommendTime = recommendTime;
-    }
+    public void setRecommendTime(Date recommendTime) {this.recommendTime = recommendTime;}
 }
