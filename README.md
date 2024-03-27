@@ -23,6 +23,9 @@
   - 完成推荐课程的筛选规则
   - 完成推荐数量限制的后端逻辑与前端交互
   - 完成课程信息主页展示功能
+- 3.27
+  - 完成前台“全部动态”列表开发
+
 
 
 
@@ -45,7 +48,7 @@
 
 - [x] [07. 首页课程大图推荐、课程动态渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/we6nt9qboqhzxfbe)
 
-- [ ] [08. 前台全部课程功能的开发和数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/neyq5342qyor2ic6)
+- [x] [08. 前台全部课程功能的开发和数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/neyq5342qyor2ic6)
 
 - [ ] [10. 前台首页课程切换渲染功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fi6ginii9qi9paqx)
 
