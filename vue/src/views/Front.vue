@@ -97,10 +97,47 @@
 
     <!--  尾部-->
     <div class="footer">
-      <div class="footer-con" style="width: 80%; margin: 50px auto">
-        <div class="footer-logo">
+      <div class="footer-con" style="width: 80%; margin: 50px auto;display: flex">
+        <div class="footer-left">
+
+          <div class="attention computer">
+            <div style="display: flex">
+              <div>
+                <h4 class="cn">关注北邮南太孔院</h4>
+                <h4 class="en">Follow BUPT-SP</h4>
+              </div>
+              <div style="padding-left: 40%">
+                <h4 class="cn">关注该项目</h4>
+                <h4 class="en">Follow Us on Github</h4>
+              </div>
+            </div>
+            <div class="icon">
+              <span class="iconBilibili"><img src="@/assets/icons/icon_bilibili-circle.svg"></span>
+              <span class="iconWeibo"><img src="@/assets/icons/icon_weibo-circle.svg"></span>
+              <span class="iconTickTok"><img src="@/assets/icons/icon_TikTok-circle.svg"></span>
+              <span class="iconWeixin"><img src="@/assets/icons/icon_wechat-circle.svg"></span>
+              <span class="iconGithub"><img src="@/assets/icons/icon_github-circle.svg"></span>
+            </div>
+
+          </div>
         </div>
-        <div class="footer-text"></div>
+        <div class="footer-right">
+          <ul>
+            <li>
+              <p>网址</p>
+            </li>
+            <li>
+              <p>邮箱</p>
+              <p>yanfool8321926@bupt.edu.cn</p>
+            </li>
+            <li>
+              <p>地址</p>
+              <p>北京邮电大学叶培大学院
+              </p>
+            </li>
+          </ul>
+          <div class="attention mobile"></div>
+        </div>
       </div>
     </div>
   </div>
