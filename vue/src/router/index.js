@@ -34,6 +34,7 @@ const routes = [
     children: [
       { path: 'home', name: 'Home', meta: { name: '系统首页' }, component: () => import('../views/front/Home') },
       { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/front/Person') },
+      { path: 'course', name: 'Course', meta: { name: '学院动态' }, component: () => import('../views/front/Course') },
     ]
   },
   //   单独

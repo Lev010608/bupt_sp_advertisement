@@ -1,5 +1,6 @@
 package com.example.service;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.example.common.enums.RecommendEnum;
 import com.example.entity.Course;
@@ -36,6 +37,7 @@ public class CourseService {
             // 设置推荐时间为当前时间
             course.setRecommendTime(new Date());
         }
+        course.setAddTime(DateUtil.format(new Date(),"yyyy-MM-dd"));
         // 在这里设置recommendTime之后再插入数据
         courseMapper.insert(course);
     }

@@ -18,7 +18,8 @@ public class Course implements Serializable {
     private String video;
     private String file;
     private String recommend;
-    private Date recommendTime; // 新添加的属性
+    private Date recommendTime;
+    private String addTime;
 
     public Integer getId() {
         return id;
@@ -90,4 +91,12 @@ public class Course implements Serializable {
     public Date getRecommendTime() {return recommendTime;}
 
     public void setRecommendTime(Date recommendTime) {this.recommendTime = recommendTime;}
+
+    public String getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
 }

@@ -19,7 +19,7 @@
             <el-menu :default-active="$route.path" mode="horizontal" class="header-nav" router>
               <el-menu-item index="/front/home">首页</el-menu-item>
               <el-menu-item>学院概况</el-menu-item>
-              <el-menu-item>学院动态</el-menu-item>
+              <el-menu-item index="/front/course">学院动态</el-menu-item>
               <el-menu-item>南太论坛</el-menu-item>
               <el-menu-item>我的发布</el-menu-item>
               <el-menu-item>关于我们</el-menu-item>
