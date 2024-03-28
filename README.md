@@ -26,6 +26,9 @@
 - 3.27
   - 完成前台“全部动态”列表开发
   - 完成内容详情页的后台逻辑框架
+- 3.28
+  - 完成前台详情页接口与UI
+
 
 
 
@@ -33,10 +36,10 @@
 ## 项目进度
 
 - [x] [01. 用户信息模块功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fqkfyggeq1a5nxxu)
-
 - [x] [02. 用户登录注册、个人中心和修改密码](https://www.yuque.com/xiaqing-en2ii/skflxg/ep5pcvnr7grnt0eu)
+  - [ ] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容
+  - [ ] 现在，用户身份登陆后进行重定位能够直接进入后台，修改数据。需要对这一点作出修改
 
-- [ ] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容（这部分内容需要修改的逻辑较多，先放下，不在雏雁结项中完成该功能）
 
 
 - [x] [03. 课程信息模块功能的开发（上）](https://www.yuque.com/xiaqing-en2ii/skflxg/sav42v1esfpugrqm)
@@ -53,7 +56,7 @@
 
 - [ ] [10. 前台首页课程切换渲染功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fi6ginii9qi9paqx)
 
-- [ ] [12. 前台课程详情页页面开发和数据的渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/wyed89cc7qfp9gr1)
+- [x] [12. 前台课程详情页页面开发和数据的渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/wyed89cc7qfp9gr1)
 
 - [ ] [14. 前台我的资料功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/hyw85gkaxab3xgo4)
 
