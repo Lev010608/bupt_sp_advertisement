@@ -10,7 +10,7 @@
               <p>BUPT南太孔院</p>
             </div>
           </div>
-            <img :src=courseData.img class="carousel-image">
+            <img :src=courseData.img class="detail-carousel-image">
         </el-carousel>
       </div>
       <div  class="detail-content">
