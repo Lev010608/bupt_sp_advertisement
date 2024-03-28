@@ -42,6 +42,8 @@ public interface CourseMapper {
     @Select("select * from course where recommend = '是'")
     List<Course> getRecommend();
 
+    @Select("select * from course where recommend = '否' and type = #{type} order by id desc limit 8")
+    List<Course> selectTop8(String type);
     /**
      * 查询前8个课程置于首页
      */

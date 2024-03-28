@@ -1,9 +1,7 @@
 package com.example.controller;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.example.common.Result;
 import com.example.entity.Course;
-import com.example.mapper.CourseMapper;
 import com.example.service.CourseService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
@@ -85,6 +83,18 @@ public class CourseController {
     public Result getRecommend(){
         List<Course> courses = courseService.getRecommend();
         return Result.success(courses);
+    }
+
+//    @GetMapping("/getRecommend")
+//    public Result getRecommend(@RequestParam String type) {
+//        Course course = courseService.getRecommend(type);
+//        return Result.success(course);
+//    }
+
+    @GetMapping("/selectTop8")
+    public Result selectTop8(@RequestParam String type) {
+        List<Course> list = courseService.selectTop8(type);
+        return Result.success(list);
     }
 
     /**

@@ -103,6 +103,13 @@ public class CourseService {
 
     }
 
+//    public Course getRecommend(String type) {
+//        return courseMapper.getRecommend(type);
+//    }
+
+    public List<Course> selectTop8(String type) {
+        return courseMapper.selectTop8(type);
+    }
     /**
      * 分页查询
      */
