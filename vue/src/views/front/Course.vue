@@ -35,7 +35,11 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column   prop="name" label="内容/课程名称" show-overflow-tooltip width="600"></el-table-column>
+            <el-table-column   prop="name" label="内容/课程名称" show-overflow-tooltip width="600">
+              <template v-slot="scope">
+                <a :href="'/front/Detail?id=' + scope.row.id">{{ scope.row.name }}</a>
+              </template>
+            </el-table-column>
             <el-table-column   prop="type" label="类型" >
               <template v-slot="scope">
                 <span v-if="scope.row.type === 'VIDEO'" style="color: #7fa0df">视频</span>

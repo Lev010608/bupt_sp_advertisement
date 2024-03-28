@@ -24,16 +24,19 @@
     background-color: rgba(0, 0, 0, 0);
     transition: all 0.8s ease 0s;
 }
+
 .navbar-default {
     background-color: #b0d2bf;
     border-color: #7aaf90;
     /*background-color: #f8f8f8;*/
     /*border-color: #e7e7e7;*/
 }
+
 .navbar-static-top {
     z-index: 1000;
     border-width: 0 0 1px;
 }
+
 .navbar-hidden {
     top: -120px;
     background-color: rgba(255, 255, 255, 0.8);

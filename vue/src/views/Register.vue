@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div style="width: 400px; padding: 30px; background-color: white; border-radius: 5px;">
+    <div class="overlay">
+      <h2>Welcome to my website</h2>
+      <p>Discover amazing content</p>
+    </div>
+    <div style="width: 400px; padding: 30px; background-color: white; border-radius: 5px; z-index: 1">
       <div style="text-align: center; font-size: 20px; margin-bottom: 20px; color: #333">欢迎注册</div>
       <el-form :model="form" :rules="rules" ref="formRef">
         <el-form-item prop="username">
@@ -82,12 +86,28 @@ export default {
 .container {
   height: 100vh;
   overflow: hidden;
-  background-image: url("@/assets/imgs/bg1.jpg");
+  background-image: url("@/assets/imgs/bupt_sp_bg1.jpg");
   background-size: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #666;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* 左半侧宽度 */
+  height: 100%;
+  border-bottom-right-radius:15px;
+  border-top-right-radius:15px;
+  background-image:linear-gradient(to right, #418160,#FF000000);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+//opacity:0.8;
+
+  z-index: 0;
 }
 a {
   color: #2a60c9;
