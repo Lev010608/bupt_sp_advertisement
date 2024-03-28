@@ -115,6 +115,7 @@ export default {
       ],
       recommend:[],
       homepageData:[],
+      type:''
     }
   },
   mounted() {
@@ -134,6 +135,8 @@ export default {
         this.getHomepageData('/course/selectTop8?type=' + this.type)
       }else if('TEXT' === this.type){
         this.getHomepageData('/course/selectTop8?type=' + this.type)
+      }else if('ALL' === this.type){
+        this.getHomepageData('/course/selectFresh8')
       }
     },
     handleTabChange(tab) {
@@ -141,6 +144,9 @@ export default {
         this.initValue('TEXT');
       } else if (tab.name === 'second') {
         this.initValue('VIDEO');
+      }else{
+        this.initValue('ALL');
+        // this.initValue('/course/selectFresh8')
       }
     },
     getHomepageData(url) {
