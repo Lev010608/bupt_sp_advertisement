@@ -23,6 +23,8 @@
             <el-input placeholder="请输入内容/内容/课程名称" style="width: 200px" size="mini" v-model="name"></el-input>
             <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
             <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+            <el-button type="warning" plain style="margin-left: 10px" @click="initValue('VIDEO')">仅查看视频</el-button>
+            <el-button type="warning" plain style="margin-left: 10px" @click="initValue('TEXT')">仅查看图文</el-button>
           </div>
         </div>
         <div class="table">
@@ -83,6 +85,7 @@ export default {
       total: 0,
       name: null,
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      type:'',
 
       carouselData:[
         require('@/assets/imgs/bupt_sp_bg.png'),
@@ -92,9 +95,26 @@ export default {
   },
   mounted() {
     this.load(1)
+    this.getData()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
+    initValue(type) {
+      this.type = type
+      this.getData()
+    },
+    getData() {
+      // 积分专区这边的数据
+      if ('VIDEO' === this.type) {
+        console.log('VIDEO')
+
+        // this.getHomepageData('/course/selectTop8?type=' + this.type)
+      }else if('TEXT' === this.type){
+        // this.getHomepageData('/course/selectTop8?type=' + this.type)
+      }else if('ALL' === this.type){
+        // this.getHomepageData('/course/selectFresh8')
+      }
+    },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
       this.$request.get('/course/selectPage', {
