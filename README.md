@@ -28,6 +28,10 @@
   - 完成内容详情页的后台逻辑框架
 - 3.28
   - 完成前台详情页接口与UI
+  - 完成前台数据筛选
+  - 完成动态页数据筛选
+  - 完成个人发布功能
+  - 完成管理员发布审核功能
 
 
 
@@ -40,40 +44,19 @@
   - [ ] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容
   - [ ] 现在，用户身份登陆后进行重定位能够直接进入后台，修改数据。需要对这一点作出修改
 
-
-
 - [x] [03. 课程信息模块功能的开发（上）](https://www.yuque.com/xiaqing-en2ii/skflxg/sav42v1esfpugrqm)
-
 - [x] [04. 课程信息模块功能开发（下）-课程介绍富文本](https://www.yuque.com/xiaqing-en2ii/skflxg/kp5p60ps6psa8afn)
-
 - [x] [05. 前台首页菜单和轮播图设计](https://www.yuque.com/xiaqing-en2ii/skflxg/vty8ipnv370b9xcv)
-
 - [x] [06. 前台首页课程和资料的页面设计](https://www.yuque.com/xiaqing-en2ii/skflxg/ldtlxpozgmtmxu81)
-
 - [x] [07. 首页课程大图推荐、课程动态渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/we6nt9qboqhzxfbe)
-
 - [x] [08. 前台全部课程功能的开发和数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/neyq5342qyor2ic6)
-
 - [x] [10. 前台首页课程切换渲染功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fi6ginii9qi9paqx)
-
 - [x] [12. 前台课程详情页页面开发和数据的渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/wyed89cc7qfp9gr1)
-
-- [ ] [14. 前台我的资料功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/hyw85gkaxab3xgo4)
-
-- [ ] [15. 管理后台资料审核和推荐功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/pvabggzu2fholbly)
-
+- [x] [14. 前台我的资料功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/hyw85gkaxab3xgo4)
+- [x] [15. 管理后台资料审核和推荐功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/pvabggzu2fholbly)
 - [ ] [16. 前台首页在线资源部分的数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/vvn3h046kcw85gp7)
-
 - [ ] [17. 前台海量资源以及详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/bdqmlr1rqrq454zg)
-
 - [ ] [18. 前台首页跳转到详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/vcg92wp50fpw0w57)
-
-- [ ] [22. 课程订单功能的开发（中）管理端管理](https://www.yuque.com/xiaqing-en2ii/skflxg/rbcapr8sy6ozrtk4)
-
-- [ ] [25. 积分专区订单功能的开发（下）-数据管理](https://www.yuque.com/xiaqing-en2ii/skflxg/bn674nd0u8u01p5p)
-
-- [ ] [26. 海量资源订单功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/twi1ru39ny5v6dks)
-
 - [ ] [27. 数据统计功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/vhfx75nqsc26t8vf)
 
 
