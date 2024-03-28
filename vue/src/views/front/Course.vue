@@ -11,7 +11,7 @@
               </div>
             </div>
             <el-carousel-item v-for="item in carouselData" :key="item">
-              <img :src="item" class="carousel-image">
+              <img :src="item" class="course-carousel-image">
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -23,12 +23,21 @@
             <el-input placeholder="请输入内容/内容/课程名称" style="width: 200px" size="mini" v-model="name"></el-input>
             <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
             <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
-            <el-button type="warning" plain style="margin-left: 10px" @click="initValue('VIDEO')">仅查看视频</el-button>
-            <el-button type="warning" plain style="margin-left: 10px" @click="initValue('TEXT')">仅查看图文</el-button>
+            <div  class="type-select" style="text-align: right">
+              <el-select v-model="value" placeholder="选择内容类型"  @change="filterData">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+              <el-button type="warning" plain style="margin-left: 10px" @click="resetTypeFilter">重置</el-button>
+            </div>
           </div>
         </div>
         <div class="table">
-          <el-table  :data="tableData" stripe>
+          <el-table  :data="filteredTableData" stripe>
             <el-table-column prop="img" label="内容/课程封面" show-overflow-tooltip>
               <template v-slot="scope">
                 <div style="display: flex; align-items: center">
@@ -85,36 +94,28 @@ export default {
       total: 0,
       name: null,
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      type:'',
+      // type:'',
+      value:null, //内容类型选择器的值
+      filteredTableData: [], // 过滤后的数据
 
       carouselData:[
         require('@/assets/imgs/bupt_sp_bg.png'),
         require('@/assets/imgs/maobi.jpg')
       ],
+      options: [{
+        value: '选项1',
+        label: '视频资源'
+      }, {
+        value: '选项2',
+        label: '图文资源'
+      }],
     }
   },
   mounted() {
     this.load(1)
-    this.getData()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-    initValue(type) {
-      this.type = type
-      this.getData()
-    },
-    getData() {
-      // 积分专区这边的数据
-      if ('VIDEO' === this.type) {
-        console.log('VIDEO')
-
-        // this.getHomepageData('/course/selectTop8?type=' + this.type)
-      }else if('TEXT' === this.type){
-        // this.getHomepageData('/course/selectTop8?type=' + this.type)
-      }else if('ALL' === this.type){
-        // this.getHomepageData('/course/selectFresh8')
-      }
-    },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
       this.$request.get('/course/selectPage', {
@@ -126,6 +127,7 @@ export default {
       }).then(res => {
         this.tableData = res.data?.list
         this.total = res.data?.total
+        this.filterData() // 在加载完数据后立即进行一次过滤
       })
     },
     reset() {
@@ -135,6 +137,19 @@ export default {
     handleCurrentChange(pageNum) {
       this.load(pageNum)
     },
+    filterData() {
+      if (this.value === '选项1') { // 选择器选择了视频资源
+        this.filteredTableData = this.tableData.filter(item => item.type === 'VIDEO')
+      } else if (this.value === '选项2') { // 选择器选择了图文资源
+        this.filteredTableData = this.tableData.filter(item => item.type === 'TEXT')
+      } else { // 选择器未选择或者选择了其他选项
+        this.filteredTableData = [...this.tableData]
+      }
+    },
+    resetTypeFilter(){
+      this.value = null
+      this.filterData()
+    }
 
   }
 }
