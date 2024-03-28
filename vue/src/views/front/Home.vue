@@ -22,13 +22,13 @@
               <p>Discover amazing content</p>
             </div>
 
-            <div style="">
-              <el-tabs>
-<!--                <el-tab-pane label="图文内容" name="first">图文内容</el-tab-pane>-->
-<!--                <el-tab-pane label="视频内容" name="second">视频内容</el-tab-pane>-->
-                <el-button type="primary" @click="initValue('VIDEO')">视频课程</el-button>
-<!--                <el-button type="success" @click="initValue('SCORE')">积分专区</el-button>-->
-                <el-button type="warning" @click="initValue('TEXT')">图文课程</el-button>
+            <div>
+              <el-tabs @tab-click="handleTabChange">
+                  <el-tab-pane label="图文" name="first">图文内容</el-tab-pane>
+                  <el-tab-pane label="视频" name="second">视频内容</el-tab-pane>
+                <el-tab-pane label="全部" name="all">全部内容</el-tab-pane>
+<!--                <el-button type="primary" @click="initValue('VIDEO')">视频课程</el-button>-->
+<!--                <el-button type="warning" @click="initValue('TEXT')">图文课程</el-button>-->
               </el-tabs>
             </div>
           </div>
@@ -115,7 +115,6 @@ export default {
       ],
       recommend:[],
       homepageData:[],
-      type:'VIDEO',
     }
   },
   mounted() {
@@ -137,7 +136,13 @@ export default {
         this.getHomepageData('/course/selectTop8?type=' + this.type)
       }
     },
-
+    handleTabChange(tab) {
+      if (tab.name === 'first') {
+        this.initValue('TEXT');
+      } else if (tab.name === 'second') {
+        this.initValue('VIDEO');
+      }
+    },
     getHomepageData(url) {
       this.$request.get(url).then(res => {
         if (res.code === '200') {
