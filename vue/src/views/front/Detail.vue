@@ -3,19 +3,17 @@
 
     <div>
       <div class="carousel-image-container">
-        <el-carousel height="300px">
+        <el-carousel height="500px">
           <div class="overlay">
             <div class="overlay-content">
               <h2>{{ courseData.name }}</h2>
               <p>BUPT南太孔院</p>
             </div>
           </div>
-          <el-carousel-item v-for="item in carouselData" :key="item">
-            <img :src="item" class="carousel-image">
-          </el-carousel-item>
+            <img :src=courseData.img class="carousel-image">
         </el-carousel>
       </div>
-      <div style="width: 80%; height:auto; margin: 50px auto; background-color: #fafafa; border-radius: 15px; padding-bottom: 20px">
+      <div  class="detail-content">
         <div style="width: 80%; margin: 20px auto;">
           <div style="text-align: center;padding-top: 30px">
             <span style="font-size: 20px; font-weight: 550; color: #333333; margin-left: 20px">{{ courseData.name }}</span>
