@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.CourseMapper">
 
     <sql id="Base_Column_List">
-        id,img,name,content,type,video,file,recommend,recommendTime,addTime
+        id,img,name,content,type,video,file,recommend,recommendTime,addTime,channel
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Course">
@@ -45,6 +45,7 @@
             <if test="recommend != null">recommend,</if>
             <if test="recommendTime != null">recommendTime,</if>
             <if test="addTime != null">addTime,</if>
+            <if test="channel != null">channel,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -57,6 +58,7 @@
             <if test="recommend != null">#{recommend},</if>
             <if test="recommendTime != null">#{recommendTime},</if>
             <if test="addTime != null">#{addTime},</if>
+            <if test="channel != null">#{channel},</if>
         </trim>
     </insert>
 
@@ -89,6 +91,9 @@
             </if>
             <if test="addTime != null">
                 addTime = #{addTime},
+            </if>
+            <if test="channel != null">
+                channel = #{channel},
             </if>
         </set>
         where id = #{id}

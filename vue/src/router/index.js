@@ -53,14 +53,45 @@ const router = new VueRouter({
 })
 
 
+//禁止USER前往的后端
+const restrictedPaths = ['/home', '/admin', '/user', '/notice', '/audit','/course','/front']; // 根据需要添加更多路径
+
 // 路由守卫
+router.beforeEach((to ,from, next) => {
+  let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
+  if (to.path === '/' ) {
+    if (user.role) {
+      if (user.role === 'USER') {
+        next('/front/home')
+      } else {
+        next('/home')
+      }
+    } else {
+      next('/login')
+    }
+  }else if ((restrictedPaths.includes(to.path) &&user.role === 'USER')){
+    next('/front/home');
+  }
+  else {
+    next()
+  }
+})
+
+
+
+
+
+
+
+// 路由守卫1.0
 // router.beforeEach((to ,from, next) => {
 //   let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
 //   if (to.path === '/' || to.path === '/home' ) {
 //     if (user.role) {
+//       console.log(user.role)
 //       if (user.role === 'USER') {
 //         next('/front/home')
-//       } else {
+//       } else if(user.role === 'ADMIN') {
 //         next('/home')
 //       }
 //     } else {
@@ -70,5 +101,31 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
+
+
+// 路由守卫2.0
+// router.beforeEach((to, from, next) => {
+//   let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
+//   if (!user.role) { // 假设没有角色表示是访客
+//     user.role = 'GUEST'; // 默认角色为GUEST
+//   }
+//
+//
+//   if (to.path === '/' || to.path === '/home') {
+//     if (user.role === 'ADMIN') {
+//       console.log(user.role)
+//       next('/home');
+//     } else {
+//       console.log(user.role)
+//       next('/front/home');
+//     }
+//   } else if (user.role === 'GUEST' && ![ '/front/home', '/front/detail' ].includes(to.path)) {
+//     console.log(user.role)
+//     // 如果是访客并且访问的不是允许的页面，则重定向到登录
+//     next('/login');
+//   } else {
+//     next();
+//   }
+// });
 
 export default router

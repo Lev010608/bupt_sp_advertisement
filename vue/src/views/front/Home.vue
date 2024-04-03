@@ -54,7 +54,7 @@
               <el-row :gutter="20">
 <!--                一行24份-->
                 <el-col :span="6" style="margin-bottom:50px; margin-top:15px" v-for="item in homepageData">
-                  <img :src="item.img" alt="" style="width: 100%; height:100px; border-radius: 5px">
+                  <img :src="item.img" alt="" style="width: 100%; height:100px; border-radius: 5px; object-fit: cover;">
                   <div style="color: #333333; margin-top: 10px" class="overflowShow">{{item.name}}</div>
                 </el-col>
               </el-row>
@@ -62,33 +62,37 @@
           </div>
           </div>
 
+<!--        <div>-->
+<!--          <h2>体验南太异域风情</h2>-->
+<!--          <p>Discover amazing content</p>-->
+<!--          <el-divider></el-divider>-->
+<!--          <div class="editable-area-2">-->
+<!--            <div class="first-card">-->
+
+<!--              <el-row :gutter="20">-->
+<!--                &lt;!&ndash;                一行24份&ndash;&gt;-->
+<!--                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">-->
+<!--                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">-->
+<!--                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>-->
+<!--                </el-col>-->
+<!--              </el-row>-->
+
+<!--            </div>-->
+<!--            <div class="second-card">-->
+
+<!--              <el-carousel  :interval="4000" type="card" >-->
+<!--                <el-carousel-item v-for="item1 in courseImg" :key="item">-->
+<!--                  <img :src="item1" class="push-content">-->
+<!--                </el-carousel-item>-->
+<!--              </el-carousel>-->
+<!--              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
         <div>
-          <h2>体验南太异域风情</h2>
-          <p>Discover amazing content</p>
-          <el-divider></el-divider>
-          <div class="editable-area-2">
-            <div class="first-card">
 
-              <el-row :gutter="20">
-                <!--                一行24份-->
-                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">
-                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">
-                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
-                </el-col>
-              </el-row>
-
-            </div>
-            <div class="second-card">
-
-              <el-carousel  :interval="4000" type="card" >
-                <el-carousel-item v-for="item1 in courseImg" :key="item">
-                  <img :src="item1" class="push-content">
-                </el-carousel-item>
-              </el-carousel>
-              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
-
-            </div>
-          </div>
         </div>
 
         </div>

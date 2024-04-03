@@ -62,6 +62,13 @@ public class TokenUtils {
                 String userRole = JWT.decode(token).getAudience().get(0);
                 String userId = userRole.split("-")[0];  // 获取用户id
                 String role = userRole.split("-")[1];    // 获取角色
+                //访客部分逻辑添加1
+//                if (ObjectUtil.isEmpty(token) && isPublicPath(request.getRequestURI())) {
+//                    // 如果是公开路径并且没有token，则返回一个代表访客的Account对象
+//                    Account guestAccount = new Account();
+//                    guestAccount.setRole(RoleEnum.GUEST.name()); // 假设你的Account类有setRole方法
+//                    return guestAccount;
+//                }
                 if (RoleEnum.ADMIN.name().equals(role)) {
                     return staticAdminService.selectById(Integer.valueOf(userId));
                 }
@@ -74,5 +81,11 @@ public class TokenUtils {
         }
         return new Account();  // 返回空的账号对象
     }
+
+    //访客部分逻辑添加2
+//    private static boolean isPublicPath(String path) {
+//        // 定义哪些路径是公开的
+//        return "/front/home".equals(path) || "/front/detail".equals(path);
+//    }
 }
 

@@ -59,6 +59,7 @@
     margin-left: 10px;
     font-size: 20px;
     font-weight: bold;
+    padding-top: 10px;
 }
 
 .container {
@@ -70,7 +71,7 @@
 .navbar .bupt-sp-logo-container {
     /*position: relative;*/
     /*overflow: hidden;*/
-    background-image: url(@/assets/imgs/logo.png);
+    background-image: url(@/assets/imgs/bupt_sp_logo.png);
     width: 40px;
     height: 40px;
     background-size: auto 40px;
@@ -184,4 +185,15 @@
     height: 300px;
     box-sizing: border-box;
     background: #467262;
+}
+
+.icon span {
+    width: 50px;
+    height: 50px;
+    display: inline-block; /* 确保span表现得像块级元素，可以应用宽高 */
+}
+
+.icon img {
+    width: 100%;  /* 让图片充满整个容器 */
+    height: auto; /* 保持图片的原始比例 */
 }

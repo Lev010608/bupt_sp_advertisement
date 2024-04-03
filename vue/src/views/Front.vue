@@ -97,46 +97,50 @@
 
     <!--  尾部-->
     <div class="footer">
-      <div class="footer-con" style="width: 80%; margin: 0px auto; display: flex">
-        <div class="footer-left">
+      <div class="footer-con" style="width: 80%; margin: 0px auto; display: flex; padding-top: 5%">
+        <div class="footer-left" style="width: 50%">
 
           <div class="attention computer">
-            <div style="display: flex">
+            <div>
               <div>
                 <h4 class="cn">关注北邮南太孔院</h4>
                 <h4 class="en">Follow BUPT-SP</h4>
               </div>
-              <div style="padding-left: 40%">
+              <div class="icon">
+                <span class="iconBilibili" style=""><img src="@/assets/icons/icon_bilibili-circle.svg"></span>
+                <span class="iconWeibo"><img src="@/assets/icons/icon_weibo-circle.svg" ></span>
+                <span class="iconTickTok"><img src="@/assets/icons/icon_TikTok-circle.svg"></span>
+                <span class="iconWeixin"><img src="@/assets/icons/icon_wechat-circle.svg"></span>
+              </div>
+              <div>
                 <h4 class="cn">关注该项目</h4>
                 <h4 class="en">Follow Us on Github</h4>
               </div>
-            </div>
-            <div class="icon">
-              <span class="iconBilibili"><img src="@/assets/icons/icon_bilibili-circle.svg"></span>
-              <span class="iconWeibo"><img src="@/assets/icons/icon_weibo-circle.svg"></span>
-              <span class="iconTickTok"><img src="@/assets/icons/icon_TikTok-circle.svg"></span>
-              <span class="iconWeixin"><img src="@/assets/icons/icon_wechat-circle.svg"></span>
-              <span class="iconGithub"><img src="@/assets/icons/icon_github-circle.svg"></span>
+              <div class="icon">
+                <a href="https://github.com/Lev010608/bupt_sp_advertisement" target="_blank">
+                <span class="iconGithub"><img src="@/assets/icons/icon_github-circle.svg"></span>
+                </a>
+              </div>
             </div>
 
           </div>
         </div>
         <div class="footer-right">
-          <ul>
-            <li>
-              <p>网址</p>
-            </li>
-            <li>
-              <p>邮箱</p>
-              <p>yanfool8321926@bupt.edu.cn</p>
-            </li>
-            <li>
-              <p>地址</p>
-              <p>北京邮电大学叶培大学院
-              </p>
-            </li>
-          </ul>
-          <div class="attention mobile"></div>
+          <h4 class="cn">联系我们</h4>
+          <h4 class="en">Contact Us</h4>
+          <div style="padding-top: 20px">
+            <ul>
+              <li>
+                <p>邮箱</p>
+                <p>yanfool8321926@bupt.edu.cn</p>
+              </li>
+              <li>
+                <p>地址</p>
+                <p>北京邮电大学叶培大学院
+                </p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search">
-      <el-input placeholder="请输入内容/课程名称" style="width: 200px" v-model="name"></el-input>
+      <el-input placeholder="请输入内容名称" style="width: 200px" v-model="name"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
@@ -15,7 +15,7 @@
       <el-table :data="tableData" stripe  @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
-        <el-table-column prop="img" label="内容/课程封面" show-overflow-tooltip>
+        <el-table-column prop="img" label="内容封面" show-overflow-tooltip>
           <template v-slot="scope">
             <div style="display: flex; align-items: center">
               <el-image style="width: 60px; height: 40px; border-radius: 10px" v-if="scope.row.img"
@@ -23,21 +23,21 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="内容/课程名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="name" label="内容名称" show-overflow-tooltip></el-table-column>
         <el-table-column prop="content" label="内容" show-overflow-tooltip>
           <template v-slot="scope">
             <el-button type="success" size="mini" @click="viewDataInit(scope.row.content)">点击查看</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="type" label="内容/课程类型"></el-table-column>
-        <el-table-column prop="video" label="内容/课程视频" show-overflow-tooltip>
+        <el-table-column prop="type" label="内容类型"></el-table-column>
+        <el-table-column prop="video" label="内容视频" show-overflow-tooltip>
           <template v-slot="scope">
             <el-button type="warning" size="mini" @click="down(scope.row.video)" v-if="scope.row.type === 'VIDEO'">点击下载</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="file" label="内容/课程资料" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="file" label="内容资料" show-overflow-tooltip></el-table-column>
         <el-table-column prop="recommend" label="是否推荐"></el-table-column>
-
+        <el-table-column prop="channel" label="栏目"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
             <el-button plain type="primary" @click="handleEdit(scope.row)" size="mini">编辑</el-button>
@@ -60,9 +60,9 @@
     </div>
 
 
-    <el-dialog title="内容/课程信息" :visible.sync="fromVisible" width="55%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="内容信息" :visible.sync="fromVisible" width="55%" :close-on-click-modal="false" destroy-on-close>
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
-        <el-form-item label="内容/课程封面">
+        <el-form-item label="内容封面">
           <el-upload
               class="avatar-uploader"
               :action="$baseUrl + '/files/upload'"
@@ -73,13 +73,13 @@
             <el-button type="primary">上传图片</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item prop="name" label="内容/课程名称">
-          <el-input v-model="form.name" autocomplete="off" placeholder="请输入内容/课程名称"></el-input>
+        <el-form-item prop="name" label="内容名称">
+          <el-input v-model="form.name" autocomplete="off" placeholder="请输入内容名称"></el-input>
         </el-form-item>
-        <el-form-item prop="type" label="内容/课程类型">
+        <el-form-item prop="type" label="内容类型">
           <el-select v-model="form.type" placeholder="请选择类型" style="width: 100%">
-            <el-option label="视频内容/课程" value="VIDEO"></el-option>
-            <el-option label="图文内容/课程" value="TEXT"></el-option>
+            <el-option label="视频内容" value="VIDEO"></el-option>
+            <el-option label="图文内容" value="TEXT"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="recommend" label="是否推荐">
@@ -88,20 +88,29 @@
             <el-option label="否" value="否"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="内容/课程视频">
+        <el-form-item label="设置栏目">
+          <el-select v-model="selectedChannel" placeholder="请选择" style="width: 100%" @change="handleChannelChange">
+            <el-option v-for="item in channels" :key="item.channel" :label="item.channel" :value="item.channel"></el-option>
+            <el-option label="设置新栏目" value="新栏目"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="channel" label="栏目名称" v-if="showChannelInput">
+          <el-input v-model="form.channel" autocomplete="off" placeholder="请输入栏目名称"></el-input>
+        </el-form-item>
+        <el-form-item label="内容视频">
           <el-upload
               class="avatar-uploader"
               :action="$baseUrl + '/files/upload'"
               :headers="{ token: user.token }"
               :on-success="handleVideoSuccess"
           >
-            <el-button type="primary">上传视频(视频内容/课程需要传)</el-button>
+            <el-button type="primary">上传视频(视频内容需要传)</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item prop="file" label="资料链接">
           <el-input v-model="form.file" autocomplete="off" placeholder="请输入资料链接"></el-input>
         </el-form-item>
-        <el-form-item prop="content" label="内容/课程介绍">
+        <el-form-item prop="content" label="内容介绍">
           <div id="editor"></div>
         </el-form-item>
       </el-form>
@@ -111,7 +120,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="内容/课程内容" :visible.sync="editorVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="内容" :visible.sync="editorVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
       <div v-html="viewData" class="w-e-text w-e-text-container"></div>
     </el-dialog>
 
@@ -133,22 +142,29 @@ export default {
       editorVisible:false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      ids: [],
+      channels: [],        // 栏目列表
+      selectedChannel: '', // 用户选择的栏目
+      showChannelInput: false, // 是否显示栏目输入框
+
+      //表单规则
       rules: {
         name: [
-          {required: true, message: '请输入内容/课程名称', trigger: 'blur'},
+          {required: true, message: '请输入内容名称', trigger: 'blur'},
         ],
         type: [
-          {required: true, message: '请选择内容/课程类型', trigger: 'blur'},
+          {required: true, message: '请选择内容类型', trigger: 'blur'},
         ],
         recommend: [
           {required: true, message: '请选择是否推荐', trigger: 'blur'},
         ],
       },
-      ids: []
+
     }
   },
   created() {
     this.load(1)
+    this.extractChannelsFromTableData() // 从 tableData 中提取栏目数据
   },
   methods: {
     initWangEditor(content) {
@@ -197,6 +213,23 @@ export default {
             this.form.recommend = '否'
           })
         }
+      }
+    },
+    // 从 tableData 中提取栏目数据
+    extractChannelsFromTableData() {
+      const uniqueChannels = [...new Set(this.tableData.map(item => item.channel))]
+      this.channels = uniqueChannels
+    },
+    // 栏目选择发生变化时的处理函数
+    handleChannelChange() {
+      if (this.selectedChannel === '新栏目') {
+        // 如果选择了新栏目，则显示输入框
+        this.showChannelInput = true
+      } else {
+        // 否则隐藏输入框
+        this.showChannelInput = false
+        // 将输入框的值清空
+        this.form.channel = ''
       }
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新

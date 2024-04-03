@@ -20,6 +20,7 @@ public class Course implements Serializable {
     private String recommend;
     private Date recommendTime;
     private String addTime;
+    private String channel;
 
     public Integer getId() {
         return id;
@@ -99,4 +100,13 @@ public class Course implements Serializable {
     public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
 }
