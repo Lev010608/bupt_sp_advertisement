@@ -50,7 +50,7 @@ export default {
           </el-table-column>
         </el-table>
 
-        <div class="pagination" style="margin-top: 20px">
+        <div class="pagination" style="margin-top: 40px; text-align: center">
           <el-pagination
               background
               @current-change="handleCurrentChange"

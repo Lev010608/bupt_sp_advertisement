@@ -63,7 +63,7 @@
 
           </el-table>
 
-          <div class="pagination" style="padding-top: 40px; text-align: center">
+          <div class="pagination" style="margin-top: 40px; text-align: center">
             <el-pagination
                 background
                 @current-change="handleCurrentChange"

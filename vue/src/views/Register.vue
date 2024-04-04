@@ -20,12 +20,12 @@
           <el-input prefix-icon="el-icon-lock" placeholder="请确认密码" show-password  v-model="form.confirmPass"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button style="width: 100%; background-color: #333; border-color: #333; color: white" @click="register">注 册</el-button>
+          <el-button style="width: 100%; background-color: #467262; border-color: #333; color: white" @click="register">注 册</el-button>
         </el-form-item>
         <div style="display: flex; align-items: center">
           <div style="flex: 1"></div>
           <div style="flex: 1; text-align: right">
-            已有账号？请 <a href="/login">登录</a>
+            已有账号？请 <a href="/login" style="color: #467262">登录</a>
           </div>
         </div>
       </el-form>
