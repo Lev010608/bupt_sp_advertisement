@@ -36,7 +36,7 @@
             <div class="first-card">
               <el-carousel  :interval="4000" type="card" >
                 <el-carousel-item v-for="course in recommend" :key="course.id">
-                  <img :src="course.img" class="push-content">
+                  <img :src="course.img" class="push-content" alt="" @click="navTo(course.id)">
                   <div class="overflowShow" style="
                   position: relative;
   bottom: 35px;
@@ -44,7 +44,8 @@
   background-color: rgba(0, 0, 0, 0.5);
   padding: 5px;
   border-radius: 5px;
-">{{course.name}}</div>
+  cursor: pointer;
+" alt="" @click="navTo(course.id)">{{course.name}}</div>
                 </el-carousel-item>
               </el-carousel>
 <!--              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>-->
@@ -53,8 +54,8 @@
               <el-row :gutter="20">
 <!--                一行24份-->
                 <el-col :span="6" style="margin-bottom:50px; margin-top:15px" v-for="item in homepageData">
-                  <img :src="item.img" alt="" style="width: 100%; height:100px; border-radius: 5px; object-fit: cover;">
-                  <div style="color: #333333; margin-top: 10px" class="overflowShow">{{item.name}}</div>
+                  <img :src="item.img" alt="" style="width: 100%; height:100px; border-radius: 5px; object-fit: cover;cursor: pointer" @click="navTo(item.id)">
+                  <div style="color: #333333; margin-top: 10px;cursor: pointer;" class="overflowShow" alt="" @click="navTo(item.id)">{{item.name}}</div>
                 </el-col>
               </el-row>
             </div>
@@ -230,7 +231,21 @@ export default {
           this.$message.error(res.msg)
         }
       })
-    }
+    },
+    navTo(id) {
+      // 往课程详情页跳
+        location.href = '/front/Detail?id=' + id
+      // if (this.type === 'SCORE') {
+      //   // 我们往积分课程详情页跳
+      //   location.href = '/front/scoreDetail?id=' + id
+      // } else {
+      //   // 往课程详情页跳
+      //   location.href = '/front/Detail?id=' + id
+      // }
+    },
+    navToInformation(id) {
+      location.href = '/front/informationDetail?id=' + id
+    },
   }
 }
 </script>
