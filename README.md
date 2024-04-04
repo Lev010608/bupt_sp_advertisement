@@ -32,6 +32,10 @@
   - 完成动态页数据筛选
   - 完成个人发布功能
   - 完成管理员发布审核功能
+- 4.3
+  - 完成路由规则编写
+  - 完成部分ui的修改
+
 
 
 
@@ -42,7 +46,7 @@
 - [x] [01. 用户信息模块功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fqkfyggeq1a5nxxu)
 - [x] [02. 用户登录注册、个人中心和修改密码](https://www.yuque.com/xiaqing-en2ii/skflxg/ep5pcvnr7grnt0eu)
   - [ ] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容
-  - [ ] 现在，用户身份登陆后进行重定位能够直接进入后台，修改数据。需要对这一点作出修改
+  - [x] 现在，用户身份登陆后进行重定位能够直接进入后台，修改数据。需要对这一点作出修改
 
 - [x] [03. 课程信息模块功能的开发（上）](https://www.yuque.com/xiaqing-en2ii/skflxg/sav42v1esfpugrqm)
 - [x] [04. 课程信息模块功能开发（下）-课程介绍富文本](https://www.yuque.com/xiaqing-en2ii/skflxg/kp5p60ps6psa8afn)
