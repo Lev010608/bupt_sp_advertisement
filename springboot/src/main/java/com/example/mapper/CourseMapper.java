@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Course;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -61,4 +62,19 @@ public interface CourseMapper {
      */
     @Update("UPDATE course SET recommend = '否' WHERE id = (SELECT id FROM (SELECT id FROM course WHERE recommend = '是' ORDER BY recommendTime LIMIT 1) AS temp)")
     void cancelEarliestRecommend();
+
+    /**
+     * 根据栏目名称查询所有课程
+     */
+    List<Course> selectByChannelName(Course course);
+
+    /**
+     * 获取所有独特的栏目名称
+     */
+    @Select("SELECT DISTINCT channel FROM course WHERE channel IS NOT NULL ORDER BY channel")
+    List<String> selectDistinctChannels();
+    /**
+     * 标签页重新查询
+     */
+    List<Course> selectByChannel(@Param("channel") String channel);
 }

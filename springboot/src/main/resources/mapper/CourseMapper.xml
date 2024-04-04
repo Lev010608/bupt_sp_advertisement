@@ -27,6 +27,25 @@
         where id = #{id}
     </select>
 
+    <select id="selectByChannelName" resultType="com.example.entity.Course">
+        select
+        <include refid="Base_Column_List" />
+        from course
+        <where>
+            channel is not null
+        </where>
+        order by channel
+    </select>
+    <select id="selectByChannel" resultType="com.example.entity.Course">
+        select
+        <include refid="Base_Column_List" />
+        from course
+        where channel = #{channel}
+        order by addTime desc  <!-- 或根据你的需求进行排序 -->
+    </select>
+
+
+
     <delete id="deleteById">
         delete from course
         where  id = #{id}

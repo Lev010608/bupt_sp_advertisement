@@ -102,6 +102,29 @@ public class CourseService {
         return courseMapper.getRecommend();
 
     }
+    /**
+     * 根据栏目名称分页查询并排序
+     */
+    public PageInfo<Course> selectByChannelName(Course course, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Course> list = courseMapper.selectByChannelName(course);
+        return PageInfo.of(list);
+    }
+    /**
+     * 获取所有独特的栏目名称
+     */
+    public List<String> selectDistinctChannels() {
+        return courseMapper.selectDistinctChannels();
+    }
+    /**
+     * 标签页重新查询
+     */
+    public PageInfo<Course> selectByChannel(String channel, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Course> list = channel.equals("all") ? courseMapper.selectAll(new Course()) : courseMapper.selectByChannel(channel);
+        return PageInfo.of(list);
+    }
+
 
 //    public Course getRecommend(String type) {
 //        return courseMapper.getRecommend(type);

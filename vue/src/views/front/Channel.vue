@@ -21,11 +21,11 @@
 
       <div style="width: 80%; margin: 50px auto ">
         <div>
-          <el-tabs v-model="activeChannel" @tab-click="handleTabClick">
-            <el-tab-pane v-for="channel in channels" :label="channel" :name="channel" :key="channel">
-              {{ channel }}
-            </el-tab-pane>
+          <el-tabs v-model="activeChannel" @tab-click="tabClicked">
             <el-tab-pane label="所有栏目内容" name="all">所有栏目内容</el-tab-pane>
+            <el-tab-pane v-for="channel in channels" :label="channel" :name="channel" :key="channel">
+              {{ channel }}栏目内容
+            </el-tab-pane>
           </el-tabs>
         </div>
         <div style="display: flex">
@@ -90,6 +90,9 @@ export default {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       // type:'',
       value:null, //内容类型选择器的值
+      //栏目相关
+      channels: [],
+      activeChannel: 'all',// 初始设置为 'all'，表示选中“所有栏目内容”
 
       carouselData:[
         require('@/assets/imgs/bupt_sp_bg.png'),
@@ -105,27 +108,22 @@ export default {
     }
   },
   mounted() {
+    this.loadChannels();
     this.load(1)
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-    load(pageNum) {  // 分页查询
-      if (pageNum) this.pageNum = pageNum
-      this.$request.get('/course/selectPage', {
+    load(pageNum, channel = 'all') {
+      this.pageNum = pageNum;
+      let api = channel === 'all' ? '/course/selectByChannelName' : '/course/selectByChannel';
+      this.$request.get(api, {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          name: this.name,
+          channel: channel // 只有当选择特定栏目时，这个参数才有意义
         }
       }).then(res => {
-        // 首先过滤掉栏目为空的课程
-        const filteredData = res.data?.list.filter(item => item.channel);
-        // 根据栏目名称进行排序
-        const sortedData = filteredData.sort((a, b) => {
-          // 假设栏目名称为字符串，使用localeCompare来比较它们
-          return a.channel.localeCompare(b.channel);
-        });
-        this.tableData = sortedData;
+        this.tableData = res.data?.list;
         this.total = res.data?.total;
       });
     },
@@ -136,12 +134,14 @@ export default {
     handleCurrentChange(pageNum) {
       this.load(pageNum)
     },
-    // 从 tableData 中提取栏目数据
-    extractChannelsFromTableData() {
-      const uniqueChannels = [...new Set(this.tableData.map(item => item.channel).filter(channel => channel))];
-      this.channels = uniqueChannels;
+    loadChannels() {
+      this.$request.get('/course/selectDistinctChannels').then(res => {
+        this.channels = res.data;
+      });
     },
-
+    tabClicked(tab) {
+      this.load(1, tab.name);
+    },
   }
 }
 </script>

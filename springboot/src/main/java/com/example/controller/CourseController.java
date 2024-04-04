@@ -91,11 +91,44 @@ public class CourseController {
 //        return Result.success(course);
 //    }
 
+    /**
+     * 查询前八个数据
+     */
     @GetMapping("/selectTop8")
     public Result selectTop8(@RequestParam String type) {
         List<Course> list = courseService.selectTop8(type);
         return Result.success(list);
     }
+    /**
+     * 根据栏目名称分页查询并排序
+     */
+    @GetMapping("/selectByChannelName")
+    public Result selectByChannelName(Course course,
+                                      @RequestParam(defaultValue = "1") Integer pageNum,
+                                      @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Course> page = courseService.selectByChannelName(course, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+    /**
+     * 获取所有独特的栏目名称
+     */
+    @GetMapping("/selectDistinctChannels")
+    public Result selectDistinctChannels() {
+        List<String> channels = courseService.selectDistinctChannels();
+        return Result.success(channels);
+    }
+    /**
+     * 标签页重新查询
+     */
+    @GetMapping("/selectByChannel")
+    public Result selectByChannel(@RequestParam String channel,
+                                  @RequestParam(defaultValue = "1") Integer pageNum,
+                                  @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Course> page = courseService.selectByChannel(channel, pageNum, pageSize);
+        return Result.success(page);
+    }
+
 
     /**
      * 分页查询
