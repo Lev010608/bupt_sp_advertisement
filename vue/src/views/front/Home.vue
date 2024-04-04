@@ -104,12 +104,12 @@
             <div style="z-index: 100">
               <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 32%;top: 15%;"></div>
               <div class="block-overlay" style="background-color: rgba(176,210,191,0.55);left: 30%;top: 10%"></div>
-              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 8%;top: 85%;"></div>
-              <div class="block-overlay" style="background-color: rgba(176,210,191,0.55);left: 10%;top: 90%"></div>
+              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 18%;top: 85%;"></div>
+              <div class="block-overlay" style="background-color: rgba(176,210,191,0.55);left: 20%;top: 90%"></div>
               <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 62%;top: 85%;"></div>
               <div class="block-overlay" style="background-color: rgba(122,175,144,0.41);left: 60%;top: 80%"></div>
-              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 78%;top: -5%;"></div>
-              <div class="block-overlay" style="background-color: rgba(122,175,144,0.41);left: 80%;top: 0%"></div>
+              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 68%;top: 0%;"></div>
+              <div class="block-overlay" style="background-color: rgba(122,175,144,0.41);left: 70%;top: 5%"></div>
             </div>
           </div>
         </div>
@@ -120,6 +120,27 @@
           </div>
           <el-divider></el-divider>
           <div class="editable-area-3">
+            <div>
+              <el-carousel :interval="4000" type="card" height="200px">
+                <el-carousel-item v-for="item in 6" :key="item">
+                  <h3 class="medium">{{ item }}</h3>
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+            <el-row>
+              <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+                <el-card :body-style="{ padding: '0px' }">
+                  <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                  <div style="padding: 14px;">
+                    <span>好吃的汉堡</span>
+                    <div class="bottom clearfix">
+                      <time class="time">{{ currentDate }}</time>
+                      <el-button type="text" class="button">操作按钮</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
           </div>
         </div>
 
@@ -151,7 +172,9 @@ export default {
       ],
       recommend:[],
       homepageData:[],
-      type:''
+      type:'',
+      //专栏轮播图
+      currentDate: new Date()
     }
   },
   mounted() {
@@ -222,4 +245,51 @@ export default {
 
 <style scoped>
 @import "@/assets/css/home.css";
+
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+
+.time {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
+
+.button {
+  padding: 0;
+  float: right;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
 </style>

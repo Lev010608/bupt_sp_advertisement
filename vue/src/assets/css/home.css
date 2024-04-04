@@ -78,6 +78,7 @@
     width: 150px;
     height: 150px;
     border-radius: 20px;
+    transition: transform 0.5s;
 }
 .font-sub-title-whitebk h3:hover {
     transform: scale(1.1);
