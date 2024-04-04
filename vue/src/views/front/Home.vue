@@ -5,9 +5,9 @@
       <div class="carousel-image-container">
         <el-carousel height="600px">
           <div class="overlay">
-            <div class="overlay-content">
-              <h2>Welcome to my website</h2>
-              <p>Discover amazing content</p>
+            <div>
+              <h2 class="major-font-title" style="text-align: left">北邮南太孔院宣传门户</h2>
+              <p class="font-title" style="text-align: left">BUPTSP-Confucius Institute at The University of the South Pacific</p>
             </div>
           </div>
           <el-carousel-item v-for="item in carouselData" :key="item">
@@ -18,8 +18,9 @@
       <div style="width: 80%; margin: 50px auto">
         <div>
           <div >
-            <div><h2>体验南太异域风情</h2>
-              <p>Discover amazing content</p>
+            <div class="font-title-whitebk">
+              <h2>南太平洋大学孔子学院</h2>
+              <p>know everything about BUPT-SP</p>
             </div>
 
             <div>
@@ -48,7 +49,7 @@
 ">{{course.name}}</div>
                 </el-carousel-item>
               </el-carousel>
-              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>
+<!--              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>-->
             </div>
             <div class="second-card">
               <el-row :gutter="20">
@@ -90,6 +91,24 @@
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
+
+
+        <div class="" style="text-align: center">
+          <div class="font-sub-title-whitebk">
+            <h3>体验南太异域风情</h3>
+
+          </div>
+
+        </div>
+        <div style="padding-top: 200px">
+          <div class="font-title-whitebk" style="text-align: right">
+            <h2>体验南太异域风情</h2>
+            <p>Discover amazing content</p>
+          </div>
+          <el-divider></el-divider>
+          <div class="editable-area-3">
+          </div>
+        </div>
 
         <div>
 

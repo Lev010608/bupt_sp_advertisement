@@ -18,27 +18,27 @@
       </div>
 
       <div style="width: 80%; margin: 50px auto ">
-        <div>
+        <div style="display: flex">
           <div class="search" style="margin-bottom: 20px">
             <el-input placeholder="请输入内容/内容/课程名称" style="width: 200px" size="mini" v-model="name"></el-input>
-            <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
-            <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
-            <div  class="type-select" style="text-align: right">
-              <el-select v-model="value" placeholder="选择内容类型"  @change="filterData">
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
-              <el-button type="warning" plain style="margin-left: 10px" @click="resetTypeFilter">重置</el-button>
-            </div>
+            <el-button class="button-style" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
+            <el-button class="button-style" plain style="margin-left: 10px" @click="reset">重置</el-button>
+          </div>
+          <div  class="type-select" style="padding-left: 60%">
+            <el-select v-model="value" placeholder="选择内容类型"  @change="filterData">
+              <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+            </el-select>
+            <el-button plain style="margin-left: 10px;" @click="resetTypeFilter">重置</el-button>
           </div>
         </div>
         <div class="table">
           <el-table  :data="filteredTableData" stripe>
-            <el-table-column prop="img" label="内容/课程封面" show-overflow-tooltip>
+            <el-table-column prop="img" show-overflow-tooltip>
               <template v-slot="scope">
                 <div style="display: flex; align-items: center">
                   <el-image style="width: 120px; height: 80px; border-radius: 5px; object-fit: cover; border: 1px solid #cccccc" v-if="scope.row.img"
@@ -46,12 +46,12 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column   prop="name" label="内容/课程名称" show-overflow-tooltip width="600">
+            <el-table-column   prop="name" show-overflow-tooltip width="600">
               <template v-slot="scope">
-                <a :href="'/front/Detail?id=' + scope.row.id">{{ scope.row.name }}</a>
+                <a :href="'/front/Detail?id=' + scope.row.id" style="color: rgba(51,51,51,0.78);font-size: 15px">{{ scope.row.name }}</a>
               </template>
             </el-table-column>
-            <el-table-column   prop="type" label="类型" >
+            <el-table-column   prop="type">
               <template v-slot="scope">
                 <span v-if="scope.row.type === 'VIDEO'" style="color: #7fa0df">视频</span>
                 <span v-else style="color: #4fa977">图文</span>
@@ -61,7 +61,7 @@
 
           </el-table>
 
-          <div class="pagination">
+          <div class="pagination" style="padding-top: 40px; text-align: center">
             <el-pagination
                 background
                 @current-change="handleCurrentChange"

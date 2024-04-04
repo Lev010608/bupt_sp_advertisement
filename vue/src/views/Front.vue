@@ -103,8 +103,8 @@
           <div class="attention computer">
             <div>
               <div>
-                <h4 class="cn">关注北邮南太孔院</h4>
-                <h4 class="en">Follow BUPT-SP</h4>
+                <h4 class="font-white">关注北邮南太孔院</h4>
+                <h4 class="font-white">Follow BUPT-SP</h4>
               </div>
               <div class="icon">
                 <span class="iconBilibili" style=""><img src="@/assets/icons/icon_bilibili-circle.svg"></span>
@@ -112,7 +112,7 @@
                 <span class="iconTickTok"><img src="@/assets/icons/icon_TikTok-circle.svg"></span>
                 <span class="iconWeixin"><img src="@/assets/icons/icon_wechat-circle.svg"></span>
               </div>
-              <div>
+              <div class="font-white">
                 <h4 class="cn">关注该项目</h4>
                 <h4 class="en">Follow Us on Github</h4>
               </div>
@@ -126,20 +126,11 @@
           </div>
         </div>
         <div class="footer-right">
-          <h4 class="cn">联系我们</h4>
-          <h4 class="en">Contact Us</h4>
+          <h4 class="font-white">联系我们</h4>
+          <h4 class="font-white">Contact Us</h4>
           <div style="padding-top: 20px">
-            <ul>
-              <li>
-                <p>邮箱</p>
-                <p>yanfool8321926@bupt.edu.cn</p>
-              </li>
-              <li>
-                <p>地址</p>
-                <p>北京邮电大学叶培大学院
-                </p>
-              </li>
-            </ul>
+            <h4 class="font-white">邮箱</h4>
+            <h4 class="font-white">yanfool8321926@bupt.edu.cn</h4>
           </div>
         </div>
       </div>

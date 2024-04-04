@@ -1,8 +1,11 @@
 <template>
   <div class="container">
-    <div class="overlay">
-      <h2>Welcome to my website</h2>
-      <p>Discover amazing content</p>
+    <div class="overlay" >
+      <div style="text-align: center; width: 38%; padding-top: 500px; padding-left: 6%">
+        <p class="font-title" style="text-align: left">欢迎访问</p>
+        <h4 class="major-font-title" style="text-align: right">北邮南太孔院宣传门户</h4>
+
+      </div>
     </div>
     <div style="width: 400px; padding: 30px; background-color: white; border-radius: 5px; z-index: 1">
       <div style="text-align: center; font-size: 20px; margin-bottom: 20px; color: #333">欢迎注册</div>
@@ -102,6 +105,7 @@ export default {
   border-bottom-right-radius:15px;
   border-top-right-radius:15px;
   background-image:linear-gradient(to right, #418160,#FF000000);
+  background-size: cover;
   display: flex;
   justify-content: flex-start;
   align-items: center;

@@ -5,9 +5,11 @@
       <div class="carousel-image-container">
         <el-carousel height="500px">
           <div class="overlay">
-            <div class="overlay-content">
-              <h2>{{ courseData.name }}</h2>
-              <p>BUPT南太孔院</p>
+            <div>
+              <div class="font-title">
+                <h2>{{ courseData.name }}</h2>
+              </div>
+              <p class="font-sub-title">BUPT南太孔院</p>
             </div>
           </div>
             <img :src=courseData.img class="detail-carousel-image">
