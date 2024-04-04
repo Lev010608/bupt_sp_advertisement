@@ -73,6 +73,23 @@
     margin-left: 10px;
     width: 0;
 }
+.block-overlay{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+}
+.font-sub-title-whitebk h3:hover {
+    transform: scale(1.1);
+}
+.block-overlay:hover {
+    transform: scale(1.1);
+}
+.font-effect{
+    position: relative;
+    z-index: 101;
+    transition: transform 0.3s;
+}
 
 .channel{
 

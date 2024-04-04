@@ -91,12 +91,23 @@
 <!--        </div>-->
 
 
-        <div class="" style="text-align: center">
-          <div class="font-sub-title-whitebk">
-            <h3>体验南太异域风情</h3>
-
+        <div class="" style="position: relative;text-align: center;padding-top: 100px">
+          <div class="font-sub-title-whitebk" style="line-height: 50px;">
+            <h3 class="font-effect" style="color: #545353; font-size: xx-large;">北京邮电大学南太平洋大学孔子学院</h3>
+            <h3 class="font-effect" style="color: #545353; font-size: x-large; transition: transform 0.3s;">致力于推广跨文化交流与中文国际教学</h3>
+            <p class="font-effect">目前，于南太平洋大学孔子学院形成本部下设三个孔子课堂</p>
+            <P class="font-effect">以“三国四地”的办学格局</P>
+            <p class="font-effect">积极在南太平洋地区开展中文教学和各类文化交流活动</p>
+            <h3 class="font-effect" style="font-size: xx-large;">成为推动南太平洋岛国中文教育的重要力量</h3>
+            <!-- 半透明色块 -->
+<!--            position: absolute; left: 20%; top: 80px; width: 200px; height: 100px; -->
+            <div style="z-index: 100">
+              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 32%;top: 15%;"></div>
+              <div class="block-overlay" style="background-color: rgba(176,210,191,0.55);left: 30%;top: 10%"></div>
+              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 62%;top: 85%;"></div>
+              <div class="block-overlay" style="background-color: rgba(122,175,144,0.41);left: 60%;top: 80%"></div>
+            </div>
           </div>
-
         </div>
         <div style="padding-top: 200px">
           <div class="font-title-whitebk" style="text-align: right">
