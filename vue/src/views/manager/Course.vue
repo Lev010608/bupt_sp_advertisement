@@ -90,11 +90,12 @@
         </el-form-item>
         <el-form-item label="设置栏目">
           <el-select v-model="selectedChannel" placeholder="请选择" style="width: 100%" @change="handleChannelChange">
-            <el-option v-for="item in channels" :key="item.channel" :label="item.channel" :value="item.channel"></el-option>
-            <el-option label="设置新栏目" value="新栏目"></el-option>
+            <el-option v-for="channel in channels" :key="channel" :label="channel" :value="channel"></el-option>
+            <el-option label="编辑栏目" value="newChannel"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="channel" label="栏目名称" v-if="showChannelInput">
+          <el-option v-for="channel in channels" :key="channel" :label="channel" :value="channel"></el-option>
           <el-input v-model="form.channel" autocomplete="off" placeholder="请输入栏目名称"></el-input>
         </el-form-item>
         <el-form-item label="内容视频">
@@ -187,6 +188,9 @@ export default {
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗
+      // 设置选择器的值为当前栏目名称或“编辑栏目”
+      this.selectedChannel = row.channel ? row.channel : '';
+      this.showChannelInput = false; // 默认不显示栏目名称输入框
       this.initWangEditor(this.form.content || '')
     },
     isRecommendFull() {  // 判断推荐位是否已满
@@ -217,25 +221,23 @@ export default {
     },
     // 从 tableData 中提取栏目数据
     extractChannelsFromTableData() {
-      const uniqueChannels = [...new Set(this.tableData.map(item => item.channel))]
-      this.channels = uniqueChannels
+      const uniqueChannels = [...new Set(this.tableData.map(item => item.channel).filter(channel => channel))];
+      this.channels = uniqueChannels;
     },
     // 栏目选择发生变化时的处理函数
-    handleChannelChange() {
-      if (this.selectedChannel === '新栏目') {
-        // 如果选择了新栏目，则显示输入框
-        this.showChannelInput = true
+    handleChannelChange(value) {
+      if (value === 'newChannel') {
+        this.showChannelInput = true;
+        this.form.channel = this.form.channel || '';
       } else {
-        // 否则隐藏输入框
-        this.showChannelInput = false
-        // 将输入框的值清空
-        this.form.channel = ''
+        this.showChannelInput = false;
+        this.form.channel = value; // 将选择的栏目名称设置到form.channel中
       }
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          this.form.content = this.editor.txt.html()
+          this.form.content = this.editor.txt.html();
           this.$request({
             url: this.form.id ? '/course/update' : '/course/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -244,7 +246,9 @@ export default {
             if (res.code === '200') {  // 表示成功保存
               this.$message.success('保存成功')
               this.load(1)
-              this.fromVisible = false
+              this.fromVisible = false;
+              this.selectedChannel = ''; // 重置选择器到默认状态
+              this.showChannelInput = false; // 隐藏栏目名称输入框
             } else {
               this.$message.error(res.msg)  // 弹出错误的信息
             }
@@ -304,6 +308,7 @@ export default {
       }).then(res => {
         this.tableData = res.data?.list
         this.total = res.data?.total
+        this.extractChannelsFromTableData();
       })
     },
     data() {

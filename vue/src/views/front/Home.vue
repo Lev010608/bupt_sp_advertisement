@@ -91,7 +91,7 @@
 <!--        </div>-->
 
 
-        <div class="" style="position: relative;text-align: center;padding-top: 100px">
+        <div class="information" style="position: relative;text-align: center;padding-top: 100px;margin-top: 200px">
           <div class="font-sub-title-whitebk" style="line-height: 50px;">
             <h3 class="font-effect" style="color: #545353; font-size: xx-large;">北京邮电大学南太平洋大学孔子学院</h3>
             <h3 class="font-effect" style="color: #545353; font-size: x-large; transition: transform 0.3s;">致力于推广跨文化交流与中文国际教学</h3>
@@ -120,17 +120,10 @@
           </div>
           <el-divider></el-divider>
           <div class="editable-area-3">
-            <div>
-              <el-carousel :interval="4000" type="card" height="200px">
-                <el-carousel-item v-for="item in 6" :key="item">
-                  <h3 class="medium">{{ item }}</h3>
-                </el-carousel-item>
-              </el-carousel>
-            </div>
-            <el-row>
-              <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-                <el-card :body-style="{ padding: '0px' }">
-                  <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+            <el-row :gutter="20">
+              <el-col class="channel" :span="6" v-for="(o, index) in 4" :key="index">
+                <el-card class="channel-card" :body-style="{ padding: '0px' }">
+                  <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="channel-image">
                   <div style="padding: 14px;">
                     <span>好吃的汉堡</span>
                     <div class="bottom clearfix">
@@ -189,7 +182,6 @@ export default {
       this.getData()
     },
     getData() {
-      // 积分专区这边的数据
       if ('VIDEO' === this.type) {
         this.getHomepageData('/course/selectTop8?type=' + this.type)
       }else if('TEXT' === this.type){
@@ -245,51 +237,4 @@ export default {
 
 <style scoped>
 @import "@/assets/css/home.css";
-
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
-
-
-.time {
-  font-size: 13px;
-  color: #999;
-}
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
-}
-
-.image {
-  width: 100%;
-  display: block;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both
-}
 </style>

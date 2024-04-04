@@ -38,6 +38,7 @@ const routes = [
       { path: 'course', name: 'Course', meta: { name: '学院动态' }, component: () => import('../views/front/Course') },
       { path: 'detail', name: 'Detail', meta: { name: '动态详情' }, component: () => import('../views/front/Detail') },
       { path: 'release', name: 'Release', meta: { name: '我的发布' }, component: () => import('../views/front/Release') },
+      { path: 'channel', name: 'Channel', meta: { name: '学院专栏' }, component: () => import('../views/front/Channel') },
     ]
   },
   //   单独

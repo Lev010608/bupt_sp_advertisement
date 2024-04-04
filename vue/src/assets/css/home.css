@@ -92,8 +92,22 @@
     transition: transform 0.3s;
 }
 
-.channel{
+.editable-area-3{
+    display: flex;
+    justify-content: center;
+}
 
+.channel{
+    display: flex;
+    justify-content: center;
+}
+
+.channel .channel-card{
+    border-radius: 20px;
+}
+
+.channel .channel-image{
+    width: 100%;
 }
 
 /*.first-card .el-carousel__item h3{*/
