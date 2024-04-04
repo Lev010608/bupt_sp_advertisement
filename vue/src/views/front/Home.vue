@@ -104,8 +104,12 @@
             <div style="z-index: 100">
               <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 32%;top: 15%;"></div>
               <div class="block-overlay" style="background-color: rgba(176,210,191,0.55);left: 30%;top: 10%"></div>
+              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 8%;top: 85%;"></div>
+              <div class="block-overlay" style="background-color: rgba(176,210,191,0.55);left: 10%;top: 90%"></div>
               <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 62%;top: 85%;"></div>
               <div class="block-overlay" style="background-color: rgba(122,175,144,0.41);left: 60%;top: 80%"></div>
+              <div class="block-overlay" style="background-color: rgba(205,217,208,0.3);left: 78%;top: -5%;"></div>
+              <div class="block-overlay" style="background-color: rgba(122,175,144,0.41);left: 80%;top: 0%"></div>
             </div>
           </div>
         </div>
