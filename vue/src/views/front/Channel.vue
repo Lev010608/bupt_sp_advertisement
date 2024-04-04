@@ -21,9 +21,11 @@
 
       <div style="width: 80%; margin: 50px auto ">
         <div>
-          <el-tabs>
-            <el-tab-pane label="发布内容" name="first">发布内容</el-tab-pane>
-            <el-tab-pane label="我的审核" name="second">我的审核</el-tab-pane>
+          <el-tabs v-model="activeChannel" @tab-click="handleTabClick">
+            <el-tab-pane v-for="channel in channels" :label="channel" :name="channel" :key="channel">
+              {{ channel }}
+            </el-tab-pane>
+            <el-tab-pane label="所有栏目内容" name="all">所有栏目内容</el-tab-pane>
           </el-tabs>
         </div>
         <div style="display: flex">
@@ -32,20 +34,9 @@
             <el-button class="button-style" plain style="margin-left: 10px !important;" @click="load(1)">查询</el-button>
             <el-button class="button-style" plain style="margin-left: 10px !important;" @click="reset">重置</el-button>
           </div>
-          <div  class="type-select" style="padding-left: 60%">
-            <el-select v-model="value" placeholder="选择内容类型"  @change="filterData">
-              <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
-            <el-button class="button-style" plain style="margin-left: 10px; !important;" @click="resetTypeFilter">重置</el-button>
-          </div>
         </div>
         <div class="table">
-          <el-table  :data="filteredTableData" stripe>
+          <el-table  :data="tableData" stripe>
             <el-table-column prop="img" show-overflow-tooltip>
               <template v-slot="scope">
                 <div style="display: flex; align-items: center">
@@ -59,12 +50,7 @@
                 <a :href="'/front/Detail?id=' + scope.row.id" style="color: rgba(51,51,51,0.78);font-size: 15px">{{ scope.row.name }}</a>
               </template>
             </el-table-column>
-            <el-table-column   prop="type">
-              <template v-slot="scope">
-                <span v-if="scope.row.type === 'VIDEO'" style="color: #7fa0df">视频</span>
-                <span v-else style="color: #4fa977">图文</span>
-              </template>
-            </el-table-column>
+            <el-table-column   prop="channel"></el-table-column>
             <el-table-column prop="addTime" label="发布时间" ></el-table-column>
 
           </el-table>
@@ -104,7 +90,6 @@ export default {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       // type:'',
       value:null, //内容类型选择器的值
-      filteredTableData: [], // 过滤后的数据
 
       carouselData:[
         require('@/assets/imgs/bupt_sp_bg.png'),
@@ -133,10 +118,16 @@ export default {
           name: this.name,
         }
       }).then(res => {
-        this.tableData = res.data?.list
-        this.total = res.data?.total
-        this.filterData() // 在加载完数据后立即进行一次过滤
-      })
+        // 首先过滤掉栏目为空的课程
+        const filteredData = res.data?.list.filter(item => item.channel);
+        // 根据栏目名称进行排序
+        const sortedData = filteredData.sort((a, b) => {
+          // 假设栏目名称为字符串，使用localeCompare来比较它们
+          return a.channel.localeCompare(b.channel);
+        });
+        this.tableData = sortedData;
+        this.total = res.data?.total;
+      });
     },
     reset() {
       this.name = null
@@ -145,19 +136,11 @@ export default {
     handleCurrentChange(pageNum) {
       this.load(pageNum)
     },
-    filterData() {
-      if (this.value === '选项1') { // 选择器选择了视频资源
-        this.filteredTableData = this.tableData.filter(item => item.type === 'VIDEO')
-      } else if (this.value === '选项2') { // 选择器选择了图文资源
-        this.filteredTableData = this.tableData.filter(item => item.type === 'TEXT')
-      } else { // 选择器未选择或者选择了其他选项
-        this.filteredTableData = [...this.tableData]
-      }
+    // 从 tableData 中提取栏目数据
+    extractChannelsFromTableData() {
+      const uniqueChannels = [...new Set(this.tableData.map(item => item.channel).filter(channel => channel))];
+      this.channels = uniqueChannels;
     },
-    resetTypeFilter(){
-      this.value = null
-      this.filterData()
-    }
 
   }
 }
@@ -178,6 +161,13 @@ export default {
   background-color: #467262;
   border-color: #467262;
   color: rgb(255, 255, 255)
+}
+
+.el-button:focus {
+  margin-left: 10px;
+  background-color: #9fd0b6;
+  color: #698173;
+  border-color:#f0f0f0;
 }
 
 /deep/.pagination .is-background .el-pager li:not(.disabled).active {

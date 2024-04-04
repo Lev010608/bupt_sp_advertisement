@@ -104,6 +104,10 @@
 
 .channel .channel-card{
     border-radius: 20px;
+    transition: transform 0.3s;
+}
+.channel .channel-card:hover{
+    transform: scale(1.1);
 }
 
 .channel .channel-image{

@@ -161,6 +161,7 @@ export default {
 @import "@/assets/css/course.css";
 @import "@/assets/css/global.css";
 
+
 .button-style{
   margin-left: 10px;
   background-color: #9fd0b6;
@@ -172,6 +173,13 @@ export default {
   background-color: #467262;
   border-color: #467262;
   color: rgb(255, 255, 255)
+}
+
+.el-button:focus {
+  margin-left: 10px;
+  background-color: #9fd0b6;
+  color: #698173;
+  border-color:#f0f0f0;
 }
 
 /deep/.pagination .is-background .el-pager li:not(.disabled).active {
@@ -190,5 +198,4 @@ export default {
 /deep/.pagination .el-pagination button:hover {
   background-color: #467262; /* 按钮悬停时背景颜色 */
 }
-
 </style>

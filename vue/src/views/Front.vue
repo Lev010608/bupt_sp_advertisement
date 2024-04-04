@@ -20,6 +20,7 @@
               <el-menu-item index="/front/home">首页</el-menu-item>
               <el-menu-item>学院概况</el-menu-item>
               <el-menu-item index="/front/course">学院动态</el-menu-item>
+              <el-menu-item index="/front/channel">学院专栏</el-menu-item>
               <el-menu-item>南太论坛</el-menu-item>
               <el-menu-item index="/front/release">我的发布</el-menu-item>
               <el-menu-item>关于我们</el-menu-item>
