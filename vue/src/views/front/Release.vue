@@ -6,13 +6,20 @@ export default {
 
 <template>
   <div class="main-content">
+
     <div style="width: 80%; margin: 30px auto">
+      <div>
+        <el-tabs>
+          <el-tab-pane label="发布内容" name="first">发布内容</el-tab-pane>
+          <el-tab-pane label="我的审核" name="second">我的审核</el-tab-pane>
+        </el-tabs>
+      </div>
       <div style="margin: 20px 0">
         <el-input placeholder="请输入资料名称" style="width: 200px" size="mini" v-model="name"></el-input>
-        <el-button type="info" plain style="margin-left: 10px" size="mini" @click="load(1)">查询</el-button>
-        <el-button type="warning" plain style="margin-left: 10px" size="mini" @click="reset">重置</el-button>
-        <el-button type="primary" plain size="mini" @click="handleAdd">发布资料</el-button>
-        <el-button type="danger" plain size="mini" @click="delBatch">批量删除</el-button>
+        <el-button class="button-style" plain style="margin-left: 10px" size="mini" @click="load(1)">查询</el-button>
+        <el-button class="button-style" plain style="margin-left: 10px" size="mini" @click="reset">重置</el-button>
+        <el-button class="button-style" plain size="mini" @click="handleAdd">发布资料</el-button>
+        <el-button class="button-style" plain size="mini" @click="delBatch">批量删除</el-button>
       </div>
 
       <div class="table">
@@ -225,5 +232,35 @@ export default {
 </script>
 
 <style scoped>
+
+.button-style{
+  margin-left: 10px;
+  background-color: #9fd0b6;
+  color: #698173;
+}
+
+.button-style:hover{
+  margin-left: 10px;
+  background-color: #467262;
+  border-color: #467262;
+  color: rgb(255, 255, 255)
+}
+
+/deep/.pagination .is-background .el-pager li:not(.disabled).active {
+  background-color: #9fd0b6; /* 按钮背景颜色 */
+  cursor: pointer; /* 鼠标指针样式为手型 */
+}
+
+/deep/.pagination .is-background .el-pager li:hover {
+  background-color: #467262; /* 按钮背景颜色 */
+  cursor: pointer; /* 鼠标指针样式为手型 */
+  color: #fafafa;
+}
+
+
+/* 自定义分页按钮悬停时的样式 */
+/deep/.pagination .el-pagination button:hover {
+  background-color: #467262; /* 按钮悬停时背景颜色 */
+}
 
 </style>

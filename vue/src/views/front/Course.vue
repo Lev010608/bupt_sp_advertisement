@@ -6,8 +6,10 @@
           <el-carousel height="300px">
             <div class="overlay">
               <div class="overlay-content">
-                <h2>Welcome to my website</h2>
-                <p>Discover amazing content</p>
+                <div>
+                  <h2 class="font-title" style="text-align: left">北邮南太孔院宣传门户</h2>
+                  <p class="font-sub-title" style="text-align: left">BUPTSP-Confucius Institute at The University of the South Pacific</p>
+                </div>
               </div>
             </div>
             <el-carousel-item v-for="item in carouselData" :key="item">
@@ -21,8 +23,8 @@
         <div style="display: flex">
           <div class="search" style="margin-bottom: 20px">
             <el-input placeholder="请输入内容/内容/课程名称" style="width: 200px" size="mini" v-model="name"></el-input>
-            <el-button class="button-style" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
-            <el-button class="button-style" plain style="margin-left: 10px" @click="reset">重置</el-button>
+            <el-button class="button-style" plain style="margin-left: 10px !important;" @click="load(1)">查询</el-button>
+            <el-button class="button-style" plain style="margin-left: 10px !important;" @click="reset">重置</el-button>
           </div>
           <div  class="type-select" style="padding-left: 60%">
             <el-select v-model="value" placeholder="选择内容类型"  @change="filterData">
@@ -33,7 +35,7 @@
                   :value="item.value">
               </el-option>
             </el-select>
-            <el-button plain style="margin-left: 10px;" @click="resetTypeFilter">重置</el-button>
+            <el-button class="button-style" plain style="margin-left: 10px; !important;" @click="resetTypeFilter">重置</el-button>
           </div>
         </div>
         <div class="table">
@@ -157,4 +159,36 @@ export default {
 
 <style scoped>
 @import "@/assets/css/course.css";
+@import "@/assets/css/global.css";
+
+.button-style{
+  margin-left: 10px;
+  background-color: #9fd0b6;
+  color: #698173;
+}
+
+.button-style:hover{
+  margin-left: 10px;
+  background-color: #467262;
+  border-color: #467262;
+  color: rgb(255, 255, 255)
+}
+
+/deep/.pagination .is-background .el-pager li:not(.disabled).active {
+  background-color: #9fd0b6; /* 按钮背景颜色 */
+  cursor: pointer; /* 鼠标指针样式为手型 */
+}
+
+/deep/.pagination .is-background .el-pager li:hover {
+  background-color: #467262; /* 按钮背景颜色 */
+  cursor: pointer; /* 鼠标指针样式为手型 */
+  color: #fafafa;
+}
+
+
+/* 自定义分页按钮悬停时的样式 */
+/deep/.pagination .el-pagination button:hover {
+  background-color: #467262; /* 按钮悬停时背景颜色 */
+}
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
 
     <div>
       <nav id="navbar_all" class="navbar navbar-static-top navbar-default" :class="{ 'navbar-hidden': scrolled }">
@@ -52,46 +52,8 @@
       </nav>
     </div>
 
-<!--    <div class="front-header">-->
-<!--      <div class="front-header-left">-->
-<!--        <img src="@/assets/imgs/logo.png" alt="">-->
-<!--&lt;!&ndash;        <div class="title">南太宣传门户</div>&ndash;&gt;-->
-<!--      </div>-->
-<!--      <div class="front-header-center">-->
-<!--        <div class="front-header-nav">-->
-<!--          <el-menu :default-active="$route.path" mode="horizontal" router>-->
-<!--						<el-menu-item index="/front/home">首页</el-menu-item>-->
-<!--						<el-menu-item index="/front/person">个人中心</el-menu-item>-->
-<!--          </el-menu>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="front-header-right">-->
-<!--        <div v-if="!user.username">-->
-<!--          <el-button @click="$router.push('/login')">登录</el-button>-->
-<!--          <el-button @click="$router.push('/register')">注册</el-button>-->
-<!--        </div>-->
-<!--        <div v-else>-->
-<!--          <el-dropdown>-->
-<!--            <div class="front-header-dropdown">-->
-<!--              <img :src="user.avatar" alt="">-->
-<!--              <div style="margin-left: 10px">-->
-<!--                <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <el-dropdown-menu slot="dropdown">-->
-<!--              <el-dropdown-item>-->
-<!--                <div style="text-decoration: none" @click="navTo('/front/person')">个人中心</div>-->
-<!--              </el-dropdown-item>-->
-<!--              <el-dropdown-item>-->
-<!--                <div style="text-decoration: none" @click="logout">退出</div>-->
-<!--              </el-dropdown-item>-->
-<!--            </el-dropdown-menu>-->
-<!--          </el-dropdown>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
     <!--主体-->
-    <div class="main-body" style="padding-top: 90px">
+    <div class="main-body" style="padding-top: 90px;flex-grow: 1">
       <router-view ref="child" @update:user="updateUser" />
     </div>
 
@@ -216,4 +178,9 @@ export default {
 
 <style scoped>
   @import "@/assets/css/front.css";
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 设置wrapper为最小高度为视口高度 */
+  }
 </style>

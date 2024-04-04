@@ -28,8 +28,6 @@
                   <el-tab-pane label="图文" name="first">图文内容</el-tab-pane>
                   <el-tab-pane label="视频" name="second">视频内容</el-tab-pane>
                 <el-tab-pane label="全部" name="all">全部内容</el-tab-pane>
-<!--                <el-button type="primary" @click="initValue('VIDEO')">视频课程</el-button>-->
-<!--                <el-button type="warning" @click="initValue('TEXT')">图文课程</el-button>-->
               </el-tabs>
             </div>
           </div>
