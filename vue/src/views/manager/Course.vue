@@ -243,7 +243,11 @@ export default {
     handleChannelChange(value) {
       if (value === 'newChannel') {
         this.showChannelInput = true;
-        this.form.channel = this.form.channel || '';
+        // this.form.channel = this.form.channel || '';
+        // this.$nextTick(() => {
+        //   // 在下一个 Vue tick 后聚焦输入框
+        //   this.$refs.channelInput.focus();
+        // });
       } else {
         this.showChannelInput = false;
         this.form.channel = value; // 将选择的栏目名称设置到form.channel中
