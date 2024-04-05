@@ -53,9 +53,10 @@
                             INNER JOIN (
             SELECT channel, MAX(id) AS latest_id
             FROM course
-            WHERE channelRecommend = '1'
+            WHERE channelRecommend = '1' AND channel IS NOT NULL
             GROUP BY channel
         ) lc ON c.channel = lc.channel AND c.id = lc.latest_id
+        WHERE c.channel IS NOT NULL AND c.channel != ''
     </select>
 
 

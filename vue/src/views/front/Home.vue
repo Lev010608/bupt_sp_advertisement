@@ -127,9 +127,7 @@
                   <img :src="channel.img" class="channel-image">
                   <div style="padding: 14px; text-align: center">
                     <span class="channel-name">{{ channel.channel }}</span>
-                    <div class="bottom clearfix">
-                      <!-- 其他信息，如果需要 -->
-                    </div>
+                    <!-- 其他信息展示 -->
                   </div>
                 </el-card>
               </el-col>
