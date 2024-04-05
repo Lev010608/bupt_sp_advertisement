@@ -35,7 +35,7 @@
           <div class="editable-area-1" >
             <div class="first-card">
               <el-carousel  :interval="4000" type="card" >
-                <el-carousel-item v-for="course in recommend" :key="course.id">
+                <el-carousel-item v-for="course in recommend" :key="course.id" style="box-shadow: 0px 2px 4px rgb(53, 77, 66);border-radius: 10px">
                   <img :src="course.img" class="push-content" alt="" @click="navTo(course.id)">
                   <div class="overflowShow" style="
                   position: relative;
@@ -54,14 +54,14 @@
               <el-row :gutter="20">
 <!--                一行24份-->
                 <el-col :span="6" style="margin-bottom:50px; margin-top:15px" v-for="item in homepageData">
-                  <img :src="item.img" alt="" style="width: 100%; height:100px; border-radius: 5px; object-fit: cover;cursor: pointer" @click="navTo(item.id)">
-                  <div style="color: #333333; margin-top: 10px;cursor: pointer;" class="overflowShow" alt="" @click="navTo(item.id)">{{item.name}}</div>
+                  <img :src="item.img" alt="" class="top8Course" @click="navTo(item.id)">
+                  <div style="color: #333333; margin-top: 10px;cursor: pointer;" class="font-sub-title-whitebk overflowShow" alt="" @click="navTo(item.id)">{{item.name}}</div>
                 </el-col>
               </el-row>
             </div>
 
           </div>
-          <div class="view-all-channel-button-container" style="display: flex;cursor: pointer;justify-content:flex-end;align-items: center" @click="navToAllCourse()">
+          <div class="view-all-channel-button-container" style="display: flex;cursor: pointer;justify-content:flex-end;align-items: center;margin-top: 10px" @click="navToAllCourse()">
             <i class="el-icon-caret-right"></i>
             <div class="font-sub-title-whitebk"><h4>查看全部动态</h4></div>
           </div>
@@ -131,7 +131,7 @@
               <el-card class="channel-card" :body-style="{ padding: '0px' }">
                 <img :src="channel.img" class="channel-image" @click="navToChannel(channel.channel)">
                 <div style="padding: 14px; text-align: center" @click="navToChannel(channel.channel)">
-                  <span class="channel-name">{{ channel.channel }}</span>
+                  <span class="channel-name font-sub-title-whitebk overflowShow"><h4>{{ channel.channel }}</h4></span>
                   <!-- 其他信息展示 -->
                 </div>
 
