@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * 公告信息表
-*/
+ */
 public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class Course implements Serializable {
     private Date recommendTime;
     private String addTime;
     private String channel;
-    private String channelRcommend;
+    private String channelRecommend;
 
     public Integer getId() {
         return id;
@@ -110,8 +110,12 @@ public class Course implements Serializable {
         this.channel = channel;
     }
 
-    public String getChannelRcommend() {return channelRcommend;}
+    public String getChannelRecommend() {
+        return channelRecommend;
+    }
 
-    public void setChannelRcommend(String channelRcommend) {this.channelRcommend = channelRcommend;}
+    public void setChannelRecommend(String channelRecommend) {
+        this.channelRecommend = channelRecommend;
+    }
 
 }
