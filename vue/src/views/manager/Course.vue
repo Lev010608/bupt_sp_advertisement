@@ -273,7 +273,8 @@ export default {
                 this.form.channelRecommend = res.data === '1' ? '1' : null;
                 this.updateCourse();
               } else {
-                this.$message.error('获取栏目推荐状态失败');
+                this.form.channelRecommend = null;
+                this.updateCourse();
               }
             })
           } else {
