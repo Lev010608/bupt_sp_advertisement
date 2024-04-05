@@ -81,6 +81,7 @@
             <if test="recommendTime != null">recommendTime,</if>
             <if test="addTime != null">addTime,</if>
             <if test="channel != null">channel,</if>
+            channelRecommend
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -94,6 +95,7 @@
             <if test="recommendTime != null">#{recommendTime},</if>
             <if test="addTime != null">#{addTime},</if>
             <if test="channel != null">#{channel},</if>
+            #{channelRecommend}
         </trim>
     </insert>
 
@@ -130,6 +132,7 @@
             <if test="channel != null">
                 channel = #{channel},
             </if>
+            channelRecommend = #{channelRecommend}
         </set>
         where id = #{id}
     </update>
