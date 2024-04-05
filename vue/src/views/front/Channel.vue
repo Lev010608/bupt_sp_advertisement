@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="table">
-          <el-table  :data="tableData" stripe>
+          <el-table class="custom-table" :data="tableData" stripe>
             <el-table-column prop="img" show-overflow-tooltip>
               <template v-slot="scope">
                 <div style="display: flex; align-items: center">
@@ -194,6 +194,10 @@ export default {
 /* 自定义分页按钮悬停时的样式 */
 /deep/.pagination .el-pagination button:hover {
   background-color: #467262; /* 按钮悬停时背景颜色 */
+}
+
+/deep/  .custom-table {
+  border-radius: 15px;
 }
 
 </style>

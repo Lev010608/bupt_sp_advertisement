@@ -39,8 +39,8 @@
           </div>
         </div>
         <div class="table" >
-          <el-table  :data="filteredTableData" stripe>
-            <el-table-column prop="img" show-overflow-tooltip>
+          <el-table class="custom-table" :data="filteredTableData" stripe>
+            <el-table-column  class="custom-table__expanded-cell" prop="img" show-overflow-tooltip>
               <template v-slot="scope">
                 <div style="display: flex; align-items: center">
                   <el-image style="width: 120px; height: 80px; border-radius: 5px; object-fit: cover; border: 1px solid #cccccc" v-if="scope.row.img"
@@ -48,18 +48,18 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column   prop="name" show-overflow-tooltip width="600">
+            <el-table-column  class="custom-table__expanded-cell" prop="name" show-overflow-tooltip width="600">
               <template v-slot="scope">
                 <a :href="'/front/Detail?id=' + scope.row.id" style="color: rgba(51,51,51,0.78);font-size: 15px">{{ scope.row.name }}</a>
               </template>
             </el-table-column>
-            <el-table-column   prop="type">
+            <el-table-column class="custom-table__expanded-cell"  prop="type">
               <template v-slot="scope">
                 <span v-if="scope.row.type === 'VIDEO'" style="color: #7fa0df">视频</span>
                 <span v-else style="color: #4fa977">图文</span>
               </template>
             </el-table-column>
-            <el-table-column prop="addTime" label="发布时间" ></el-table-column>
+            <el-table-column class="custom-table__expanded-cell" prop="addTime" label="发布时间" ></el-table-column>
 
           </el-table>
 
@@ -197,5 +197,8 @@ export default {
 /* 自定义分页按钮悬停时的样式 */
 /deep/.pagination .el-pagination button:hover {
   background-color: #467262; /* 按钮悬停时背景颜色 */
+}
+/deep/  .custom-table {
+  border-radius: 15px;
 }
 </style>

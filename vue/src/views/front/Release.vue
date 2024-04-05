@@ -23,7 +23,7 @@ export default {
       </div>
 
       <div class="table">
-        <el-table :data="tableData" stripe  @selection-change="handleSelectionChange">
+        <el-table class="custom-table" :data="tableData" stripe  @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
           <el-table-column prop="img" label="资料封面" width="100">
@@ -261,6 +261,10 @@ export default {
 /* 自定义分页按钮悬停时的样式 */
 /deep/.pagination .el-pagination button:hover {
   background-color: #467262; /* 按钮悬停时背景颜色 */
+}
+
+/deep/  .custom-table {
+  border-radius: 15px;
 }
 
 </style>
