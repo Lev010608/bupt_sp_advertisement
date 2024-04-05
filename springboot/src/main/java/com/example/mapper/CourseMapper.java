@@ -77,4 +77,13 @@ public interface CourseMapper {
      * 标签页重新查询
      */
     List<Course> selectByChannel(@Param("channel") String channel);
+    /**
+     * 栏目推荐设置
+     */
+    void updateChannelRecommend(@Param("channel") String channel, @Param("channelRecommend") Boolean channelRecommend);
+    /**
+     * 获取已经推荐的栏目
+     */
+    List<String> getRecommendedChannels();
+
 }

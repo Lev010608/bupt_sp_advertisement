@@ -59,6 +59,19 @@
       </div>
     </div>
 
+    <div class="channel-manage">
+      <div class="channel-manage-content" style="margin: 20px auto;padding: 20px 20px 20px 20px">
+        <h3 class="channel-manage-title">栏目首页推送管理</h3>
+        <p class="channel-manage-note">最多推送四个栏目至首页</p>
+        <el-divider></el-divider>
+        <el-checkbox-group v-model="selectedChannels" @change="updateChannelRecommend">
+          <el-checkbox v-for="channel in channels" :label="channel" :key="channel" :disabled="selectedChannels.length >= 4 && !selectedChannels.includes(channel)">
+            {{ channel }}
+          </el-checkbox>
+        </el-checkbox-group>
+      </div>
+    </div>
+
 
     <el-dialog title="内容信息" :visible.sync="fromVisible" width="55%" :close-on-click-modal="false" destroy-on-close>
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
@@ -147,6 +160,7 @@ export default {
       channels: [],        // 栏目列表
       selectedChannel: '', // 用户选择的栏目
       showChannelInput: false, // 是否显示栏目输入框
+      selectedChannels: [], // 被选中的栏目
 
       //表单规则
       rules: {
@@ -166,6 +180,7 @@ export default {
   created() {
     this.load(1)
     this.extractChannelsFromTableData() // 从 tableData 中提取栏目数据
+    this.loadRecommendedChannels(); // 加载已推荐栏目
   },
   methods: {
     initWangEditor(content) {
@@ -260,10 +275,10 @@ export default {
       this.viewData = data
       this.editorVisible = true
     },
-    // viewData(data) {
-    //   this.viewData = data
-    //   this.editorVisible = true
-    // },
+    viewData(data) {
+      this.viewData = data
+      this.editorVisible = true
+    },
     del(id) {   // 单个删除
       this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
         this.$request.delete('/course/delete/' + id).then(res => {
@@ -279,6 +294,40 @@ export default {
     },
     handleSelectionChange(rows) {   // 当前选中的所有的行数据
       this.ids = rows.map(v => v.id)   //  [1,2]
+    },
+    loadRecommendedChannels() {
+      this.$request.get('/course/recommendedChannels').then(res => {
+        if (res.code === '200') {
+          this.selectedChannels = res.data;
+        }
+      });
+    },
+    updateChannelRecommend(){
+// 处理栏目推荐的逻辑
+      if (this.selectedChannels.length > 4) {
+        this.$message.warning('最多只能推送四个栏目至首页');
+        return;
+      }
+      this.$request.put('/course/updateChannelRecommend', {
+        channels: this.selectedChannels,
+        channelRecommend: true
+      }).then(res => {
+        if (res.code !== '200') {
+          this.$message.error('更新栏目推荐状态失败');
+        }
+      });
+      // 处理取消推荐的栏目
+      const channelsToUnrecommend = this.channels.filter(channel => !this.selectedChannels.includes(channel));
+      if (channelsToUnrecommend.length > 0){
+        this.$request.put('/course/updateChannelRecommend', {
+          channels: channelsToUnrecommend,
+          channelRecommend: false
+        }).then(res => {
+          if (res.code !== '200') {
+            this.$message.error('更新栏目取消推荐状态失败');
+          }
+        });
+      }
     },
     delBatch() {   // 批量删除
       if (!this.ids.length) {
@@ -315,8 +364,8 @@ export default {
       return {
         editor: null,
         viewData: null,
-    editorVisible: false,
-    }
+        editorVisible: false,
+      }
     },
     reset() {
       this.name = null
@@ -339,5 +388,24 @@ export default {
 </script>
 
 <style scoped>
+.search,
+.operation,
+.table,
+.channel-manage {
+  background-color: #ffffff; /* 为这些块设置白色背景 */
+  margin: 20px auto; /* 在块之间增加一些边距 */
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影效果 */
+}
+
+.channel-manage-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.channel-manage-note {
+  color: #999999;
+  margin-bottom: 20px;
+}
 
 </style>

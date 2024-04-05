@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/course")
@@ -127,6 +128,24 @@ public class CourseController {
                                   @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<Course> page = courseService.selectByChannel(channel, pageNum, pageSize);
         return Result.success(page);
+    }
+    /**
+     * 栏目推荐设置
+     */
+    @PutMapping("/updateChannelRecommend")
+    public Result updateChannelRecommend(@RequestBody Map<String, Object> params) {
+        List<String> channels = (List<String>) params.get("channels");
+        Boolean channelRecommend = (Boolean) params.get("channelRecommend");
+        courseService.updateChannelRecommend(channels, channelRecommend);
+        return Result.success();
+    }
+    /**
+     * 获取已推荐栏目
+     */
+    @GetMapping("/recommendedChannels")
+    public Result getRecommendedChannels() {
+        List<String> recommendedChannels = courseService.getRecommendedChannels();
+        return Result.success(recommendedChannels);
     }
 
 

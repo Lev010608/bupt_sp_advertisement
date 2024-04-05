@@ -125,11 +125,9 @@
               <el-col class="channel" :span="6" v-for="(o, index) in 4" :key="index">
                 <el-card class="channel-card" :body-style="{ padding: '0px' }">
                   <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="channel-image">
-                  <div style="padding: 14px;">
+                  <div style="padding: 14px;text-align: center">
                     <span>好吃的汉堡</span>
                     <div class="bottom clearfix">
-                      <time class="time">{{ currentDate }}</time>
-                      <el-button type="text" class="button">操作按钮</el-button>
                     </div>
                   </div>
                 </el-card>
@@ -168,7 +166,6 @@ export default {
       homepageData:[],
       type:'',
       //专栏轮播图
-      currentDate: new Date()
     }
   },
   mounted() {

@@ -43,6 +43,12 @@
         where channel = #{channel}
         order by addTime desc  <!-- 或根据你的需求进行排序 -->
     </select>
+    <select id="getRecommendedChannels" resultType="java.lang.String">
+        SELECT DISTINCT channel
+        FROM course
+        WHERE channelRecommend = '1'
+    </select>
+
 
 
 
@@ -117,5 +123,13 @@
         </set>
         where id = #{id}
     </update>
+
+    <update id="updateChannelRecommend">
+        UPDATE course
+        SET channelRecommend = CASE WHEN #{channelRecommend} = true THEN '1' ELSE NULL END
+        WHERE channel = #{channel}
+    </update>
+
+
 
 </mapper>

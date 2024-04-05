@@ -124,6 +124,22 @@ public class CourseService {
         List<Course> list = channel.equals("all") ? courseMapper.selectAll(new Course()) : courseMapper.selectByChannel(channel);
         return PageInfo.of(list);
     }
+    /**
+     * 栏目推荐设置
+     */
+    public void updateChannelRecommend(List<String> channels, Boolean channelRecommend) {
+        for (String channel : channels) {
+            courseMapper.updateChannelRecommend(channel, channelRecommend);
+        }
+    }
+    /**
+     * 获取已经推荐的栏目
+     */
+    public List<String> getRecommendedChannels() {
+        return courseMapper.getRecommendedChannels();
+    }
+
+
 
 
 //    public Course getRecommend(String type) {
