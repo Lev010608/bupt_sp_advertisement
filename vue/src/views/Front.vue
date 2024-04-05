@@ -183,5 +183,6 @@ export default {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* 设置wrapper为最小高度为视口高度 */
+    background-color: #f4f3f0;
   }
 </style>

@@ -11,8 +11,8 @@
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
     </div>
 
-    <div class="table">
-      <el-table :data="tableData" stripe  @selection-change="handleSelectionChange">
+    <div class="table" >
+      <el-table  class="el-table" :data="tableData" style="background-color: #f4f3f0;" stripe  @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="img" label="内容封面" show-overflow-tooltip>
@@ -411,5 +411,6 @@ export default {
   color: #999999;
   margin-bottom: 20px;
 }
+
 
 </style>

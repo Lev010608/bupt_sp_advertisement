@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div style="width: 80%; margin: 50px auto ">
+      <div style="width: 80%; margin: 50px auto ;">
         <div style="display: flex">
           <div class="search" style="margin-bottom: 20px">
             <el-input placeholder="请输入内容/内容/课程名称" style="width: 200px" size="mini" v-model="name"></el-input>
@@ -38,7 +38,7 @@
             <el-button class="button-style" plain style="margin-left: 10px; !important;" @click="resetTypeFilter">重置</el-button>
           </div>
         </div>
-        <div class="table">
+        <div class="table" >
           <el-table  :data="filteredTableData" stripe>
             <el-table-column prop="img" show-overflow-tooltip>
               <template v-slot="scope">
