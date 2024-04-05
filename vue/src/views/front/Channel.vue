@@ -109,7 +109,15 @@ export default {
   },
   mounted() {
     this.loadChannels();
-    this.load(1)
+    const channelFromQuery = this.$route.query.channel || 'all';
+    this.load(1, channelFromQuery);
+    this.activeChannel = channelFromQuery; // 确保标签页选中状态与URL同步
+  },
+  watch: {
+    '$route.query.channel'(newChannel) {
+      this.load(1, newChannel || 'all');
+      this.activeChannel = newChannel || 'all';
+    }
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
@@ -141,6 +149,7 @@ export default {
     },
     tabClicked(tab) {
       this.load(1, tab.name);
+      this.$router.push({ path: '/front/channel', query: { channel: tab.name } });
     },
   }
 }

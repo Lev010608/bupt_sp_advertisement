@@ -108,6 +108,8 @@
     align-items: center; /* 水平居中卡片内容 */
     border-radius: 20px;
     transition: transform 0.3s;
+    margin: 20px;
+    cursor: pointer;
 }
 .channel .channel-card:hover{
     transform: scale(1.1);
@@ -122,6 +124,9 @@
 
 .channel .channel-name{
     text-align: center;
+}
+.el-icon-caret-right{
+    color: #858d8f;
 }
 
 /*.first-card .el-carousel__item h3{*/

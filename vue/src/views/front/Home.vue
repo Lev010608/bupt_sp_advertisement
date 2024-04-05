@@ -59,6 +59,11 @@
                 </el-col>
               </el-row>
             </div>
+
+          </div>
+          <div class="view-all-channel-button-container" style="display: flex;cursor: pointer;justify-content:flex-end;align-items: center" @click="navToAllCourse()">
+            <i class="el-icon-caret-right"></i>
+            <div class="font-sub-title-whitebk"><h4>查看全部动态</h4></div>
           </div>
           </div>
 
@@ -121,17 +126,24 @@
           </div>
           <el-divider></el-divider>
           <div class="editable-area-3">
-            <el-row :gutter="20">
-              <el-col class="channel" :span="6" v-for="channel in recommendedChannels" :key="channel.id">
-                <el-card class="channel-card" :body-style="{ padding: '0px' }">
-                  <img :src="channel.img" class="channel-image">
-                  <div style="padding: 14px; text-align: center">
-                    <span class="channel-name">{{ channel.channel }}</span>
-                    <!-- 其他信息展示 -->
-                  </div>
-                </el-card>
-              </el-col>
-            </el-row>
+          <el-row :gutter="20">
+            <el-col class="channel" :span="6" v-for="channel in recommendedChannels" :key="channel.id">
+              <el-card class="channel-card" :body-style="{ padding: '0px' }">
+                <img :src="channel.img" class="channel-image" @click="navToChannel(channel.channel)">
+                <div style="padding: 14px; text-align: center" @click="navToChannel(channel.channel)">
+                  <span class="channel-name">{{ channel.channel }}</span>
+                  <!-- 其他信息展示 -->
+                </div>
+
+              </el-card>
+            </el-col>
+          </el-row>
+
+        </div>
+
+          <div class="view-all-channel-button-container" style="display: flex;cursor: pointer;justify-content:flex-end;align-items: center" @click="navToAllChannel()">
+              <i class="el-icon-caret-right"></i>
+              <div class="font-sub-title-whitebk"><h4>查看全部专栏</h4></div>
           </div>
         </div>
 
@@ -250,9 +262,18 @@ export default {
       //   location.href = '/front/Detail?id=' + id
       // }
     },
+    navToAllCourse(){
+      location.href = '/front/course'
+    },
     navToInformation(id) {
       location.href = '/front/informationDetail?id=' + id
     },
+    navToChannel(channelName) {
+      this.$router.push({ path: '/front/channel?channel='+channelName, query: { channel: channelName } });
+    },
+    navToAllChannel(){
+      location.href = '/front/channel'
+    }
   }
 }
 </script>
