@@ -42,7 +42,7 @@
           <el-table class="custom-table" :data="filteredTableData" stripe>
             <el-table-column  class="custom-table__expanded-cell" prop="img" show-overflow-tooltip>
               <template v-slot="scope">
-                <div style="display: flex; align-items: center">
+                <div style="display: flex; align-items: center; min-height: 80px">
                   <el-image style="width: 120px; height: 80px; border-radius: 5px; object-fit: cover; border: 1px solid #cccccc" v-if="scope.row.img"
                             :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
                 </div>
