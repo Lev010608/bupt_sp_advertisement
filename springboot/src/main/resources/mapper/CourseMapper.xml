@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.CourseMapper">
 
     <sql id="Base_Column_List">
-        id,img,name,content,type,video,file,recommend,recommendTime,addTime,channel
+        id,img,name,content,type,video,file,recommend,recommendTime,addTime,channel,channelRecommend
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Course">

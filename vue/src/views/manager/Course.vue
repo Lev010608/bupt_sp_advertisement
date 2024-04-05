@@ -38,6 +38,7 @@
         <el-table-column prop="file" label="内容资料" show-overflow-tooltip></el-table-column>
         <el-table-column prop="recommend" label="是否推荐"></el-table-column>
         <el-table-column prop="channel" label="栏目"></el-table-column>
+        <el-table-column prop="channelRecommend" label="栏目是否推荐"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
             <el-button plain type="primary" @click="handleEdit(scope.row)" size="mini">编辑</el-button>
