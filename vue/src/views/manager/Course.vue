@@ -258,23 +258,51 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.form.content = this.editor.txt.html();
-          this.$request({
-            url: this.form.id ? '/course/update' : '/course/add',
-            method: this.form.id ? 'PUT' : 'POST',
-            data: this.form
-          }).then(res => {
-            if (res.code === '200') {  // 表示成功保存
-              this.$message.success('保存成功')
-              this.load(1)
-              this.fromVisible = false;
-              this.selectedChannel = ''; // 重置选择器到默认状态
-              this.showChannelInput = false; // 隐藏栏目名称输入框
-            } else {
-              this.$message.error(res.msg)  // 弹出错误的信息
-            }
-          })
+          // Step 1: 检查栏目是否已存在
+          if (this.channels.includes(this.form.channel)) {
+            // Step 2: 栏目已存在，获取栏目推荐状态
+            this.$request.get('/course/channelRecommendStatus', {
+              params: {
+                channel: this.form.channel,
+              }
+            }).then(res => {
+              if (res.code === '200') {
+                // 应用栏目的推荐状态到课程
+                console.log("添加的栏目已经能够查到")
+                console.log(res.data)
+                this.form.channelRecommend = res.data === '1' ? '1' : null;
+                this.updateCourse();
+              } else {
+                this.$message.error('获取栏目推荐状态失败');
+              }
+            })
+          } else {
+            console.log("添加的栏目为空或为新的栏目")
+            // Step 3: 新栏目或清空栏目名，设置channelRecommend为空
+            this.form.channelRecommend = null;
+            this.updateCourse();
+          }
+          console.log(this.form.channelRecommend)
         }
       })
+    },
+    updateCourse() {
+      this.$request({
+        url: this.form.id ? '/course/update' : '/course/add',
+        method: this.form.id ? 'PUT' : 'POST',
+        data: this.form
+      }).then(res => {
+        if (res.code === '200') {  // 表示成功保存
+          console.log(this.form)
+          this.$message.success('保存成功');
+          this.load(1);
+          this.fromVisible = false;
+          this.selectedChannel = ''; // 重置选择器到默认状态
+          this.showChannelInput = false; // 隐藏栏目名称输入框
+        } else {
+          this.$message.error(res.msg);  // 弹出错误的信息
+        }
+      });
     },
     viewDataInit(data) {
       this.viewData = data

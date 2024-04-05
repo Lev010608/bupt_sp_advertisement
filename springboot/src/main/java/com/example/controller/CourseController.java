@@ -155,6 +155,14 @@ public class CourseController {
         List<Course> courses = courseService.getRecommendedChannelsWithLatestCourse();
         return Result.success(courses);
     }
+    /**
+     * 获取指定栏目的推荐状态
+     */
+    @GetMapping("/channelRecommendStatus")
+    public Result getChannelRecommendStatus(@RequestParam String channel) {
+        Boolean status = courseService.getChannelRecommendStatus(channel);
+        return Result.success(status ? "1" : "0");
+    }
 
 
     /**

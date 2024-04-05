@@ -144,13 +144,12 @@ public class CourseService {
     public List<Course> getRecommendedChannelsWithLatestCourse() {
         return courseMapper.getRecommendedChannelsWithLatestCourse();
     }
-
-
-
-
-//    public Course getRecommend(String type) {
-//        return courseMapper.getRecommend(type);
-//    }
+    /**
+     * 获取指定栏目的推荐状态
+     */
+    public Boolean getChannelRecommendStatus(String channel) {
+        return courseMapper.getChannelRecommendStatus(channel);
+    }
 
     public List<Course> selectTop8(String type) {
         return courseMapper.selectTop8(type);

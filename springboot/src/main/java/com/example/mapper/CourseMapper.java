@@ -89,4 +89,9 @@ public interface CourseMapper {
      * 获取推荐的栏目及其最新的课程
      */
     List<Course> getRecommendedChannelsWithLatestCourse();
+    /**
+     * 获取指定栏目的推荐状态
+     */
+    @Select("SELECT channelRecommend FROM course WHERE channel = #{channel} LIMIT 1")
+    Boolean getChannelRecommendStatus(@Param("channel") String channel);
 }
