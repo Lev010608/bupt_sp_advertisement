@@ -48,6 +48,15 @@
         FROM course
         WHERE channelRecommend = '1'
     </select>
+    <select id="getRecommendedChannelsWithLatestCourse" resultType="com.example.entity.Course">
+        SELECT c.* FROM course c
+                            INNER JOIN (
+            SELECT channel, MAX(id) AS latest_id
+            FROM course
+            WHERE channelRecommend = '1'
+            GROUP BY channel
+        ) lc ON c.channel = lc.channel AND c.id = lc.latest_id
+    </select>
 
 
 

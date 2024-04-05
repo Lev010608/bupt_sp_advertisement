@@ -138,6 +138,12 @@ public class CourseService {
     public List<String> getRecommendedChannels() {
         return courseMapper.getRecommendedChannels();
     }
+    /**
+     * 获取推荐的栏目及其最新的课程
+     */
+    public List<Course> getRecommendedChannelsWithLatestCourse() {
+        return courseMapper.getRecommendedChannelsWithLatestCourse();
+    }
 
 
 

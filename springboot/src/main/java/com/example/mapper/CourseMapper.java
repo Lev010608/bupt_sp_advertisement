@@ -85,5 +85,8 @@ public interface CourseMapper {
      * 获取已经推荐的栏目
      */
     List<String> getRecommendedChannels();
-
+    /**
+     * 获取推荐的栏目及其最新的课程
+     */
+    List<Course> getRecommendedChannelsWithLatestCourse();
 }

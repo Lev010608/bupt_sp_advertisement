@@ -147,6 +147,14 @@ public class CourseController {
         List<String> recommendedChannels = courseService.getRecommendedChannels();
         return Result.success(recommendedChannels);
     }
+    /**
+     * 获取推荐的栏目及其最新的课程
+     */
+    @GetMapping("/getRecommendedChannelsWithLatestCourse")
+    public Result getRecommendedChannelsWithLatestCourse() {
+        List<Course> courses = courseService.getRecommendedChannelsWithLatestCourse();
+        return Result.success(courses);
+    }
 
 
     /**

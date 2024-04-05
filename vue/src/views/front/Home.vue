@@ -122,12 +122,13 @@
           <el-divider></el-divider>
           <div class="editable-area-3">
             <el-row :gutter="20">
-              <el-col class="channel" :span="6" v-for="(o, index) in 4" :key="index">
+              <el-col class="channel" :span="6" v-for="channel in recommendedChannels" :key="channel.id">
                 <el-card class="channel-card" :body-style="{ padding: '0px' }">
-                  <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="channel-image">
-                  <div style="padding: 14px;text-align: center">
-                    <span>好吃的汉堡</span>
+                  <img :src="channel.img" class="channel-image">
+                  <div style="padding: 14px; text-align: center">
+                    <span class="channel-name">{{ channel.channel }}</span>
                     <div class="bottom clearfix">
+                      <!-- 其他信息，如果需要 -->
                     </div>
                   </div>
                 </el-card>
@@ -165,10 +166,12 @@ export default {
       recommend:[],
       homepageData:[],
       type:'',
-      //专栏轮播图
+      //专栏卡片
+      recommendedChannels: []  // 存储推荐的栏目及其最新课程信息
     }
   },
   mounted() {
+    this.loadRecommendedChannels();
     this.loadRecommend()
     this.loadHomepageData()
     this.getData()
@@ -228,6 +231,15 @@ export default {
           this.$message.error(res.msg)
         }
       })
+    },
+    loadRecommendedChannels() {
+      this.$request.get('/course/getRecommendedChannelsWithLatestCourse').then(res => {
+        if (res.code === '200') {
+          this.recommendedChannels = res.data;
+        } else {
+          this.$message.error('加载推荐栏目失败: ' + res.msg);
+        }
+      });
     },
     navTo(id) {
       // 往课程详情页跳
