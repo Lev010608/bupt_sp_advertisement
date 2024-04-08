@@ -130,7 +130,7 @@ export default {
         this.editor = new E('#editor')
         this.editor.config.placeholder = '请输入内容'
         this.editor.config.uploadFileName = 'file'
-        this.editor.config.uploadImgServer = 'http://localhost:9090/files/wang/upload'
+        this.editor.config.uploadImgServer = '$baseUrl/files/wang/upload'
         this.editor.create()
         setTimeout(() => {
           this.editor.txt.html(content)
