@@ -24,7 +24,7 @@ const routes = [
       { path: 'adminPerson', name: 'AdminPerson', meta: { name: '个人信息' }, component: () => import('../views/manager/AdminPerson') },
       { path: 'password', name: 'Password', meta: { name: '修改密码' }, component: () => import('../views/manager/Password') },
       { path: 'notice', name: 'Notice', meta: { name: '公告信息' }, component: () => import('../views/manager/Notice') },
-      { path: 'course', name: 'Course', meta: { name: '课程信息' }, component: () => import('../views/manager/Course') },
+      { path: 'course', name: 'Course', meta: { name: '内容管理' }, component: () => import('../views/manager/Course') },
       { path: 'audit', name: 'Audit', meta: { name: '资料审核' }, component: () => import('../views/manager/Information') },
     ]
   },

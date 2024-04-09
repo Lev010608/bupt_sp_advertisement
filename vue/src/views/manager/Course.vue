@@ -112,7 +112,7 @@
           <el-option v-for="channel in channels" :key="channel" :label="channel" :value="channel"></el-option>
           <el-input v-model="form.channel" autocomplete="off" placeholder="请输入栏目名称"></el-input>
         </el-form-item>
-        <el-form-item label="内容视频">
+        <el-form-item label="内容视频" v-if="form.type === 'VIDEO'">
           <el-upload
               class="avatar-uploader"
               :action="$baseUrl + '/files/upload'"
@@ -189,7 +189,8 @@ export default {
         this.editor = new E('#editor')
         this.editor.config.placeholder = '请输入内容'
         this.editor.config.uploadFileName = 'file'
-        this.editor.config.uploadImgServer = '$baseUrl/files/wang/upload'
+        this.editor.config.uploadImgServer = this.$baseUrl+'/files/wang/upload'
+        console.log("图片上传"+this.editor.config.uploadImgServer)
         this.editor.create()
         setTimeout(() => {
           this.editor.txt.html(content)

@@ -44,7 +44,7 @@
 
             </template>
             <el-menu-item index="/notice">公告信息</el-menu-item>
-            <el-menu-item index="/course">课程信息</el-menu-item>
+            <el-menu-item index="/course">内容管理</el-menu-item>
             <el-menu-item index="/audit">资料审核</el-menu-item>
           </el-submenu>
 

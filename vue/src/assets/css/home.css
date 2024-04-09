@@ -102,6 +102,8 @@
     display: flex;
     justify-content: center; /* 使内容居中 */
     margin: 20px auto; /* 顶部和底部的边距，水平居中 */
+    flex-wrap: wrap; /* 允许项目换行 */
+    margin: 20px auto; /* 顶部和底部的边距，水平居中 */
 }
 
 .channel{
@@ -109,8 +111,19 @@
     justify-content: center;
 }
 
+.channel-row{
+    display: flex;
+    justify-content: center; /* 子项居中 */
+    flex-wrap: wrap; /* 允许子项换行 */
+    width: 100%; /* 完全占据父容器的宽度 */
+}
+
+
 .channel .channel-card{
     display: flex;
+    justify-content: center; /* 为了安全起见，再次确保内容居中 */
+    flex: 0 0 300px; /* 确保每个 el-col 的基础大小为 300px，不伸缩 */
+    max-width: 100%; /* 防止列宽超过容器宽 */
     width: 300px; /* 使图片宽度填满卡片宽度 */
     height: 350px; /* 固定图片高度，可根据需要调整 */
     flex-direction: column; /* 让卡片内容垂直排列 */

@@ -126,7 +126,7 @@
           </div>
           <el-divider></el-divider>
           <div class="editable-area-3">
-          <el-row :gutter="20">
+          <el-row class="channel-row" :gutter="20">
             <el-col class="channel" :span="6" v-for="channel in recommendedChannels" :key="channel.id">
               <el-card class="channel-card" :body-style="{ padding: '0px' }">
                 <img :src="channel.img" class="channel-image" @click="navToChannel(channel.channel)">

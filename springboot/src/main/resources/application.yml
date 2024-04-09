@@ -28,4 +28,4 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-ip: localhost
+ip: 39.106.21.164
