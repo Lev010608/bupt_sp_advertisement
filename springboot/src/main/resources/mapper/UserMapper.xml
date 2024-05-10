@@ -8,7 +8,7 @@
         id,username,password,name,phone,email,avatar,role
 
     </sql>
-
+    <!--查询语句-->
     <select id="selectAll" resultType="com.example.entity.User">
         select
         <include refid="Base_Column_List" />
@@ -24,19 +24,20 @@
             <if test="role != null"> and role= #{role}</if>
         </where>
     </select>
-
+    <!--根据id查询-->
     <select id="selectById" resultType="com.example.entity.User">
         select
         <include refid="Base_Column_List" />
         from user
         where id = #{id}
     </select>
-
+    <!--根据id删除-->
     <delete id="deleteById">
         delete from user
         where  id = #{id}
     </delete>
 <!--insert into user (id, username, password,....) values ('zhangsan', '123456',....)-->
+    <!--插入语句-->
     <insert id="insert" parameterType="com.example.entity.User" useGeneratedKeys="true">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,7 +61,7 @@
                 <if test="role != null">#{role},</if>
         </trim>
     </insert>
-
+    <!--更新-->
     <update id="updateById" parameterType="com.example.entity.User">
         update user
         <set>

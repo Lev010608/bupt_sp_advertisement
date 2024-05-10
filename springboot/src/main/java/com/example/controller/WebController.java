@@ -8,6 +8,7 @@ import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
 import com.example.service.AdminService;
 import com.example.service.UserService;
+import com.example.service.TeacherService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +23,8 @@ public class WebController {
     private AdminService adminService;
     @Resource
     private UserService userService;
+    @Resource
+    private TeacherService teacherService;
 
 
     @GetMapping("/")
@@ -44,6 +47,9 @@ public class WebController {
         if (RoleEnum.USER.name().equals(account.getRole())) {
             account = userService.login(account);
         }
+        if (RoleEnum.TEACHER.name().equals(account.getRole())) {
+            account = teacherService.login(account);
+        }
         return Result.success(account);
     }
 
@@ -62,6 +68,9 @@ public class WebController {
         if (RoleEnum.USER.name().equals(account.getRole())) {
             userService.register(account);
         }
+        if (RoleEnum.TEACHER.name().equals(account.getRole())) {
+            teacherService.register(account);
+        }
         return Result.success();
     }
 
@@ -79,6 +88,9 @@ public class WebController {
         }
         if (RoleEnum.USER.name().equals(account.getRole())) {
             userService.updatePassword(account);
+        }
+        if (RoleEnum.TEACHER.name().equals(account.getRole())) {
+            teacherService.updatePassword(account);
         }
         return Result.success();
     }

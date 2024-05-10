@@ -2,17 +2,16 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapper.UserMapper">
+<mapper namespace="com.example.mapper.TeacherMapper">
 
     <sql id="Base_Column_List">
-        id,username,password,name,phone,email,avatar,role
-
+        id,username,password,name,phone,email,avatar,role,title
     </sql>
     <!--查询语句-->
-    <select id="selectAll" resultType="com.example.entity.User">
+    <select id="selectAll" resultType="com.example.entity.Teacher">
         select
         <include refid="Base_Column_List" />
-        from user
+        from teacher
         <where>
             <if test="id != null"> and id= #{id}</if>
             <if test="username != null"> and username like concat('%', #{username}, '%')</if>
@@ -24,22 +23,23 @@
             <if test="role != null"> and role= #{role}</if>
         </where>
     </select>
-    <!--根据id查询-->
-    <select id="selectById" resultType="com.example.entity.User">
+
+    <select id="selectById" resultType="com.example.entity.Teacher">
         select
         <include refid="Base_Column_List" />
-        from user
+        from teacher
         where id = #{id}
     </select>
-    <!--根据id删除-->
+
     <delete id="deleteById">
-        delete from user
+        delete from teacher
         where  id = #{id}
     </delete>
-<!--insert into user (id, username, password,....) values ('zhangsan', '123456',....)-->
+    <!--insert into user (id, username, password,....) values ('zhangsan', '123456',....)-->
     <!--插入语句-->
-    <insert id="insert" parameterType="com.example.entity.User" useGeneratedKeys="true">
-        insert into user
+    <!--这里上面和下面位置要一一对应-->
+    <insert id="insert" parameterType="com.example.entity.Teacher" useGeneratedKeys="true">
+        insert into teacher
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
                 <if test="username != null">username,</if>
@@ -49,6 +49,7 @@
                 <if test="email != null">email,</if>
                 <if test="avatar != null">avatar,</if>
                 <if test="role != null">role,</if>
+                <if test="title != null">title,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id},</if>
@@ -59,11 +60,12 @@
                 <if test="email != null">#{email},</if>
                 <if test="avatar != null">#{avatar},</if>
                 <if test="role != null">#{role},</if>
+                <if test="title != null">#{title},</if>
         </trim>
     </insert>
-    <!--更新-->
-    <update id="updateById" parameterType="com.example.entity.User">
-        update user
+
+    <update id="updateById" parameterType="com.example.entity.Teacher">
+        update teacher
         <set>
             <if test="username != null">
                 username = #{username},
@@ -86,7 +88,11 @@
             <if test="role != null">
                 role = #{role},
             </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
         </set>
         where id = #{id} 
     </update>
+
 </mapper>
