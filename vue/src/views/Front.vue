@@ -44,6 +44,9 @@
                   <div style="text-decoration: none" @click="navTo('/front/person')">个人中心</div>
                 </el-dropdown-item>
                 <el-dropdown-item>
+                  <div style="text-decoration: none" @click="navTo('/chat')">我的消息</div>
+                </el-dropdown-item>
+                <el-dropdown-item>
                   <div style="text-decoration: none" @click="logout">退出</div>
                 </el-dropdown-item>
               </el-dropdown-menu>

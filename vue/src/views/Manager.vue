@@ -22,6 +22,7 @@
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
+            <el-dropdown-item @click.native="goToChat">我的消息</el-dropdown-item>
             <el-dropdown-item @click.native="$router.push('/password')">修改密码</el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -81,12 +82,15 @@ export default {
   },
   created() {
     if (!this.user.id) {
-      this.$router.push('/login')
+      this.$router.push('/front/home')
     }
   },
   methods: {
     updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
+    },
+    goToChat(){
+      this.$router.push('/chat')
     },
     goToPerson() {
       if (this.user.role === 'ADMIN') {

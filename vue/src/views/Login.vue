@@ -67,9 +67,9 @@ export default {
               localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
               // this.$router.push('/')
               // 跳转主页,统一后台
-              if (res.data.role === 'ADMIN') {
+              if (res.data.role === 'ADMIN'||res.data.role === 'TEACHER') {
                 location.href = '/home'
-              } else {
+              } else if(res.data.role === 'USER'){
                 location.href = '/front/home'
               }
               this.$message.success('登录成功')

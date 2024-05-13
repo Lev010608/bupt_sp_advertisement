@@ -44,6 +44,7 @@ const routes = [
   },
   //   单独
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
+  { path: '/chat', name: 'Chat', meta: { name: '我的消息' }, component: () => import('../views/Chat.vue') },
   { path: '/register', name: 'Register', meta: { name: '注册' }, component: () => import('../views/Register.vue') },
   { path: '*', name: 'NotFound', meta: { name: '无法访问' }, component: () => import('../views/404.vue') },
 ]
@@ -78,56 +79,5 @@ router.beforeEach((to ,from, next) => {
     next()
   }
 })
-
-
-
-
-
-
-
-// 路由守卫1.0
-// router.beforeEach((to ,from, next) => {
-//   let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
-//   if (to.path === '/' || to.path === '/home' ) {
-//     if (user.role) {
-//       console.log(user.role)
-//       if (user.role === 'USER') {
-//         next('/front/home')
-//       } else if(user.role === 'ADMIN') {
-//         next('/home')
-//       }
-//     } else {
-//       next('/login')
-//     }
-//   } else {
-//     next()
-//   }
-// })
-
-
-// 路由守卫2.0
-// router.beforeEach((to, from, next) => {
-//   let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
-//   if (!user.role) { // 假设没有角色表示是访客
-//     user.role = 'GUEST'; // 默认角色为GUEST
-//   }
-//
-//
-//   if (to.path === '/' || to.path === '/home') {
-//     if (user.role === 'ADMIN') {
-//       console.log(user.role)
-//       next('/home');
-//     } else {
-//       console.log(user.role)
-//       next('/front/home');
-//     }
-//   } else if (user.role === 'GUEST' && ![ '/front/home', '/front/detail' ].includes(to.path)) {
-//     console.log(user.role)
-//     // 如果是访客并且访问的不是允许的页面，则重定向到登录
-//     next('/login');
-//   } else {
-//     next();
-//   }
-// });
 
 export default router
