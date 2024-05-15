@@ -15,10 +15,11 @@
       </div>
 
       <div class="manager-header-right">
+        <el-button class="nav-button" style="margin-right: 10px; font-weight: bolder" @click="$router.push('/front/home')">前往展示端</el-button>
         <el-dropdown placement="bottom">
           <div class="avatar">
             <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
-            <div>{{ user.name ||  '管理员' }}</div>
+            <div>{{ user.name ||  '管理员' }}<i class="el-icon-arrow-down" style="margin-left: 5px"></i></div>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>

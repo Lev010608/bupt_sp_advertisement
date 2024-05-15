@@ -28,8 +28,8 @@
         </div>
         <div class="right-header">
           <div v-if="!user.username">
-            <el-button @click="$router.push('/login')">登录</el-button>
-            <el-button @click="$router.push('/register')">注册</el-button>
+            <el-button class="nav-button" @click="$router.push('/login')">登录</el-button>
+            <el-button class="nav-button" @click="$router.push('/register')">注册</el-button>
           </div>
           <div v-else>
             <el-dropdown>
@@ -119,7 +119,7 @@ export default {
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
 
       scrolled: false,
-      lastScrollTop: 0
+      lastScrollTop: 0,
     }
   },
 

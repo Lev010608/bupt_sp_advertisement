@@ -181,7 +181,7 @@ export default {
   created() {
     this.load(1)
     this.extractChannelsFromTableData() // 从 tableData 中提取栏目数据
-    this.loadRecommendedChannels(); // 加载已推荐栏目
+    this.loadRecommendedChannels()
   },
   methods: {
     initWangEditor(content) {

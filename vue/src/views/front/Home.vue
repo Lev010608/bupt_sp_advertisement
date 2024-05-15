@@ -67,36 +67,6 @@
           </div>
           </div>
 
-<!--        <div>-->
-<!--          <h2>体验南太异域风情</h2>-->
-<!--          <p>Discover amazing content</p>-->
-<!--          <el-divider></el-divider>-->
-<!--          <div class="editable-area-2">-->
-<!--            <div class="first-card">-->
-
-<!--              <el-row :gutter="20">-->
-<!--                &lt;!&ndash;                一行24份&ndash;&gt;-->
-<!--                <el-col :span="6" style="margin-bottom:50px; margin-top:15px">-->
-<!--                  <img src="@/assets/imgs/test.png" alt="" style="width: 100%; height:100px; border-radius: 5px">-->
-<!--                  <div style="color: #333333; margin-top: 10px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>-->
-<!--                </el-col>-->
-<!--              </el-row>-->
-
-<!--            </div>-->
-<!--            <div class="second-card">-->
-
-<!--              <el-carousel  :interval="4000" type="card" >-->
-<!--                <el-carousel-item v-for="item1 in courseImg" :key="item">-->
-<!--                  <img :src="item1" class="push-content">-->
-<!--                </el-carousel-item>-->
-<!--              </el-carousel>-->
-<!--              <div style="font-size: 15px;margin-top: 5px" class="overflowShow">更多斐济旅行体验,敬请关注北邮南太孔院blablablablablablablalbla</div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-
         <div class="information" style="position: relative;text-align: center;padding-top: 100px;margin-top: 200px">
           <div class="font-sub-title-whitebk" style="line-height: 50px;">
             <h3 class="font-effect" style="color: #545353; font-size: xx-large;">北京邮电大学南太平洋大学孔子学院</h3>
@@ -147,7 +117,13 @@
           </div>
         </div>
 
-        <div>
+        <div style="padding-top: 200px;">
+          <div class="information-2" style="position: relative;text-align: center;">
+            <div class="font-sub-title-whitebk" style="line-height: 50px;">
+              <h3 class="font-effect" style=" font-size: xx-large;">#遇见北邮</h3>
+            </div>
+          </div>
+
 
         </div>
 

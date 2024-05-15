@@ -45,6 +45,13 @@
     transition: all 0.8s ease 0s;
 }
 
+.nav-button{
+    border-radius: 5px;
+    background-color: #cbdad3;
+    border-color: transparent;
+}
+
+
 .container_index {
     padding: 0 20px;
     width: 100%;

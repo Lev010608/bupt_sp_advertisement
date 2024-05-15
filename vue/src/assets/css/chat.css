@@ -1,0 +1,102 @@
+
+
+.chat-container{
+    background-color: #f8f8ff;
+    min-height: 100vh;
+}
+
+/*聊天室TopBar*/
+
+.chat-header {
+    display: flex;
+    background-color: #467262
+    /*    #53b77f
+            #467262*/
+}
+.chat-nav-button{
+    border-radius: 5px;
+    background-color: #cbdad3;
+    border-color: transparent;
+}
+
+.chat-header-left {
+    width: 200px;
+    height: 60px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center
+}
+
+.chat-header-left img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #b0d2bf;
+    border: white 2px solid;
+}
+
+.chat-header-left .title {
+    flex: 1;
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ddd
+}
+
+.chat-header-center {
+    flex: 1;
+    width: 0;
+    display: flex;
+    align-items: center
+}
+
+.chat-header-right {
+    width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.chat-header-right .avatar {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    color: #ccc;
+    cursor: default
+}
+
+.chat-header-right .avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 5px
+}
+/*聊天室部分*/
+.main-body-content{
+    width: 100%;
+}
+.contact-list{
+    width: 30%;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.user-list-box{
+    height: calc(50vh + 60px);
+    overflow-y: scroll;
+    background-color: #f8f8ff;
+}
+.im-message-box {
+    height: 50vh;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: white;
+}
+.chat-area{
+    width: 70%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+
+}
