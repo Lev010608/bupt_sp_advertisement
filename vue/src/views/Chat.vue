@@ -66,11 +66,10 @@
             </div>
           </div>
           <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">我的群聊（班级）</div>
-          <div class="user-list-box" style="height: 30%; overflow-y: scroll">
-            <div class="user-list-item" v-for="item in users.student" @click="selectToUser(item)">
+          <div class="user-list-box">
+            <div class="user-list-item" v-for="(item, index) in users" :key="index">
               <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
-              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role+ '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name }}</span>
-              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
+              <span style="margin-left: 10px">{{ item.name }}</span>
             </div>
           </div>
         </div>
