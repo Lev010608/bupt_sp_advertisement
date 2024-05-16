@@ -3,7 +3,6 @@ package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.example.common.Constants;
-import com.example.common.enums.MemberEnum;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
@@ -42,8 +41,6 @@ public class UserService {
         if(ObjectUtil.isEmpty(user.getName())){
             user.setUsername(user.getUsername());
         }
-//初始设定为非会员，写一个枚举类
-//        user.setMember(MemberEnum.NO.info);
 
         user.setRole(RoleEnum.USER.name());
 
@@ -97,6 +94,15 @@ public class UserService {
         List<User> list = userMapper.selectAll(user);
         return PageInfo.of(list);
     }
+    /**
+     * 根据studentflag分页查询
+     */
+    public PageInfo<User> selectPageByStudentFlag(User user, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> list = userMapper.selectByStudentFlag(user);
+        return PageInfo.of(list);
+    }
+
 
     /**
      * 登录

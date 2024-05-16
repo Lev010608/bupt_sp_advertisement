@@ -20,6 +20,12 @@ public class Teacher extends Account implements Serializable {
     private String phone;
     /** 邮箱 */
     private String email;
+    /** 头像 */
+    private String avatar;
+    /** 角色标识 */
+    private String role;
+    /** 职称 */
+    private String title;
 
     @Override
     public Integer getId() {
@@ -105,11 +111,6 @@ public class Teacher extends Account implements Serializable {
         this.title = title;
     }
 
-    /** 头像 */
-    private String avatar;
-    /** 角色标识 */
-    private String role;
-    /** 职称 */
-    private String title;
+
 
 }

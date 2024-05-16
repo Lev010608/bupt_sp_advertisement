@@ -59,6 +59,13 @@
             <el-menu-item index="/teacher">教师信息</el-menu-item>
           </el-submenu>
 
+          <el-submenu index="teach">
+            <template slot="title">
+              <i class="el-icon-menu"></i><span>教学管理</span>
+            </template>
+            <el-menu-item index="/student">学生管理</el-menu-item>
+          </el-submenu>
+
 
         </el-menu>
       </div>

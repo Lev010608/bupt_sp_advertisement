@@ -41,4 +41,10 @@ public interface UserMapper {
 
     @Select("select * from user where username = #{username}")
     User selectByUserName(String username);
+
+    /**
+     * 根据studentflag查询所有
+     */
+    List<User> selectByStudentFlag(User user);
+
 }

@@ -5,34 +5,25 @@ import com.example.entity.User;
 import com.example.service.UserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 用户管理前端操作接口
+ * 管理员前端操作接口
  **/
 @RestController
 @RequestMapping("/user")
-
-/**
- * Controller是数据的入口
- * Service处理业务逻辑
- **/
-
 public class UserController {
 
-//    引入Service
     @Resource
     private UserService userService;
 
+    /**
+     * 新增
+     */
     @PostMapping("/add")
-    public Result add(@RequestBody User user){
-        /*
-         *@RequestBody 进行注解
-         * User 对象
-         */
-
-//        调用Service
+    public Result add(@RequestBody User user) {
         userService.add(user);
         return Result.success();
     }
@@ -92,5 +83,16 @@ public class UserController {
         PageInfo<User> page = userService.selectPage(user, pageNum, pageSize);
         return Result.success(page);
     }
+    /**
+     * 根据studentflag分页查询
+     */
+    @GetMapping("/selectPageByStudentFlag")
+    public Result selectPageByStudentFlag(User user,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
+                                          @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<User> page = userService.selectPageByStudentFlag(user, pageNum, pageSize);
+        return Result.success(page);
+    }
+
 
 }

@@ -17,10 +17,7 @@ public class User extends Account implements Serializable {
     private String role;
     private String phone;
     private String email;
-//    会员、积分与余额先搁置，论坛版块可以加入积分制度，先完成基础功能
-//    private String member;
-//    private Integer score;
-//    private Double account;
+    private String studentflag;
 
     @Override
     public Integer getId() {
@@ -62,22 +59,6 @@ public class User extends Account implements Serializable {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public String getAvatar() {
         return avatar;
@@ -96,5 +77,29 @@ public class User extends Account implements Serializable {
     @Override
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getStudentflag() {
+        return studentflag;
+    }
+
+    public void setStudentflag(String studentflag) {
+        this.studentflag = studentflag;
     }
 }
