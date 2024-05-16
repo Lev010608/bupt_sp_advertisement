@@ -70,7 +70,10 @@ export default {
       this.$refs['formRef'].validate((valid) => {
         if (valid) {
           // 验证通过
+          console.log("验证通过")
+          console.log(this.form)
           this.$request.post('/register', this.form).then(res => {
+            console.log(this.$request.post)
             if (res.code === '200') {
               this.$router.push('/login')  // 跳转登录页面
               this.$message.success('注册成功')

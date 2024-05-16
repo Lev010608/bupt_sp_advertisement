@@ -12,7 +12,7 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" strip @selection-change="handleSelectionChange">
+      <el-table :data="filtereNonStuData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column label="头像">
@@ -32,8 +32,7 @@
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">选为我的学生</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,7 +51,7 @@
     </div>
 
     <div class="table" style="padding-top: 20px">
-      <el-table :data="tableData" strip @selection-change="handleSelectionChange">
+      <el-table :data="filtereStuData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column label="头像">
@@ -73,7 +72,7 @@
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
             <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除该学生</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -153,14 +152,18 @@ export default {
       ids: []
     }
   },
+  computed:{
+    filtereNonStuData() {
+      return this.tableData.filter(row => row.studentflag === '0');
+    },
+    filtereStuData() {
+      return this.tableData.filter(row => row.studentflag === '1');
+    },
+  },
   created() {
     this.load(1)
   },
   methods: {
-    handleAdd() {   // 新增数据
-      this.form = {}  // 新增数据的时候清空数据
-      this.fromVisible = true   // 打开弹窗
-    },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗

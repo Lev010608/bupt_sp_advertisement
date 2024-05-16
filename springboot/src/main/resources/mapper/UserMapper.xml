@@ -68,7 +68,6 @@
                 <if test="email != null">email,</if>
                 <if test="avatar != null">avatar,</if>
                 <if test="role != null">role,</if>
-                <if test="studentflag != null">studentflag,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id},</if>
@@ -79,7 +78,6 @@
                 <if test="email != null">#{email},</if>
                 <if test="avatar != null">#{avatar},</if>
                 <if test="role != null">#{role},</if>
-                <if test="studentflag != null">#{studentflag},</if>
         </trim>
     </insert>
     <!--更新-->
@@ -108,7 +106,7 @@
                 role = #{role},
             </if>
             <if test="studentflag != null">
-                role = #{studentflag},
+                studentflag = #{studentflag},
             </if>
         </set>
         where id = #{id} 

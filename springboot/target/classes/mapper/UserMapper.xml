@@ -22,6 +22,7 @@
             <if test="email != null"> and email= #{email}</if>
             <if test="avatar != null"> and avatar= #{avatar}</if>
             <if test="role != null"> and role= #{role}</if>
+            <if test="studentflag != null"> and role= #{studentflag}</if>
         </where>
     </select>
     <!--根据studentflag查询-->
@@ -67,7 +68,6 @@
                 <if test="email != null">email,</if>
                 <if test="avatar != null">avatar,</if>
                 <if test="role != null">role,</if>
-                <if test="studentflag != null">studentflag,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id},</if>
@@ -78,7 +78,6 @@
                 <if test="email != null">#{email},</if>
                 <if test="avatar != null">#{avatar},</if>
                 <if test="role != null">#{role},</if>
-                <if test="studentflag != null">#{studentflag},</if>
         </trim>
     </insert>
     <!--更新-->
@@ -107,7 +106,7 @@
                 role = #{role},
             </if>
             <if test="studentflag != null">
-                role = #{studentflag},
+                studentflag = #{studentflag},
             </if>
         </set>
         where id = #{id} 
