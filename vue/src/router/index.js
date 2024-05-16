@@ -28,6 +28,8 @@ const routes = [
       { path: 'notice', name: 'Notice', meta: { name: '公告信息' }, component: () => import('../views/manager/Notice') },
       { path: 'course', name: 'Course', meta: { name: '内容管理' }, component: () => import('../views/manager/Course') },
       { path: 'audit', name: 'Audit', meta: { name: '资料审核' }, component: () => import('../views/manager/Information') },
+      { path: 'college', name: 'College', meta: { name: '学院信息' }, component: () => import('../views/manager/College') },
+      { path: 'major', name: 'Major', meta: { name: '专业信息' }, component: () => import('../views/manager/Major') },
     ]
   },
   {

@@ -43,11 +43,18 @@
           <el-submenu index="info">
             <template slot="title">
               <i class="el-icon-menu"></i><span>信息管理</span>
-
             </template>
             <el-menu-item index="/notice">公告信息</el-menu-item>
             <el-menu-item index="/course">内容管理</el-menu-item>
             <el-menu-item index="/audit">资料审核</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="administration">
+            <template slot="title">
+              <i class="el-icon-menu"></i><span>行政管理</span>
+            </template>
+            <el-menu-item index="/college">学院信息</el-menu-item>
+            <el-menu-item index="/major">专业信息</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">

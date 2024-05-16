@@ -7,11 +7,11 @@
     </div>
 
     <div class="operation">
-      <el-button type="primary" plain @click="handleAdd">新增</el-button>
-      <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+      <el-button type="primary" plain @click="handlePickBatch">批量选择学生</el-button>
     </div>
 
     <div class="table">
+      <div>普通用户</div>
       <el-table :data="filtereNonStuData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
@@ -32,7 +32,7 @@
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">选为我的学生</el-button>
+            <el-button size="mini" type="primary" plain @click="handlePick(scope.row)">选为我的学生</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -51,6 +51,7 @@
     </div>
 
     <div class="table" style="padding-top: 20px">
+      <div>学生</div>
       <el-table :data="filtereStuData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
