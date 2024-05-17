@@ -1,4 +1,5 @@
-# BUPT南太孔院宣传门户开发
+> # BUPT南太孔院宣传门户开发
+>
 
 > BUPT_sp advertisement
 >
@@ -68,6 +69,21 @@
 - 5.13
 
   - 添加了访客身份，但是具体某些按钮需要进行验证还没写
+  
+- 5.15
+
+  - 添加了学生身份，有注册bug
+  - 添加了聊天室UI
+
+- 5.16
+
+  - 修复学生身份bug
+  - 添加了教务行政管理、级联查询
+  
+- 5.17
+
+  - 修复前后端bug若干
+  - 学生管理学院、专业、班级级联查询
 
 
 
@@ -80,23 +96,44 @@
 ## 项目进度
 
 - [x] [01. 用户信息模块功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fqkfyggeq1a5nxxu)
+
 - [x] [02. 用户登录注册、个人中心和修改密码](https://www.yuque.com/xiaqing-en2ii/skflxg/ep5pcvnr7grnt0eu)
   - [x] 最好加入游客身份，游客可以查看内容，用户身份可以在论坛发表内容
   - [x] 现在，用户身份登陆后进行重定位能够直接进入后台，修改数据。需要对这一点作出修改
 
 - [x] [03. 课程信息模块功能的开发（上）](https://www.yuque.com/xiaqing-en2ii/skflxg/sav42v1esfpugrqm)
+
 - [x] [04. 课程信息模块功能开发（下）-课程介绍富文本](https://www.yuque.com/xiaqing-en2ii/skflxg/kp5p60ps6psa8afn)
+
 - [x] [05. 前台首页菜单和轮播图设计](https://www.yuque.com/xiaqing-en2ii/skflxg/vty8ipnv370b9xcv)
+
 - [x] [06. 前台首页课程和资料的页面设计](https://www.yuque.com/xiaqing-en2ii/skflxg/ldtlxpozgmtmxu81)
+
 - [x] [07. 首页课程大图推荐、课程动态渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/we6nt9qboqhzxfbe)
+
 - [x] [08. 前台全部课程功能的开发和数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/neyq5342qyor2ic6)
+
 - [x] [10. 前台首页课程切换渲染功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/fi6ginii9qi9paqx)
+  - [x] 现在课程管理端栏目管理和分页出现了bug
+  
+    > bug解决，从后端拉取数据，而不是过滤前端数据
+  
+  - [x] 前端所有类型展示也有bug！
+  
+    > bug解决，从后端拉取数据，而不是过滤前端数据
+  
 - [x] [12. 前台课程详情页页面开发和数据的渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/wyed89cc7qfp9gr1)
+
 - [x] [14. 前台我的资料功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/hyw85gkaxab3xgo4)
+
 - [x] [15. 管理后台资料审核和推荐功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/pvabggzu2fholbly)
+
 - [ ] [16. 前台首页在线资源部分的数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/vvn3h046kcw85gp7)
+
 - [ ] [17. 前台海量资源以及详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/bdqmlr1rqrq454zg)
+
 - [x] [18. 前台首页跳转到详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/vcg92wp50fpw0w57)
+
 - [ ] [27. 数据统计功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/vhfx75nqsc26t8vf)
 
 
