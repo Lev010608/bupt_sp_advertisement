@@ -180,8 +180,9 @@ export default {
   },
   created() {
     this.load(1)
-    this.extractChannelsFromTableData() // 从 tableData 中提取栏目数据
+    // this.extractChannelsFromTableData() // 从 tableData 中提取栏目数据
     this.loadRecommendedChannels()
+    this.loadChannels(); // 加载栏目名称
   },
   methods: {
     initWangEditor(content) {
@@ -237,9 +238,21 @@ export default {
       }
     },
     // 从 tableData 中提取栏目数据
-    extractChannelsFromTableData() {
-      const uniqueChannels = [...new Set(this.tableData.map(item => item.channel).filter(channel => channel))];
-      this.channels = uniqueChannels;
+    // extractChannelsFromTableData() {
+    //   const uniqueChannels = [...new Set(this.tableData.map(item => item.channel).filter(channel => channel))];
+    //   this.channels = uniqueChannels;
+    // },
+    //从tableData里面提取栏目数据并不好，应该从Course数据表中提取
+    loadChannels(){
+      this.$request.get('/course/selectDistinctChannels').then(res => {
+        if (res.code === '200') {
+          this.channels = res.data; // 设置栏目名称到channels数组
+        } else {
+          this.$message.error('加载栏目数据失败');
+        }
+      }).catch(error => {
+        this.$message.error('请求栏目数据出错: ' + error);
+      });
     },
     // 栏目选择发生变化时的处理函数
     handleChannelChange(value) {
@@ -392,7 +405,7 @@ export default {
       }).then(res => {
         this.tableData = res.data?.list
         this.total = res.data?.total
-        this.extractChannelsFromTableData();
+        this.loadChannels();
       })
     },
     data() {

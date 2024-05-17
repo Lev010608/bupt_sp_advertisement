@@ -43,6 +43,12 @@ public interface UserMapper {
     User selectByUserName(String username);
 
     /**
+     * 查询所有关联
+     */
+    List<User> selectAllRelate(User user);
+
+
+    /**
      * 根据studentflag查询所有
      */
     List<User> selectByStudentFlag(User user);

@@ -105,12 +105,13 @@ export default {
         require('@/assets/imgs/maobi.jpg')
       ],
       options: [{
-        value: '选项1',
+        value: 'VIDEO',
         label: '视频资源'
       }, {
-        value: '选项2',
+        value: 'TEXT',
         label: '图文资源'
       }],
+
     }
   },
   mounted() {
@@ -118,8 +119,8 @@ export default {
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-    load(pageNum) {  // 分页查询
-      if (pageNum) this.pageNum = pageNum
+    load(pageNum) {
+      if (pageNum) this.pageNum = pageNum;
       this.$request.get('/course/selectPage', {
         params: {
           pageNum: this.pageNum,
@@ -127,10 +128,10 @@ export default {
           name: this.name,
         }
       }).then(res => {
-        this.tableData = res.data?.list
-        this.total = res.data?.total
-        this.filterData() // 在加载完数据后立即进行一次过滤
-      })
+        this.tableData = res.data?.list;
+        this.total = res.data?.total;
+        this.filterData(); // 在加载完数据后立即进行一次过滤
+      });
     },
     reset() {
       this.name = null
@@ -140,17 +141,24 @@ export default {
       this.load(pageNum)
     },
     filterData() {
-      if (this.value === '选项1') { // 选择器选择了视频资源
-        this.filteredTableData = this.tableData.filter(item => item.type === 'VIDEO')
-      } else if (this.value === '选项2') { // 选择器选择了图文资源
-        this.filteredTableData = this.tableData.filter(item => item.type === 'TEXT')
-      } else { // 选择器未选择或者选择了其他选项
-        this.filteredTableData = [...this.tableData]
+      if (this.value) { // 如果选择了内容类型
+        this.$request.get('/course/selectByType', {
+          params: {
+            type: this.value,
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+          }
+        }).then(res => {
+          this.filteredTableData = res.data?.list;
+          this.total = res.data?.total;
+        });
+      } else {
+        this.filteredTableData = [...this.tableData];
       }
     },
-    resetTypeFilter(){
-      this.value = null
-      this.filterData()
+    resetTypeFilter() {
+      this.value = null;
+      this.load(1);
     }
 
   }

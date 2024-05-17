@@ -35,7 +35,7 @@
     <div class="manager-main">
       <!--  侧边栏  -->
       <div class="manager-main-left">
-        <el-menu :default-openeds="['info', 'user']" router style="border: none" :default-active="$route.path">
+        <el-menu :default-openeds="['info', 'user', 'administration', 'teach']" router style="border: none" :default-active="$route.path">
           <el-menu-item index="/home">
             <i class="el-icon-s-home"></i>
             <span slot="title">系统首页</span>
@@ -55,6 +55,8 @@
             </template>
             <el-menu-item index="/college">学院信息</el-menu-item>
             <el-menu-item index="/major">专业信息</el-menu-item>
+            <el-menu-item index="/classes">班级信息</el-menu-item>
+            <el-menu-item index="/student">学生管理</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">
@@ -70,7 +72,6 @@
             <template slot="title">
               <i class="el-icon-menu"></i><span>教学管理</span>
             </template>
-            <el-menu-item index="/student">学生管理</el-menu-item>
           </el-submenu>
 
 

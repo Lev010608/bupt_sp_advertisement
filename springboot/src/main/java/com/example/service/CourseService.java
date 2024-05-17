@@ -163,4 +163,11 @@ public class CourseService {
         return PageInfo.of(list);
     }
 
+    public PageInfo<Course> selectByType(String type, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Course> list = courseMapper.selectByType(type);
+        return PageInfo.of(list);
+    }
+
+
 }

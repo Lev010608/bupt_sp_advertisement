@@ -73,6 +73,25 @@ public class UserService {
     }
 
     /**
+     * 修改同时修改studentflag
+     */
+    public void updateByIdWithSF(User user) {
+        if (user.getCollegeId() != null || user.getMajorId() != null || user.getClassId() != null) {
+            user.setStudentflag("1");
+        }
+        userMapper.updateById(user);
+    }
+    /**
+     * 修改studentflag为0
+     */
+    public void updateStudentFlagTo0(User user) {
+        user.setStudentflag("0"); // 设置studentflag为0
+        userMapper.updateById(user); // 调用mapper更新用户
+    }
+
+
+
+    /**
      * 根据ID查询
      */
     public User selectById(Integer id) {
@@ -92,6 +111,14 @@ public class UserService {
     public PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<User> list = userMapper.selectAll(user);
+        return PageInfo.of(list);
+    }
+    /**
+     * 分页查询关联
+     */
+    public PageInfo<User> selectPageRelate(User user, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> list = userMapper.selectAllRelate(user);
         return PageInfo.of(list);
     }
     /**

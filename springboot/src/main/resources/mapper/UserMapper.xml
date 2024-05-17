@@ -42,6 +42,25 @@
             <if test="studentflag != null"> and studentflag= #{studentflag}</if>
         </where>
     </select>
+    <!--关联学院专业班级查询-->
+    <select id="selectAllRelate" resultType="com.example.entity.User">
+        select user.*, college.name as collegeName, major.name as majorName, classes.name as className
+        from user
+        left join college on user.college_id = college.id
+        left join major on user.major_id = major.id
+        left join classes on user.class_id = classes.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="username != null"> and username like concat('%', #{username}, '%')</if>
+            <if test="password != null"> and password= #{password}</if>
+            <if test="name != null"> and name= #{name}</if>
+            <if test="phone != null"> and phone= #{phone}</if>
+            <if test="email != null"> and email= #{email}</if>
+            <if test="avatar != null"> and avatar= #{avatar}</if>
+            <if test="role != null"> and role= #{role}</if>
+            <if test="studentflag != null"> and role= #{studentflag}</if>
+        </where>
+    </select>
 
     <!--根据id查询-->
     <select id="selectById" resultType="com.example.entity.User">

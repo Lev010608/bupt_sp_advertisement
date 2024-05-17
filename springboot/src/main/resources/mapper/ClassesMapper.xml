@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ClassesMapper">
+
+    <sql id="Base_Column_List">
+        id,name,description,teacher_id,major_id
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Classes">
+        select classes.*, teacher.name as teacherName, major.name as majorName
+        from classes
+        left join teacher on classes.teacher_id = teacher.id
+        left join major on classes.major_id = major.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="name != null"> and classes.name like concat('%', #{name}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Classes">
+        select
+        <include refid="Base_Column_List" />
+        from classes
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from classes
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Classes" useGeneratedKeys="true">
+        insert into classes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="description != null">description,</if>
+                <if test="teacherId != null">teacher_id,</if>
+                <if test="majorId != null">major_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="name != null">#{name},</if>
+                <if test="description != null">#{description},</if>
+                <if test="teacherId != null">#{teacherId},</if>
+                <if test="majorId != null">#{majorId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Classes">
+        update classes
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="teacherId != null">
+                teacher_Id = #{teacherId},
+            </if>
+            <if test="majorId != null">
+                major_Id = #{majorId},
+            </if>
+        </set>
+        where id = #{id} 
+    </update>
+
+</mapper>

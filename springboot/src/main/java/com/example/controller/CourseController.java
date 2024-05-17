@@ -176,4 +176,13 @@ public class CourseController {
         return Result.success(page);
     }
 
+    @GetMapping("/selectByType")
+    public Result selectByType(@RequestParam String type,
+                               @RequestParam(defaultValue = "1") Integer pageNum,
+                               @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Course> page = courseService.selectByType(type, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+
 }

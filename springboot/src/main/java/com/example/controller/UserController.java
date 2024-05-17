@@ -54,6 +54,24 @@ public class UserController {
         userService.updateById(user);
         return Result.success();
     }
+    /**
+     * 修改同时调整studentflag为1
+     */
+    @PutMapping("/updateWithSF")
+    public Result updateByIdWithSF(@RequestBody User user) {
+        userService.updateByIdWithSF(user);
+        return Result.success();
+    }
+    /**
+     * 修改studentflag为0
+     */
+    @PutMapping("/updateSFTo0")
+    public Result updateStudentFlagTo0(@RequestBody User user) {
+        userService.updateStudentFlagTo0(user);
+        return Result.success();
+    }
+
+
 
     /**
      * 根据ID查询
@@ -81,6 +99,16 @@ public class UserController {
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<User> page = userService.selectPage(user, pageNum, pageSize);
+        return Result.success(page);
+    }
+    /**
+     * 分页查询关联学院专业班级
+     */
+    @GetMapping("/selectPageRelate")
+    public Result selectPageRelate(User user,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<User> page = userService.selectPageRelate(user, pageNum, pageSize);
         return Result.success(page);
     }
     /**

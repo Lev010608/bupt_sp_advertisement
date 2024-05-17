@@ -37,6 +37,9 @@ public interface CourseMapper {
      */
     List<Course> selectAll(Course course);
 
+    List<Course> selectByType(@Param("type") String type);
+
+
     /**
      * 查询所有推荐课程
      */

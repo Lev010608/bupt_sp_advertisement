@@ -30,6 +30,7 @@ const routes = [
       { path: 'audit', name: 'Audit', meta: { name: '资料审核' }, component: () => import('../views/manager/Information') },
       { path: 'college', name: 'College', meta: { name: '学院信息' }, component: () => import('../views/manager/College') },
       { path: 'major', name: 'Major', meta: { name: '专业信息' }, component: () => import('../views/manager/Major') },
+      { path: 'classes', name: 'Classes', meta: { name: '班级信息' }, component: () => import('../views/manager/Classes') },
     ]
   },
   {

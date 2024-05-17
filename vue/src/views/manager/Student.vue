@@ -7,7 +7,6 @@
     </div>
 
     <div class="operation">
-      <el-button type="primary" plain @click="handlePickBatch">批量选择学生</el-button>
     </div>
 
     <div class="table">
@@ -25,14 +24,10 @@
         </el-table-column>
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="phone" label="电话"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
-        <el-table-column prop="studentflag" label="学生身份"></el-table-column>
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handlePick(scope.row)">选为我的学生</el-button>
+            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">设置学生身份</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -65,14 +60,12 @@
         </el-table-column>
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="phone" label="电话"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
-        <el-table-column prop="studentflag" label="学生身份"></el-table-column>
+        <el-table-column prop="collegeName" label="学院"></el-table-column>
+        <el-table-column prop="majorName" label="专业"></el-table-column>
+        <el-table-column prop="className" label="班级"></el-table-column>
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除该学生</el-button>
           </template>
         </el-table-column>
@@ -95,28 +88,20 @@
 
     <el-dialog title="用户" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="头像">
-          <el-upload
-              class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
-              :headers="{ token: user.token }"
-              list-type="picture"
-              :on-success="handleAvatarSuccess"
-          >
-            <el-button type="primary">上传头像</el-button>
-          </el-upload>
+        <el-form-item prop="collegeId" label="设置学院">
+          <el-select v-model="form.collegeId" placeholder="请选择学院" style="width: 100%">
+            <el-option v-for="item in collegeData" :label="item.name" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" placeholder="用户名"></el-input>
+        <el-form-item prop="majorId" label="设置专业">
+          <el-select v-model="form.majorId" placeholder="请选择专业" style="width: 100%">
+            <el-option v-for="item in majorData" :label="item.name" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="form.name" placeholder="姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="电话" prop="phone">
-          <el-input v-model="form.phone" placeholder="电话"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="form.email" placeholder="邮箱"></el-input>
+        <el-form-item prop="classId" label="设置班级">
+          <el-select v-model="form.classId" placeholder="请选择班级" style="width: 100%">
+            <el-option v-for="item in classData" :label="item.name" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -150,7 +135,10 @@ export default {
           {required: true, message: '请输入账号', trigger: 'blur'},
         ]
       },
-      ids: []
+      ids: [],
+      collegeData:[],
+      majorData:[],
+      classData:[],
     }
   },
   computed:{
@@ -163,9 +151,12 @@ export default {
   },
   created() {
     this.load(1)
+    this.loadCollege()
+    this.loadMajor()
+    this.loadClass()
   },
   methods: {
-    handleEdit(row) {   // 编辑数据
+    handleEdit(row) {   // 将用户设置为学生
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗
     },
@@ -173,8 +164,8 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.$request({
-            url: this.form.id ? '/user/update' : '/user/add',
-            method: this.form.id ? 'PUT' : 'POST',
+            url:'/user/updateWithSF',
+            method:'PUT',
             data: this.form
           //   data: this.form    data传给Controller
           }).then(res => {
@@ -189,18 +180,23 @@ export default {
         }
       })
     },
-    del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
-        this.$request.delete('/user/delete/' + id).then(res => {
+    del(id) {   // 修改studentflag为0
+      this.$confirm('您确定删除该学生？', '确认操作', {type: "warning"}).then(() => {
+        const userData = {
+          id: id,
+          studentflag: '0'
+        };
+        this.$request.put('/user/updateSFTo0', userData).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
-            this.load(1)
+            this.$message.success('用户身份已取消');
+            this.load(1);
           } else {
-            this.$message.error(res.msg)  // 弹出错误的信息
+            this.$message.error(res.msg);  // 弹出错误的信息
           }
-        })
+        });
       }).catch(() => {
-      })
+        // 用户取消操作
+      });
     },
     handleSelectionChange(rows) {   // 当前选中的所有的行数据
       this.ids = rows.map(v => v.id)
@@ -224,7 +220,7 @@ export default {
     },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
-      this.$request.get('/user/selectPage', {
+      this.$request.get('/user/selectPageRelate', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -233,6 +229,33 @@ export default {
       }).then(res => {
         this.tableData = res.data?.list
         this.total = res.data?.total
+      })
+    },
+    loadCollege(){
+      this.$request.get('/college/selectAll').then(res =>{
+        if(res.code === '200'){
+          this.collegeData = res.data
+        }else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    loadMajor(){
+      this.$request.get('/major/selectAll').then(res =>{
+        if(res.code === '200'){
+          this.majorData = res.data
+        }else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    loadClass(){
+      this.$request.get('/classes/selectAll').then(res =>{
+        if(res.code === '200'){
+          this.classData = res.data
+        }else {
+          this.$message.error(res.msg)
+        }
       })
     },
     loadByStudentFlag(pageNum, studentflag) {  // 分页查询

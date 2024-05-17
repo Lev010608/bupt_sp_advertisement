@@ -27,6 +27,14 @@
         where id = #{id}
     </select>
 
+    <select id="selectByType" resultType="com.example.entity.Course">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM course
+        WHERE type = #{type}
+        ORDER BY addTime DESC
+    </select>
+
     <select id="selectByChannelName" resultType="com.example.entity.Course">
         select
         <include refid="Base_Column_List" />
