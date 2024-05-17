@@ -26,6 +26,14 @@
         where id = #{id}
     </select>
 
+    <select id="selectByCollegeId" resultType="com.example.entity.Major">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM major
+        WHERE college_id = #{collegeId}
+    </select>
+
+
     <delete id="deleteById">
         delete from major
         where  id = #{id}

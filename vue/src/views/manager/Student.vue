@@ -89,12 +89,12 @@
     <el-dialog title="用户" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item prop="collegeId" label="设置学院">
-          <el-select v-model="form.collegeId" placeholder="请选择学院" style="width: 100%">
+          <el-select v-model="form.collegeId" placeholder="请选择学院" style="width: 100%" @change="handleCollegeChange">
             <el-option v-for="item in collegeData" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="majorId" label="设置专业">
-          <el-select v-model="form.majorId" placeholder="请选择专业" style="width: 100%">
+          <el-select v-model="form.majorId" placeholder="请选择专业" style="width: 100%" @change="handleMajorChange">
             <el-option v-for="item in majorData" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -152,8 +152,8 @@ export default {
   created() {
     this.load(1)
     this.loadCollege()
-    this.loadMajor()
-    this.loadClass()
+    // this.loadMajor()
+    // this.loadClass()
   },
   methods: {
     handleEdit(row) {   // 将用户设置为学生
@@ -239,6 +239,42 @@ export default {
           this.$message.error(res.msg)
         }
       })
+    },
+    handleCollegeChange(collegeId) {
+      this.form.majorId = null;
+      this.form.classId = null;
+      this.majorData = [];
+      this.classData = [];
+      if (collegeId) {
+        this.$request.get('/major/selectByCollegeId', {
+          params: {
+            collegeId: collegeId
+          }
+        }).then(res => {
+          if (res.code === '200') {
+            this.majorData = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+      }
+    },
+    handleMajorChange(majorId) {
+      this.form.classId = null;
+      this.classData = [];
+      if (majorId) {
+        this.$request.get('/classes/selectByMajorId', {
+          params: {
+            majorId: majorId
+          }
+        }).then(res => {
+          if (res.code === '200') {
+            this.classData = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+      }
     },
     loadMajor(){
       this.$request.get('/major/selectAll').then(res =>{

@@ -70,5 +70,11 @@ public class ClassesService {
         List<Classes> list = classesMapper.selectAll(classes);
         return PageInfo.of(list);
     }
+    /**
+     * 根据专业查询
+     */
+    public List<Classes> selectByMajorId(Integer majorId) {
+        return classesMapper.selectByMajorId(majorId);
+    }
 
 }

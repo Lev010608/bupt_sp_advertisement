@@ -70,5 +70,11 @@ public class MajorService {
         List<Major> list = majorMapper.selectAll(major);
         return PageInfo.of(list);
     }
+    /**
+     * 根据所属学院查询
+     */
+    public List<Major> selectByCollegeId(Integer collegeId) {
+        return majorMapper.selectByCollegeId(collegeId);
+    }
 
 }

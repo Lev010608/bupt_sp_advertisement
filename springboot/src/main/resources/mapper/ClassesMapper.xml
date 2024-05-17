@@ -27,6 +27,14 @@
         where id = #{id}
     </select>
 
+    <select id="selectByMajorId" resultType="com.example.entity.Classes">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM classes
+        WHERE major_id = #{majorId}
+    </select>
+
+
     <delete id="deleteById">
         delete from classes
         where  id = #{id}

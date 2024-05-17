@@ -1,6 +1,8 @@
 package com.example.mapper;
 
 import com.example.entity.Classes;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -33,5 +35,9 @@ public interface ClassesMapper {
       * 查询所有
     */
     List<Classes> selectAll(Classes classes);
+    /**
+     * 根据专业查询
+     */
+    List<Classes> selectByMajorId(@Param("majorId") Integer majorId);
 
 }

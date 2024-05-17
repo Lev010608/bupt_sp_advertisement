@@ -83,5 +83,13 @@ public class ClassesController {
         PageInfo<Classes> page = classesService.selectPage(classes, pageNum, pageSize);
         return Result.success(page);
     }
+    /**
+     * 根据专业查询
+     */
+    @GetMapping("/selectByMajorId")
+    public Result selectByMajorId(@RequestParam Integer majorId) {
+        List<Classes> list = classesService.selectByMajorId(majorId);
+        return Result.success(list);
+    }
 
 }

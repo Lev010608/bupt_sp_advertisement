@@ -83,5 +83,13 @@ public class MajorController {
         PageInfo<Major> page = majorService.selectPage(major, pageNum, pageSize);
         return Result.success(page);
     }
+    /**
+     * 根据所属学院查询
+     */
+    @GetMapping("/selectByCollegeId")
+    public Result selectByCollegeId(@RequestParam Integer collegeId) {
+        List<Major> list = majorService.selectByCollegeId(collegeId);
+        return Result.success(list);
+    }
 
 }
