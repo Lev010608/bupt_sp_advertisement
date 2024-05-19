@@ -59,32 +59,6 @@ public class FileController {
     }
 
     /**
-     * 文件上传
-     */
-    @PostMapping("/uploadLesson")
-    public Result uploadLesson(MultipartFile file) {
-        String flag;
-        synchronized (FileController.class) {
-            flag = System.currentTimeMillis() + "";
-            ThreadUtil.sleep(1L);
-        }
-        String fileName = file.getOriginalFilename();
-        try {
-            if (!FileUtil.isDirectory(filePath)) {
-                FileUtil.mkdir(filePath);
-            }
-            // 文件存储形式：时间戳-文件名
-            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);  // ***/manager/files/1697438073596-avatar.png
-            System.out.println(fileName + "--上传成功");
-
-        } catch (Exception e) {
-            System.err.println(fileName + "--文件上传失败");
-        }
-        String http = "http://" + ip + ":" + port + "/files/lessons/";
-        return Result.success(http + flag + "-" + fileName);  //  http://localhost:9090/files/1697438073596-avatar.png
-    }
-
-    /**
      * wang-editor编辑器文件上传接口
      */
     @PostMapping("/wang/upload")
