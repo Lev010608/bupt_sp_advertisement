@@ -25,6 +25,8 @@ public class FileController {
 
     // 文件上传存储路径
     private static final String filePath = System.getProperty("user.dir") + "/files/";
+    private static final String lessonFilePath = filePath + "lesson/";
+    private static final String plogFilePath = filePath + "plog/";
 
     @Value("${server.port:9090}")
     private String port;
@@ -114,6 +116,66 @@ public class FileController {
     public void delFile(@PathVariable String flag) {
         FileUtil.del(filePath + flag);
         System.out.println("删除文件" + flag + "成功");
+    }
+
+    /**
+     *课件文件上传
+     */
+    @PostMapping("/lesson/upload")
+    public Result lessonUpload(MultipartFile file) {
+        String flag;
+        synchronized (FileController.class) {
+            flag = System.currentTimeMillis() + "";
+            ThreadUtil.sleep(1L);
+        }
+        String fileName = file.getOriginalFilename();
+        try {
+            if (!FileUtil.isDirectory(lessonFilePath)) {
+                FileUtil.mkdir(lessonFilePath);
+            }
+            // 文件存储形式：时间戳-文件名
+            FileUtil.writeBytes(file.getBytes(), lessonFilePath + flag + "-" + fileName);
+            System.out.println(fileName + "--上传成功到lesson目录");
+        } catch (Exception e) {
+            System.err.println(fileName + "--文件上传失败到lesson目录");
+        }
+        String http = "http://" + ip + ":" + port + "/files/lesson/";
+        return Result.success(http + flag + "-" + fileName);
+    }
+
+    /**
+     * 获取课件文件
+     *
+     * @param flag
+     * @param response
+     */
+    @GetMapping("/lesson/{flag}")
+    public void getLessonFile(@PathVariable String flag, HttpServletResponse response) {
+        OutputStream os;
+        try {
+            if (StrUtil.isNotEmpty(flag)) {
+                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(flag, "UTF-8"));
+                response.setContentType("application/octet-stream");
+                byte[] bytes = FileUtil.readBytes(lessonFilePath + flag);
+                os = response.getOutputStream();
+                os.write(bytes);
+                os.flush();
+                os.close();
+            }
+        } catch (Exception e) {
+            System.out.println("课件文件下载失败");
+        }
+    }
+
+    /**
+     * 删除课件文件
+     *
+     * @param flag
+     */
+    @DeleteMapping("/lesson/{flag}")
+    public void delLessonFile(@PathVariable String flag) {
+        FileUtil.del(lessonFilePath + flag);
+        System.out.println("删除课件文件" + flag + "成功");
     }
 
 

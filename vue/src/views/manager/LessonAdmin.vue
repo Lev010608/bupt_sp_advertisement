@@ -65,7 +65,7 @@
         <el-form-item label="课件封面">
           <el-upload
               class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
+              :action="$baseUrl + '/files/lesson/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleImgSuccess"
@@ -85,7 +85,7 @@
         <el-form-item label="课件视频" v-if="form.type === 'VIDEO'">
           <el-upload
               class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
+              :action="$baseUrl + '/files/lesson/upload'"
               :headers="{ token: user.token }"
               :on-success="handleVideoSuccess"
           >
@@ -165,7 +165,7 @@ export default {
         this.editor = new E('#editor')
         this.editor.config.placeholder = '请输入内容'
         this.editor.config.uploadFileName = 'file'
-        this.editor.config.uploadImgServer = this.$baseUrl+'/files/wang/upload'
+        this.editor.config.uploadImgServer = this.$baseUrl+'/files/lesson/upload'
         console.log("图片上传"+this.editor.config.uploadImgServer)
         this.editor.create()
         setTimeout(() => {
