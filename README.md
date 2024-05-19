@@ -1,4 +1,4 @@
-> # BUPT南太孔院宣传门户开发
+> # BUPT南太孔院信息门户开发
 >
 
 > BUPT_sp advertisement
@@ -173,3 +173,18 @@
 3. 富文本编辑器配置
 
    > 待更新
+
+
+
+## 部署上线服务器事项
+
+打包后端：
+maven-clean-package
+
+打包前端：
+
+```
+cd vue
+npm run build
+```
+
