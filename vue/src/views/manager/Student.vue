@@ -152,8 +152,6 @@ export default {
   created() {
     this.load(1)
     this.loadCollege()
-    // this.loadMajor()
-    // this.loadClass()
   },
   methods: {
     handleEdit(row) {   // 将用户设置为学生
@@ -184,7 +182,7 @@ export default {
       this.$confirm('您确定删除该学生？', '确认操作', {type: "warning"}).then(() => {
         const userData = {
           id: id,
-          studentflag: '0'
+          studentflag: '0',
         };
         this.$request.put('/user/updateSFTo0', userData).then(res => {
           if (res.code === '200') {   // 表示操作成功
@@ -275,24 +273,6 @@ export default {
           }
         });
       }
-    },
-    loadMajor(){
-      this.$request.get('/major/selectAll').then(res =>{
-        if(res.code === '200'){
-          this.majorData = res.data
-        }else {
-          this.$message.error(res.msg)
-        }
-      })
-    },
-    loadClass(){
-      this.$request.get('/classes/selectAll').then(res =>{
-        if(res.code === '200'){
-          this.classData = res.data
-        }else {
-          this.$message.error(res.msg)
-        }
-      })
     },
     loadByStudentFlag(pageNum, studentflag) {  // 分页查询
       if (pageNum) this.pageNum = pageNum;

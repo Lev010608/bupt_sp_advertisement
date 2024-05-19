@@ -57,6 +57,7 @@
             <el-menu-item index="/major">专业信息</el-menu-item>
             <el-menu-item index="/classes">班级信息</el-menu-item>
             <el-menu-item index="/student">学生管理</el-menu-item>
+            <el-menu-item index="/lessonAdmin">课件管理</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">
@@ -72,6 +73,8 @@
             <template slot="title">
               <i class="el-icon-menu"></i><span>教学管理</span>
             </template>
+            <el-menu-item>班级管理</el-menu-item>
+            <el-menu-item>课件管理</el-menu-item>
           </el-submenu>
 
 

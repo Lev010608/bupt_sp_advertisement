@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.LessonMapper">
+
+    <sql id="Base_Column_List">
+        id,img,name,content,type,video,file,college_id,major_id,class_id
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Lesson">
+        select lesson.*, college.name as collegeName, major.name as majorName
+        from lesson
+        left join college on lesson.college_id = college.id
+        left join major on lesson.major_id = major.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="name != null"> and name like concat('%', #{name}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Lesson">
+        select
+        <include refid="Base_Column_List" />
+        from lesson
+        where id = #{id}
+    </select>
+
+    <select id="selectByType" resultType="com.example.entity.Lesson">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM lesson
+        WHERE type = #{type}
+        ORDER BY id DESC
+    </select>
+
+    <delete id="deleteById">
+        delete from lesson
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Lesson" useGeneratedKeys="true">
+        insert into lesson
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="img != null">img,</if>
+            <if test="name != null">name,</if>
+            <if test="content != null">content,</if>
+            <if test="type != null">type,</if>
+            <if test="video != null">video,</if>
+            <if test="file != null">file,</if>
+            <if test="collegeId != null">college_id,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="classId != null">class_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="img != null">#{img},</if>
+            <if test="name != null">#{name},</if>
+            <if test="content != null">#{content},</if>
+            <if test="type != null">#{type},</if>
+            <if test="video != null">#{video},</if>
+            <if test="file != null">#{file},</if>
+            <if test="collegeId != null">#{collegeId},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="classId != null">#{classId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Lesson">
+        update lesson
+        <set>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="video != null">
+                video = #{video},
+            </if>
+            <if test="file != null">
+                file = #{file},
+            </if>
+            <if test="collegeId != null">
+                college_id = #{collegeId},
+            </if>
+            <if test="majorId != null">
+                major_id = #{majorId},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
