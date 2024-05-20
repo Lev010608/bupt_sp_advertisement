@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ImSingleMapper">
+
+    <sql id="Base_Column_List">
+        id,content,fromuser,fromavatar,time,type,touser,toavatar,readed
+    </sql>
+
+    <select id="findByUsername" resultType="com.example.entity.ImSingle">
+        select * from imsingle
+        where (fromuser = #{fromUser} and touser = #{toUser})
+           or (fromuser = #{toUser} and touser = #{fromUser})
+    </select>
+
+    <select id="findByToUsername" resultType="com.example.entity.ImSingle">
+        select * from imsingle
+        where touser = #{toUser} and readed = 0
+    </select>
+
+
+</mapper>

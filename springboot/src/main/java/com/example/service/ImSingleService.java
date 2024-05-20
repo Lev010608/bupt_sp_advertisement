@@ -2,7 +2,7 @@ package com.example.service;
 
 import cn.hutool.core.lang.Dict;
 import com.example.entity.ImSingle;
-import com.example.mapper.ImSingleDao;
+import com.example.mapper.ImSingleMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,25 +14,26 @@ import java.util.stream.Collectors;
 public class ImSingleService {
 
     @Resource
-    private ImSingleDao imSingleDao;
+    private ImSingleMapper imSingleMapper;
 
     public ImSingle add(ImSingle imSingle) {
-        imSingleDao.insertSelective(imSingle);
+        imSingleMapper.insertSelective(imSingle);
         return imSingle;
     }
     public List<ImSingle> findByUsername(String fromUser, String toUser) {
-        List<ImSingle> list = imSingleDao.findByUsername(fromUser, toUser);
+        List<ImSingle> list = imSingleMapper.findByUsername(fromUser, toUser);
         list.forEach(x -> {
             if (x.getTouser().equals(fromUser) && x.getFromuser().equals(toUser)) {
                 x.setReaded(1);
-                imSingleDao.updateByPrimaryKey(x);
+                imSingleMapper.updateByPrimaryKey(x);
             }
         });
+        System.out.println("********"+list);
         return list;
     }
 
     public Dict findUnReadNums(String toUsername) {
-        List<ImSingle> list = imSingleDao.findByToUsername(toUsername);
+        List<ImSingle> list = imSingleMapper.findByToUsername(toUsername);
         Map<String, List<ImSingle>> collect = list.stream().collect(Collectors.groupingBy(ImSingle::getFromuser));
         Dict dict = Dict.create();
         collect.forEach((k,v) -> dict.set(k, v.size()));
