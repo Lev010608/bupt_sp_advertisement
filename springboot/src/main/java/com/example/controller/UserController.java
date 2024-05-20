@@ -123,6 +123,15 @@ public class UserController {
         return Result.success(page);
     }
 
+    /**
+     * 根据班级ID查询学生
+     */
+    @GetMapping("/selectByClassId/{classId}")
+    public Result selectByClassId(@PathVariable Integer classId) {
+        List<User> list = userService.selectByClassId(classId);
+        return Result.success(list);
+    }
+
 
 
 

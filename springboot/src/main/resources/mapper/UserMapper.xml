@@ -61,6 +61,25 @@
             <if test="studentflag != null"> and role= #{studentflag}</if>
         </where>
     </select>
+    <!--根据班级ID查询所有学声-->
+    <select id="selectByClassId" resultType="com.example.entity.User">
+        SELECT
+            user.*,
+            college.name as collegeName,
+            major.name as majorName,
+            classes.name as className
+        FROM
+            user
+                LEFT JOIN
+            college ON user.college_id = college.id
+                LEFT JOIN
+            major ON user.major_id = major.id
+                LEFT JOIN
+            classes ON user.class_id = classes.id
+        WHERE
+            user.class_id = #{classId}
+    </select>
+
 
     <!--根据id查询-->
     <select id="selectById" resultType="com.example.entity.User">

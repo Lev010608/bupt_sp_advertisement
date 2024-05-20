@@ -36,6 +36,10 @@ public interface ClassesMapper {
     */
     List<Classes> selectAll(Classes classes);
     /**
+     * 根据teacherId查询所有
+     */
+    List<Classes> selectAllByTeacherId(Integer teacherId);
+    /**
      * 根据专业查询
      */
     List<Classes> selectByMajorId(@Param("majorId") Integer majorId);

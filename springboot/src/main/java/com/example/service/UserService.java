@@ -130,6 +130,13 @@ public class UserService {
         List<User> list = userMapper.selectByStudentFlag(user);
         return PageInfo.of(list);
     }
+    /**
+     * 根据班级ID查询学生
+     */
+    public List<User> selectByClassId(Integer classId) {
+        return userMapper.selectByClassId(classId);
+    }
+
 
 
     /**

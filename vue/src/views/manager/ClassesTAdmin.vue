@@ -5,12 +5,8 @@
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
-
-    <div class="operation">
-    </div>
-
     <div class="table">
-      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">普通用户</div>
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">添加学生</div>
       <el-table :data="filtereNonStuData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
@@ -27,7 +23,7 @@
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">设置学生身份</el-button>
+            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">设为我的学生</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -45,9 +41,21 @@
       </div>
     </div>
 
+    <div class="operation">
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">我的班级</div>
+      <el-select class="class-chooser" v-model="selectedClassId" placeholder="请选择班级" @change="handleClassChange">
+        <el-option
+            v-for="item in myClass"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+      </el-select>
+    </div>
+
     <div class="table" style="padding-top: 20px">
-      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">学生</div>
-      <el-table :data="filtereStuData" strip @selection-change="handleSelectionChange">
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">{{ selectedClassName }}</div>
+      <el-table :data="MyClassStutableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column label="头像">
@@ -117,7 +125,7 @@
 
 <script>
 export default {
-  name: "Student",
+  name: "ClassesTAdmin",
   data() {
     return {
       tableData: [],  // 所有的数据
@@ -127,6 +135,8 @@ export default {
       pageSize: 10,  // 每页显示的个数
       total: 0,
       username: null,
+      selectedClassId: null, // 新增：选择的班级 ID
+      selectedClassName: '', // 新增：选择的班级名称
       fromVisible: false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
@@ -139,6 +149,8 @@ export default {
       collegeData:[],
       majorData:[],
       classData:[],
+      myClass:[],
+      MyClassStutableData:[],
     }
   },
   computed:{
@@ -152,6 +164,7 @@ export default {
   created() {
     this.load(1)
     this.loadCollege()
+    this.loadMyClass()
   },
   methods: {
     handleEdit(row) {   // 将用户设置为学生
@@ -229,6 +242,23 @@ export default {
         this.total = res.data?.total
       })
     },
+    loadMyClass(){
+
+      this.$request.get(`/classes/selectAllByTeacherId/${this.user.id}`).then(res =>{
+        if(res.code === '200'){
+          this.myClass = res.data; // 将获取的班级列表设置到myClass变量中
+          console.log("我的班级"+this.myClass)
+        }else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    handleClassChange(value) {
+      const selectedClass = this.myClass.find(item => item.id === value);
+      this.selectedClassId = value;
+      this.selectedClassName = selectedClass ? selectedClass.name : '';
+      this.loadClassStudents(value); // 加载班级学生数据
+    },
     loadCollege(){
       this.$request.get('/college/selectAll').then(res =>{
         if(res.code === '200'){
@@ -287,6 +317,15 @@ export default {
         this.tableDataBySF0 = res.data?.list;
         this.total = res.data?.total;
       });
+    },
+    loadClassStudents(classId) {
+      this.$request.get(`/user/selectByClassId/${classId}`).then(res => {
+        if (res.code === '200') {
+          this.MyClassStutableData = res.data;
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
     },
 
     reset() {

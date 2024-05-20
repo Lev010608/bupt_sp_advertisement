@@ -34,6 +34,10 @@
         WHERE major_id = #{majorId}
     </select>
 
+    <select id="selectAllByTeacherId" resultType="com.example.entity.Classes">
+        SELECT * FROM classes WHERE teacher_id = #{teacherId}
+    </select>
+
 
     <delete id="deleteById">
         delete from classes
