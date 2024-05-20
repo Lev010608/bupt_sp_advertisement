@@ -80,46 +80,161 @@
         </div>
 
         <!--  中间部分  -->
-        <div class="chat-area" >
+        <div style="width: 50%; border: 1px solid #ddd; border-radius: 5px; background-color: #f1f1f1; margin: 0 10px;">
           <div style="padding: 20px 0; text-align: center; border-bottom: 1px solid #ddd; color: #000; background-color: #eee; height: 60px">
             {{ toUser?.substring(toUser.indexOf('_') + 1) }}
           </div>
           <div class="im-message-box">
-            <!--  右边的气泡(对方信息） -->
-            <div style="display: flex; flex-direction: row-reverse; align-items: flex-start">
+            <div v-for="item in messages" :key="item.id">
+              <!--  右边的气泡 -->
+              <div style="display: flex; flex-direction: row-reverse; align-items: flex-start"
+                   v-if="item.fromuser === fromUser">
+                <img :src="item.fromavatar" alt=""
+                     style="width: 40px; height: 40px; border-radius: 50%; margin-left: 10px">
+                <div class="im-message im-message-right" v-html="item.content"
+                     v-if="item.type === 'text'"></div>
+                <div class="im-message" style="padding: 0" v-if="item.type === 'img'">
+                  <!-- 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 -->
+                  <el-image style="width: 100px" :src="item.content" alt=""
+                            :preview-src-list=[item.content] @load="scrollToBottom"></el-image>
+                </div>
+                <div class="im-message im-message-download" v-if="item.type === 'file'"
+                     @click="download(item.content)">
+                  <div><i class="el-icon-folder-opened"></i>
+                    <span>{{ item.content.substring(item.content.indexOf('-') + 1) }}</span>
+                  </div>
+                </div>
+              </div>
 
+              <!--  左边的气泡 -->
+              <div style="display: flex; align-items: flex-start" v-else>
+                <img :src="item.fromavatar" alt=""
+                     style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px">
+                <div style="width: 100%">
+                  <div style="color: #888; font-size: 12px; width: 50%">
+                    {{ item.fromuser?.substring(item.fromuser.indexOf('_') + 1) }}
+                  </div>
+                  <div class="im-message im-message-left" v-html="item.content"
+                       v-if="item.type === 'text'"></div>
+                  <div class="im-message" style="padding: 0" v-if="item.type === 'img'">
+                    <!-- 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 -->
+                    <el-image style="width: 100px" :src="item.content" alt=""
+                              :preview-src-list=[item.content]
+                              @load="scrollToBottom"></el-image>
+                  </div>
+                  <div class="im-message im-message-download" v-if="item.type === 'file'"
+                       @click="download(item.content)">
+                    <div><i class="el-icon-folder-opened"></i>
+                      <span>{{ item.content.substring(item.content.indexOf('-') + 1) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <!--  左边的气泡（自己发的信息） -->
-            <div style="display: flex; align-items: flex-start">
-
-            </div>
-
-
           </div>
+
           <!-- 输入区域 -->
           <div style="padding: 10px 5px; border-top: 1px solid #ddd; display: flex; align-items: center; width: 100%;">
-               <!--      发送表情      -->
-<!--            <el-popover placement="top" width="300" trigger="click">-->
-<!--              <div class="emoji-box">-->
-<!--                <span v-for="(item, index) in emojis" :key="index"-->
-<!--                      style="margin-right: 5px; font-size: 20px; cursor: pointer" v-html="item"-->
-<!--                      @click="clickEmoji(item)">-->
-<!--                </span>-->
-<!--              </div>-->
-<!--              <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>-->
-<!--            </el-popover>-->
-                 <!--            发送文件-->
-<!--            <div style="margin-left: 5px">-->
-<!--              <el-upload action="http://localhost:8080/files/upload" :show-file-list="false" :on-success="handleFile">-->
-<!--                <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>-->
-<!--              </el-upload>-->
-<!--            </div>-->
+            <el-popover placement="top" width="300" trigger="click">
+              <div class="emoji-box">
+                <span v-for="(item, index) in emojis" :key="index"
+                      style="margin-right: 5px; font-size: 20px; cursor: pointer" v-html="item"
+                      @click="clickEmoji(item)">
+                </span>
+              </div>
+              <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>
+            </el-popover>
+            <div style="margin-left: 5px">
+              <el-upload action="http://localhost:9093/files/upload" :show-file-list="false" :on-success="handleFile">
+                <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>
+              </el-upload>
+            </div>
             <div id="im-content" contenteditable
                  style="flex: 1; background-color: #fff; margin: 0 5px; padding: 10px; border: 1px solid #ddd; border-radius: 2px; outline: none; font-size: 14px;"></div>
             <el-button type="primary" @click="send" style="border: none">发送</el-button>
           </div>
+
         </div>
+<!--        <div class="chat-area" >-->
+<!--          <div style="padding: 20px 0; text-align: center; border-bottom: 1px solid #ddd; color: #000; background-color: #eee; height: 60px">-->
+<!--            {{ toUser?.substring(toUser.indexOf('_') + 1) }}-->
+<!--          </div>-->
+<!--          <div class="im-message-box">-->
+<!--            <div v-for="item in messages" :key="item.id">-->
+<!--              &lt;!&ndash;  右边的气泡(自己的信息） &ndash;&gt;-->
+<!--              &lt;!&ndash;  右边的气泡 &ndash;&gt;-->
+<!--              <div style="display: flex; flex-direction: row-reverse; align-items: flex-start"-->
+<!--                   v-if="item.fromuser === fromUser">-->
+<!--                <img :src="item.fromavatar" alt=""-->
+<!--                     style="width: 40px; height: 40px; border-radius: 50%; margin-left: 10px">-->
+<!--                <div class="im-message im-message-right" v-html="item.content"-->
+<!--                     v-if="item.type === 'text'"></div>-->
+<!--                <div class="im-message" style="padding: 0" v-if="item.type === 'img'">-->
+<!--                  &lt;!&ndash; 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 &ndash;&gt;-->
+<!--                  <el-image style="width: 100px" :src="item.content" alt=""-->
+<!--                            :preview-src-list=[item.content] @load="scrollToBottom"></el-image>-->
+<!--                </div>-->
+<!--                <div class="im-message im-message-download" v-if="item.type === 'file'"-->
+<!--                     @click="download(item.content)">-->
+<!--                  <div><i class="el-icon-folder-opened"></i>-->
+<!--                    <span>{{ item.content.substring(item.content.indexOf('-') + 1) }}</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+
+<!--              &lt;!&ndash;  左边的气泡（对方的信息） &ndash;&gt;-->
+<!--              <div style="display: flex; align-items: flex-start" v-else>-->
+<!--                <img :src="item.fromavatar" alt=""-->
+<!--                     style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px">-->
+<!--                <div style="width: 100%">-->
+<!--                  <div style="color: #888; font-size: 12px; width: 50%">-->
+<!--                    {{ item.fromuser?.substring(item.fromuser.indexOf('_') + 1) }}-->
+<!--                  </div>-->
+<!--                  <div class="im-message im-message-left" v-html="item.content"-->
+<!--                       v-if="item.type === 'text'"></div>-->
+<!--                  <div class="im-message" style="padding: 0" v-if="item.type === 'img'">-->
+<!--                    &lt;!&ndash; 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 &ndash;&gt;-->
+<!--                    <el-image style="width: 100px" :src="item.content" alt=""-->
+<!--                              :preview-src-list=[item.content]-->
+<!--                              @load="scrollToBottom"></el-image>-->
+<!--                  </div>-->
+<!--                  <div class="im-message im-message-download" v-if="item.type === 'file'"-->
+<!--                       @click="download(item.content)">-->
+<!--                    <div><i class="el-icon-folder-opened"></i>-->
+<!--                      <span>{{ item.content.substring(item.content.indexOf('-') + 1) }}</span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--            </div>-->
+
+
+<!--          </div>-->
+<!--          &lt;!&ndash; 输入区域 &ndash;&gt;-->
+<!--          <div style="padding: 10px 5px; border-top: 1px solid #ddd; display: flex; align-items: center; width: 100%;">-->
+<!--               &lt;!&ndash;      发送表情      &ndash;&gt;-->
+<!--&lt;!&ndash;            <el-popover placement="top" width="300" trigger="click">&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="emoji-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                <span v-for="(item, index) in emojis" :key="index"&ndash;&gt;-->
+<!--&lt;!&ndash;                      style="margin-right: 5px; font-size: 20px; cursor: pointer" v-html="item"&ndash;&gt;-->
+<!--&lt;!&ndash;                      @click="clickEmoji(item)">&ndash;&gt;-->
+<!--&lt;!&ndash;                </span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;            </el-popover>&ndash;&gt;-->
+<!--                 &lt;!&ndash;            发送文件&ndash;&gt;-->
+<!--&lt;!&ndash;            <div style="margin-left: 5px">&ndash;&gt;-->
+<!--&lt;!&ndash;              <el-upload action="http://localhost:8080/files/upload" :show-file-list="false" :on-success="handleFile">&ndash;&gt;-->
+<!--&lt;!&ndash;                <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;              </el-upload>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--            <div id="im-content" contenteditable-->
+<!--                 style="flex: 1; background-color: #fff; margin: 0 5px; padding: 10px; border: 1px solid #ddd; border-radius: 2px; outline: none; font-size: 14px;"></div>-->
+<!--            <el-button type="primary" @click="send" style="border: none">发送</el-button>-->
+<!--          </div>-->
+<!--        </div>-->
         <!--  中间部分结束  -->
       </div>
     </div>
@@ -153,6 +268,11 @@ export default {
     };
   },
   mounted() {
+    this.emojis = emojis.split(',')
+    this.user = JSON.parse(localStorage.getItem('user') || "{}")
+    this.fromUser = this.user.role + '_' + this.user.name
+    // this.fromUser = this.user.role + '_' + '管理员'
+
     client = new WebSocket(`ws://localhost:8080/imserverSingle`)
     client.onopen = () => {
       console.log('websocket open')
@@ -177,20 +297,54 @@ export default {
       }
     }
 
+    //加载聊天数据
+    // this.load();
 
     // 查询用户
     this.loadUsers();
   },
+  beforeDestroy() {
+    if (client) {
+      client.close()
+    }
+  },
   methods: {
-    goToPerson() {
-      if (this.user.role === 'ADMIN') {
-        this.$router.push('/adminPerson')
-      }
+    load() {
+      // window.alert(this.fromUser+'   '+this.toUser);
+      this.fromUser="ADMIN_管理员";
+      // window.alert(this.fromUser+'   '+this.toUser);
+      request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
+        window.alert(res.data);
+        if (res.code === '0') {
+          this.messages = res.data
+
+          this.scrollToBottom()  // 滚动条滚动到最底部
+        } else {
+          this.$notify.error(res.msg)
+        }
+        // this.loadUnReadNums()
+      })
     },
-    logout() {
-      localStorage.removeItem('xm-user')
-      this.$router.push('/login')
-    },
+    // setUnReadNums() {
+    //   request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
+    //     this.loadUnReadNums()
+    //   })
+    // },
+    // loadUnReadNums() {
+    //   // 查询未读数量
+    //   request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
+    //     this.unRead = res.data
+    //   })
+    // },
+    // goToPerson() {
+    //   if (this.user.role === 'ADMIN') {
+    //     this.$router.push('/adminPerson')
+    //   }
+    // },
+    // logout() {
+    //   localStorage.removeItem('xm-user')@
+    //   this.$router.push('/login')
+    // },
     loadUsers() {
       request.get('/user/selectAll').then(res => {
         this.users.student = res.data.filter(v => v.studentflag === '1');
@@ -206,8 +360,69 @@ export default {
       });
     },
     send(){
-      console.log(this.users.student)
-    }
+      // console.log(this.user)
+      if (!this.toUser) {
+        this.$notify.error('请选择聊天用户')
+        return
+      }
+      if (client) {
+        let message = this.getMessage('text')
+        client.send(JSON.stringify(message))
+      }
+      document.getElementById('im-content').innerHTML = ''  // 清空输入框
+    },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        // 设置聊天滚动条到底部
+        let imMessageBox = document.getElementsByClassName("im-message-box")[0]
+        //设置滚动条到最底部
+        imMessageBox.scrollTop = imMessageBox.scrollHeight
+        console.log('触发滚动')
+      })
+    },
+    selectToUser(item) {
+      this.toUser = item.role + '_' + item.name
+      this.toAvatar = item.avatar
+      //查询聊天记录
+      this.load()
+    },
+    // download(file) {
+    //   window.open(file)
+    // },
+    // getMessage(type) {
+    //   let inputBox = document.getElementById('im-content')
+    //   const content = inputBox.innerHTML
+    //   if (!content && type === 'text') {
+    //     this.$notify.error('请输入聊天内容')
+    //     return
+    //   }
+    //   return {
+    //     fromuser: this.fromUser,
+    //     fromavatar: this.user.avatar,
+    //     touser: this.toUser,
+    //     toavatar: this.toAvatar,
+    //     content: content,
+    //     type: type
+    //     }
+    // },
+    // handleFile(file) {
+    //   if (client) {
+    //     let message = this.getMessage('img')
+    //     message.content = file.data
+    //     let extName = file.data.substring(file.data.lastIndexOf('.') + 1)
+    //     if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'svg', 'webp'].includes(extName)) {
+    //       message.type = 'img'
+    //     } else {
+    //       message.type = 'file'
+    //     }
+    //     client.send(JSON.stringify(message))
+    //   }
+    // },
+    // clickEmoji(emoji) {
+    //   document.getElementById('im-content').innerHTML += emoji
+    // },
+
+
   },
 }
 </script>
