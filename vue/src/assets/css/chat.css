@@ -83,7 +83,7 @@
 }
 
 .user-list-box{
-    height: calc(50vh + 60px);
+    /*height: calc(50vh + 60px);*/
     overflow-y: scroll;
     background-color: #f8f8ff;
 }

@@ -33,45 +33,50 @@
       <div style="display: flex; align-items: flex-start">
         <div class="contact-list">
           <div style="padding: 20px 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">在线用户</div>
+
           <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">管理员</div>
           <div class="user-list-box">
-            <div class="user-list-item" v-for="item in users.admin" @click="selectToUser(item)">
+            <div class="user-list-item" v-for="item in users.admin" :key="item.id" @click="selectToUser(item)">
               <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
-              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role+ '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name }}</span>
-              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
+              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.username }}({{item.name}})</span>
+              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
             </div>
           </div>
+
           <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">教师</div>
           <div class="user-list-box" style="height: 30%">
-            <div class="user-list-item" v-for="item in users.teacher" @click="selectToUser(item)">
+            <div class="user-list-item" v-for="item in users.teacher" :key="item.id" @click="selectToUser(item)">
               <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
-              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role+ '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name }}</span>
-              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
+              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.username }}({{item.name}})</span>
+              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
             </div>
           </div>
+
           <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">学生</div>
           <div class="user-list-box" style="height: 30%; overflow-y: scroll">
-            <div class="user-list-item" v-for="item in users.student" @click="selectToUser(item)">
+            <div class="user-list-item" v-for="item in users.student" :key="item.id" @click="selectToUser(item)">
               <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
-              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role+ '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name }}</span>
-              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
+              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.username }}({{item.name}})</span>
+              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
             </div>
           </div>
+
           <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">用户</div>
           <div class="user-list-box" style="height: 30%; overflow-y: scroll">
-            <div class="user-list-item" v-for="item in users.notstudent" @click="selectToUser(item)">
+            <div class="user-list-item" v-for="item in users.notstudent" :key="item.id" @click="selectToUser(item)">
               <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
-              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role+ '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name }}</span>
-              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
+              <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.username }}({{item.name}})</span>
+              <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
             </div>
           </div>
-          <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">我的群聊（班级）</div>
-          <div class="user-list-box">
-            <div class="user-list-item" v-for="(item, index) in users" :key="index">
-              <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
-              <span style="margin-left: 10px">{{ item.name }}</span>
-            </div>
-          </div>
+
+<!--          <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">我的群聊（班级）</div>-->
+<!--          <div class="user-list-box">-->
+<!--            <div class="user-list-item" v-for="(item, index) in users" :key="index">-->
+<!--              <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">-->
+<!--              <span style="margin-left: 10px">{{ item.name }}</span>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
 
         <!--  中间部分  -->
@@ -94,20 +99,22 @@
           </div>
           <!-- 输入区域 -->
           <div style="padding: 10px 5px; border-top: 1px solid #ddd; display: flex; align-items: center; width: 100%;">
-            <el-popover placement="top" width="300" trigger="click">
-              <div class="emoji-box">
-                <span v-for="(item, index) in emojis" :key="index"
-                      style="margin-right: 5px; font-size: 20px; cursor: pointer" v-html="item"
-                      @click="clickEmoji(item)">
-                </span>
-              </div>
-              <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>
-            </el-popover>
-            <div style="margin-left: 5px">
-              <el-upload action="http://localhost:8080/files/upload" :show-file-list="false" :on-success="handleFile">
-                <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>
-              </el-upload>
-            </div>
+               <!--      发送表情      -->
+<!--            <el-popover placement="top" width="300" trigger="click">-->
+<!--              <div class="emoji-box">-->
+<!--                <span v-for="(item, index) in emojis" :key="index"-->
+<!--                      style="margin-right: 5px; font-size: 20px; cursor: pointer" v-html="item"-->
+<!--                      @click="clickEmoji(item)">-->
+<!--                </span>-->
+<!--              </div>-->
+<!--              <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>-->
+<!--            </el-popover>-->
+                 <!--            发送文件-->
+<!--            <div style="margin-left: 5px">-->
+<!--              <el-upload action="http://localhost:8080/files/upload" :show-file-list="false" :on-success="handleFile">-->
+<!--                <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>-->
+<!--              </el-upload>-->
+<!--            </div>-->
             <div id="im-content" contenteditable
                  style="flex: 1; background-color: #fff; margin: 0 5px; padding: 10px; border: 1px solid #ddd; border-radius: 2px; outline: none; font-size: 14px;"></div>
             <el-button type="primary" @click="send" style="border: none">发送</el-button>
@@ -129,17 +136,20 @@ export default {
   name: "Chat",
   data() {
     return {
-      user: {},
       permission: [],
       emojis: [],
       messages: [],
-      users: {},
       fromUser: '',
       toUser: '',
       toAvatar: '',
-      unRead: {}
-      // user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      // users: [],
+      unRead: {},
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      users: {
+        admin: [],
+        teacher: [],
+        student: [],
+        notstudent: []
+      },
     };
   },
   mounted() {
@@ -167,27 +177,9 @@ export default {
       }
     }
 
-    // 加载聊天数据
-    this.load()
 
     // 查询用户
-
-    request.get('/user/selectAll').then(res => {
-      res.data = res.data.filter(v => v.studentflag === '1')
-      this.$set(this.users, 'student', res.data)
-    })
-    request.get('/user').then(res => {
-      res.data = res.data.filter(v => v.studentflag === '0')
-      this.$set(this.users, 'notstudent', res.data)
-    })
-    request.get('/teacher').then(res => {
-      res.data = res.data.filter(v => v.role === 'TEACHER')
-      this.$set(this.users, 'teacher', res.data)
-    })
-    request.get('/admin').then(res => {
-      res.data = res.data.filter(v => v.role === 'ADMIN')
-      this.$set(this.users, 'admin', res.data)
-    })
+    this.loadUsers();
   },
   methods: {
     goToPerson() {
@@ -198,6 +190,20 @@ export default {
     logout() {
       localStorage.removeItem('xm-user')
       this.$router.push('/login')
+    },
+    loadUsers() {
+      request.get('/user/selectAll').then(res => {
+        this.users.student = res.data.filter(v => v.studentflag === '1');
+        this.users.notstudent = res.data.filter(v => v.studentflag === '0');
+      });
+
+      request.get('/admin/selectAll').then(res => {
+        this.users.admin = res.data;
+      });
+
+      request.get('/teacher/selectAll').then(res => {
+        this.users.teacher = res.data;
+      });
     },
     send(){
       console.log(this.users.student)

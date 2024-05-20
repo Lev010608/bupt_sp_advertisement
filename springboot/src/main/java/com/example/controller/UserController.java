@@ -19,6 +19,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
     /**
      * 新增
      */
@@ -121,6 +122,8 @@ public class UserController {
         PageInfo<User> page = userService.selectPageByStudentFlag(user, pageNum, pageSize);
         return Result.success(page);
     }
+
+
 
 
 }
