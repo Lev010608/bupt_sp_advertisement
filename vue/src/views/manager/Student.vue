@@ -183,6 +183,9 @@ export default {
         const userData = {
           id: id,
           studentflag: '0',
+          collegeId: null,
+          majorId: null,
+          classId: null
         };
         this.$request.put('/user/updateSFTo0', userData).then(res => {
           if (res.code === '200') {   // 表示操作成功

@@ -9,9 +9,18 @@
     <div class="operation">
       <el-button type="primary" plain @click="handleAdd">新增</el-button>
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+      <el-select class="class-chooser" style="margin-left: 10px" v-model="selectedClassId" placeholder="请选择班级" @change="handleClassChange">
+        <el-option
+            v-for="item in myClass"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+      </el-select>
     </div>
 
     <div class="table" >
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">{{ selectedClassName }}</div>
       <el-table   :data="tableData" stripe  @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
@@ -131,10 +140,13 @@ export default {
       tableData: [],  // 所有的数据
       collegeData:[],
       majorData:[],
+      myClass:[],
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
       name: null,
+      selectedClassId: null, // 新增：选择的班级 ID
+      selectedClassName: '', // 新增：选择的班级名称
       fromVisible: false,
       editorVisible:false,
       form: {},
@@ -158,6 +170,7 @@ export default {
   created() {
     this.load(1)
     this.loadCollege()
+    this.loadMyClass()
   },
   methods: {
     initWangEditor(content) {
@@ -194,9 +207,6 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          if (!this.form.classIds) {
-            this.form.classIds = [];
-          }
           this.$request({
             url: this.form.id ? '/lesson/update' : '/lesson/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -267,6 +277,19 @@ export default {
         this.total = res.data?.total
       })
     },
+    loadClassLessons(classId) {
+      console.log(classId)
+    },
+    loadMyClass(){
+      this.$request.get(`/classes/selectAllByTeacherId/${this.user.id}`).then(res =>{
+        if(res.code === '200'){
+          this.myClass = res.data; // 将获取的班级列表设置到myClass变量中
+          console.log("我的班级"+this.myClass)
+        }else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     loadCollege(){
       this.$request.get('/college/selectAll').then(res =>{
         if(res.code === '200'){
@@ -308,6 +331,12 @@ export default {
     },
     handleMajorChange(majorId) {
       this.$forceUpdate(); // 强制更新
+    },
+    handleClassChange(value) {
+      const selectedClass = this.myClass.find(item => item.id === value);
+      this.selectedClassId = value;
+      this.selectedClassName = selectedClass ? selectedClass.name : '';
+      this.loadClassLessons(value); // 加载班级学生数据
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)

@@ -161,6 +161,15 @@
             <if test="classId != null">
                 class_id = #{classId},
             </if>
+            <if test="collegeId == null">
+                college_id = NULL,
+            </if>
+            <if test="majorId == null">
+                major_id = NULL,
+            </if>
+            <if test="classId == null">
+                class_id = NULL,
+            </if>
         </set>
         where id = #{id} 
     </update>

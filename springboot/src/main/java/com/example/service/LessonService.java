@@ -21,12 +21,18 @@ public class LessonService {
     @Resource
     private LessonMapper lessonMapper;
 
-    @Autowired LessonMapper lessonMapper1;
+
+
     /**
      * 新增
      */
     public void add(Lesson lesson) {
         lessonMapper.insert(lesson);
+        if (lesson.getClassIds() != null) {
+            for (Integer classId : lesson.getClassIds()) {
+                lessonMapper.insertLessonClass(lesson.getId(), classId);
+            }
+        }
     }
 
     /**
@@ -50,6 +56,12 @@ public class LessonService {
      */
     public void updateById(Lesson lesson) {
         lessonMapper.updateById(lesson);
+        lessonMapper.deleteLessonClassByLessonId(lesson.getId());
+        if (lesson.getClassIds() != null) {
+            for (Integer classId : lesson.getClassIds()) {
+                lessonMapper.insertLessonClass(lesson.getId(), classId);
+            }
+        }
     }
 
     /**

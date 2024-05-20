@@ -72,6 +72,15 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 老师踢出学生
+     */
+    @PutMapping("/kickMyStudent")
+    public Result kickMyStudent(@RequestBody User user) {
+        userService.kickMyStudent(user);
+        return Result.success();
+    }
+
 
 
     /**

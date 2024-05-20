@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.LessonMapper">
 
     <sql id="Base_Column_List">
-        id,img,name,content,type,video,file,college_id,major_id,class_id
+        id,img,name,content,type,video,file,college_id,major_id
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Lesson">
@@ -52,7 +52,6 @@
             <if test="file != null">file,</if>
             <if test="collegeId != null">college_id,</if>
             <if test="majorId != null">major_id,</if>
-            <if test="classId != null">class_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -64,7 +63,6 @@
             <if test="file != null">#{file},</if>
             <if test="collegeId != null">#{collegeId},</if>
             <if test="majorId != null">#{majorId},</if>
-            <if test="classId != null">#{classId},</if>
         </trim>
     </insert>
 
@@ -95,11 +93,16 @@
             <if test="majorId != null">
                 major_id = #{majorId},
             </if>
-            <if test="classId != null">
-                class_id = #{classId},
-            </if>
         </set>
         where id = #{id}
     </update>
+
+    <insert id="insertLessonClass">
+        insert into lesson_class (lesson_id, class_id) values (#{lessonId}, #{classId})
+    </insert>
+
+    <delete id="deleteLessonClassByLessonId">
+        delete from lesson_class where lesson_id = #{lessonId}
+    </delete>
 
 </mapper>

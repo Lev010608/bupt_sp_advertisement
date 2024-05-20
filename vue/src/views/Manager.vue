@@ -74,7 +74,7 @@
               <i class="el-icon-menu"></i><span>教学管理</span>
             </template>
             <el-menu-item index="/classesTAdmin">我的班级</el-menu-item>
-            <el-menu-item>课件管理</el-menu-item>
+            <el-menu-item index="/lessonTAdmin">课件管理</el-menu-item>
           </el-submenu>
 
 

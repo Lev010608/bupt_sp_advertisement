@@ -20,6 +20,14 @@
         </el-table-column>
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
+        <el-table-column label="学生身份">
+          <template v-slot="scope">
+            <span>{{ scope.row.studentflag === '1' ? '是' : '否' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="collegeName" label="所属学院"></el-table-column>
+        <el-table-column prop="majorName" label="所属专业"></el-table-column>
+        <el-table-column prop="className" label="所属班级"></el-table-column>
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
@@ -74,7 +82,7 @@
 
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除该学生</el-button>
+            <el-button size="mini" type="danger" plain @click="del(scope.row.id,scope.row.collegeId,scope.row.majorId)">踢出该学生</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -155,7 +163,11 @@ export default {
   },
   computed:{
     filtereNonStuData() {
-      return this.tableData.filter(row => row.studentflag === '0');
+      return this.tableData.filter(row => {
+        return row.studentflag === '0' ||
+            (row.studentflag === '1' &&
+                (!row.collegeId || !row.majorId || !row.classId));
+      });
     },
     filtereStuData() {
       return this.tableData.filter(row => row.studentflag === '1');
@@ -191,13 +203,15 @@ export default {
         }
       })
     },
-    del(id) {   // 修改studentflag为0
-      this.$confirm('您确定删除该学生？', '确认操作', {type: "warning"}).then(() => {
+    del(id,collegeId,majorId) {   // 将学生踢出自己班级
+      this.$confirm('您确定删除该学生？', '确认操作', { type: "warning" }).then(() => {
         const userData = {
           id: id,
-          studentflag: '0',
+          collegeId: collegeId,
+          majorId: majorId,
+          classId: null
         };
-        this.$request.put('/user/updateSFTo0', userData).then(res => {
+        this.$request.put('/user/kickMyStudent', userData).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('用户身份已取消');
             this.load(1);
