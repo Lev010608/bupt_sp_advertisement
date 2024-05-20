@@ -59,7 +59,7 @@
           </div>
           <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">用户</div>
           <div class="user-list-box" style="height: 30%; overflow-y: scroll">
-            <div class="user-list-item" v-for="item in users.student" @click="selectToUser(item)">
+            <div class="user-list-item" v-for="item in users.notstudent" @click="selectToUser(item)">
               <img :src="item.avatar" style="width: 30px; height: 30px; border-radius: 50%">
               <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role+ '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name }}</span>
               <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
@@ -124,13 +124,70 @@
 import request from "@/utils/request";
 import emojis from "@/assets/emoji";
 
+let client
 export default {
   name: "Chat",
   data() {
     return {
-      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      users: [],
+      user: {},
+      permission: [],
+      emojis: [],
+      messages: [],
+      users: {},
+      fromUser: '',
+      toUser: '',
+      toAvatar: '',
+      unRead: {}
+      // user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      // users: [],
     };
+  },
+  mounted() {
+    client = new WebSocket(`ws://localhost:8080/imserverSingle`)
+    client.onopen = () => {
+      console.log('websocket open')
+    }
+    client.onclose = () => {  // 页面刷新的时候和后台websocket服务关闭的时候
+      console.log('websocket close')
+    }
+    client.onmessage = (msg) => {
+      if (msg.data) {
+        let json = JSON.parse(msg.data)
+        if (json.content && (json.fromuser === this.fromUser && json.touser === this.toUser)
+            || json.touser === this.fromUser && json.fromuser === this.toUser) {  // 聊天消息
+          this.messages.push(json)
+          this.scrollToBottom()  // 滚动页面到最底部
+        }
+        // 加载消息数字
+        if (this.toUser === json.fromuser) {
+          this.setUnReadNums()   // 清空正在聊天人的消息数字
+        } else {
+          this.loadUnReadNums()
+        }
+      }
+    }
+
+    // 加载聊天数据
+    this.load()
+
+    // 查询用户
+
+    request.get('/user/selectAll').then(res => {
+      res.data = res.data.filter(v => v.studentflag === '1')
+      this.$set(this.users, 'student', res.data)
+    })
+    request.get('/user').then(res => {
+      res.data = res.data.filter(v => v.studentflag === '0')
+      this.$set(this.users, 'notstudent', res.data)
+    })
+    request.get('/teacher').then(res => {
+      res.data = res.data.filter(v => v.role === 'TEACHER')
+      this.$set(this.users, 'teacher', res.data)
+    })
+    request.get('/admin').then(res => {
+      res.data = res.data.filter(v => v.role === 'ADMIN')
+      this.$set(this.users, 'admin', res.data)
+    })
   },
   methods: {
     goToPerson() {
@@ -141,8 +198,10 @@ export default {
     logout() {
       localStorage.removeItem('xm-user')
       this.$router.push('/login')
+    },
+    send(){
+      console.log(this.users.student)
     }
-
   },
 }
 </script>
