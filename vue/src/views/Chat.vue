@@ -418,9 +418,9 @@ export default {
     //     client.send(JSON.stringify(message))
     //   }
     // },
-    // clickEmoji(emoji) {
-    //   document.getElementById('im-content').innerHTML += emoji
-    // },
+    clickEmoji(emoji) {
+      document.getElementById('im-content').innerHTML += emoji
+    },
 
 
   },
@@ -431,6 +431,23 @@ export default {
 
 <style scoped>
 @import "@/assets/css/chat.css";
+.emoji-box {
+  height: 200px;
+  overflow-y: scroll;
+  line-height: 30px;
+}
 
+.emoji-box::-webkit-scrollbar{
+  width: 4px;
+}
+.emoji-box::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.emoji-box::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
 
 </style>
