@@ -145,7 +145,8 @@
               <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>
             </el-popover>
             <div style="margin-left: 5px">
-              <el-upload action="http://localhost:9093/files/upload" :show-file-list="false" :on-success="handleFile">
+              <el-upload action="http://localhost:9090/files/upload" :show-file-list="false" :on-success="handleFile">
+<!--              <el-upload action="http://localhost:8080/files/upload" >-->
                 <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>
               </el-upload>
             </div>
@@ -245,6 +246,12 @@
 <script>
 import request from "@/utils/request";
 import emojis from "@/assets/emoji";
+import Vue from 'vue';
+import { Popover } from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(Popover);
+
 
 let client
 export default {
@@ -273,7 +280,7 @@ export default {
     this.fromUser = this.user.role + '_' + this.user.name
     // this.fromUser = this.user.role + '_' + '管理员'
 
-    client = new WebSocket(`ws://localhost:8080/imserverSingle`)
+    client = new WebSocket(`ws://localhost:9090/imserverSingle`)
     client.onopen = () => {
       console.log('websocket open')
     }
@@ -389,35 +396,37 @@ export default {
     // download(file) {
     //   window.open(file)
     // },
-    // getMessage(type) {
-    //   let inputBox = document.getElementById('im-content')
-    //   const content = inputBox.innerHTML
-    //   if (!content && type === 'text') {
-    //     this.$notify.error('请输入聊天内容')
-    //     return
-    //   }
-    //   return {
-    //     fromuser: this.fromUser,
-    //     fromavatar: this.user.avatar,
-    //     touser: this.toUser,
-    //     toavatar: this.toAvatar,
-    //     content: content,
-    //     type: type
-    //     }
-    // },
-    // handleFile(file) {
-    //   if (client) {
-    //     let message = this.getMessage('img')
-    //     message.content = file.data
-    //     let extName = file.data.substring(file.data.lastIndexOf('.') + 1)
-    //     if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'svg', 'webp'].includes(extName)) {
-    //       message.type = 'img'
-    //     } else {
-    //       message.type = 'file'
-    //     }
-    //     client.send(JSON.stringify(message))
-    //   }
-    // },
+    getMessage(type) {
+      let inputBox = document.getElementById('im-content')
+      const content = inputBox.innerHTML
+      if (!content && type === 'text') {
+        this.$notify.error('请输入聊天内容')
+        return
+      }
+      return {
+        fromuser: this.fromUser,
+        fromavatar: this.user.avatar,
+        touser: this.toUser,
+        toavatar: this.toAvatar,
+        content: content,
+        type: type
+        }
+    },
+    handleFile(file) {
+      // window.alert("hihihi")
+      if (client) {
+        let message = this.getMessage('img')
+        message.content = file.data
+        let extName = file.data.substring(file.data.lastIndexOf('.') + 1)
+        if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'svg', 'webp'].includes(extName)) {
+          message.type = 'img'
+        } else {
+          message.type = 'file'
+        }
+        window.alert(message.type);
+        client.send(JSON.stringify(message))
+      }
+    },
     clickEmoji(emoji) {
       document.getElementById('im-content').innerHTML += emoji
     },
