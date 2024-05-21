@@ -79,6 +79,7 @@
 <!--          </div>-->
         </div>
 
+
         <!--  中间部分  -->
         <div style="width: 50%; border: 1px solid #ddd; border-radius: 5px; background-color: #f1f1f1; margin: 0 10px;">
           <div style="padding: 20px 0; text-align: center; border-bottom: 1px solid #ddd; color: #000; background-color: #eee; height: 60px">
@@ -86,15 +87,18 @@
           </div>
           <div class="im-message-box">
             <div v-for="item in messages" :key="item.id">
-              <!--  右边的气泡 -->
+
+              <!--  右边的气泡 自己的输入部分-->
               <div style="display: flex; flex-direction: row-reverse; align-items: flex-start"
-                   v-if="item.fromuser === fromUser">
+                   v-if="item.fromuser === fromUser&&item.touser===toUser">
                 <img :src="item.fromavatar" alt=""
                      style="width: 40px; height: 40px; border-radius: 50%; margin-left: 10px">
                 <div class="im-message im-message-right" v-html="item.content"
                      v-if="item.type === 'text'"></div>
                 <div class="im-message" style="padding: 0" v-if="item.type === 'img'">
+<!--                  <div>吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼这是图片</div>-->
                   <!-- 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 -->
+<!--                  <el-image style="width: 100px" :src="item.content" alt=""-->
                   <el-image style="width: 100px" :src="item.content" alt=""
                             :preview-src-list=[item.content] @load="scrollToBottom"></el-image>
                 </div>
@@ -107,7 +111,8 @@
               </div>
 
               <!--  左边的气泡 -->
-              <div style="display: flex; align-items: flex-start" v-else>
+<!--              <div style="display: flex; align-items: flex-start" v-else>-->
+              <div style="display: flex; align-items: flex-start" v-if="item.fromuser === toUser&&item.touser===fromUser">
                 <img :src="item.fromavatar" alt=""
                      style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px">
                 <div style="width: 100%">
@@ -275,8 +280,9 @@ export default {
     };
   },
   mounted() {
+    // this.messages
     this.emojis = emojis.split(',')
-    this.user = JSON.parse(localStorage.getItem('user') || "{}")
+    // this.user = JSON.parse(localStorage.getItem('user') || "{}")
     this.fromUser = this.user.role + '_' + this.user.name
     // this.fromUser = this.user.role + '_' + '管理员'
 
@@ -296,15 +302,15 @@ export default {
           this.scrollToBottom()  // 滚动页面到最底部
         }
         // 加载消息数字
-        if (this.toUser === json.fromuser) {
-          this.setUnReadNums()   // 清空正在聊天人的消息数字
-        } else {
-          this.loadUnReadNums()
-        }
+        // if (this.toUser === json.fromuser) {
+        //   // this.setUnReadNums()   // 清空正在聊天人的消息数字
+        // } else {
+        //   // this.loadUnReadNums()
+        // }
       }
     }
 
-    //加载聊天数据
+    // 加载聊天数据
     // this.load();
 
     // 查询用户
@@ -317,14 +323,10 @@ export default {
   },
   methods: {
     load() {
-      // window.alert(this.fromUser+'   '+this.toUser);
-      this.fromUser="ADMIN_管理员";
-      // window.alert(this.fromUser+'   '+this.toUser);
-      request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
-        window.alert(res.data);
-        if (res.code === '0') {
+      // request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
+      request.get('/imsingle/findAllItems').then(res => {
+        if (res.code === '200') {
           this.messages = res.data
-
           this.scrollToBottom()  // 滚动条滚动到最底部
         } else {
           this.$notify.error(res.msg)
@@ -332,6 +334,27 @@ export default {
         // this.loadUnReadNums()
       })
     },
+    // load() {
+    //   // window.alert(this.fromUser+'   '+this.toUser);
+    //   // this.fromUser="ADMIN_管理员";
+    //   window.alert(this.fromUser+'   '+this.toUser);
+    //   request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
+    //     // window.alert(res.data.content);
+    //     if (res.code === '0') {
+    //       this.messages = res.data
+    //       window.alert("this.messages[0].fromUser:"+this.messages[0].fromUser)
+    //       this.scrollToBottom()  // 滚动条滚动到最底部
+    //     } else {
+    //       // this.$notify.error(res.msg)
+    //       // window.alert("this.messages[0].fromUser:"+this.messages[0].fromUser)
+    //       // window.alert("出错了")
+    //       this.messages = res.data
+    //       window.alert("this.messages[0].fromUser:"+this.messages[0].fromUser)
+    //       this.scrollToBottom()  // 滚动条滚动到最底部
+    //     }
+    //     // this.loadUnReadNums()
+    //   })
+    // },
     // setUnReadNums() {
     //   request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
     //     this.loadUnReadNums()
@@ -391,11 +414,12 @@ export default {
       this.toUser = item.role + '_' + item.name
       this.toAvatar = item.avatar
       //查询聊天记录
+      // window.alert(this.toUser)
       this.load()
     },
-    // download(file) {
-    //   window.open(file)
-    // },
+    download(file) {
+      window.open(file)
+    },
     getMessage(type) {
       let inputBox = document.getElementById('im-content')
       const content = inputBox.innerHTML
@@ -423,7 +447,7 @@ export default {
         } else {
           message.type = 'file'
         }
-        window.alert(message.type);
+        // window.alert(message.type);
         client.send(JSON.stringify(message))
       }
     },

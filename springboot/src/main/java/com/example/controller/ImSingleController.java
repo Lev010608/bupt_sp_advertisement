@@ -27,11 +27,17 @@ public class ImSingleController {
      */
     @GetMapping
     public Result findByFromUsername(@RequestParam String fromUser, @RequestParam String toUser) {
-        System.out.println(fromUser + " ***" + toUser);
-        fromUser = "ADMIN_管理员";
-        toUser = "ADMIN_管理员";
+//        System.out.println(fromUser + " ***" + toUser);
+//        fromUser = "ADMIN_管理员";
+//        toUser = "ADMIN_管理员";
         List<ImSingle> all = imSingleService.findByUsername(fromUser, toUser);
-        System.out.println("*******************\n" + all.toString() + "*******************\n");
+//        System.out.println("*******************\n" + all.toString() + "*******************\n");
+        return Result.success(all);
+    }
+
+    @GetMapping("/findAllItems")
+    public Result findAll() {
+        List<ImSingle> all = imSingleService.findAll();
         return Result.success(all);
     }
 

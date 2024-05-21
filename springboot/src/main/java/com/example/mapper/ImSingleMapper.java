@@ -15,6 +15,9 @@ public interface ImSingleMapper {
 	@Select("SELECT id, content, fromuser, fromavatar, time, type, touser, toavatar, readed FROM imsingle WHERE touser = #{toUser} AND readed = 0")
 	List<ImSingle> findByToUsername(@Param("toUser") String toUser);
 
+	@Select("SELECT id, content, fromuser, fromavatar, time, type, touser, toavatar, readed FROM imsingle")
+	List<ImSingle> findAll();
+
 	@Insert("INSERT INTO imsingle (content, fromuser, fromavatar, time, type, touser, toavatar, readed) VALUES (#{content}, #{fromuser}, #{fromavatar}, #{time}, #{type}, #{touser}, #{toavatar}, #{readed})")
 	@Options(useGeneratedKeys = true, keyProperty = "id")
 	void insert(ImSingle imSingle);

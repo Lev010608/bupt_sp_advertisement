@@ -32,7 +32,20 @@ public class ImSingleService {
                 imSingleMapper.updateByPrimaryKey(x);
             }
         });
-        System.out.println("********" + list);
+//        System.out.println("********" + list);
+        return list;
+    }
+
+    @Transactional
+    public List<ImSingle> findAll() {
+        List<ImSingle> list = imSingleMapper.findAll();
+//        list.forEach(x -> {
+//            if (x.getTouser().equals(fromUser) && x.getFromuser().equals(toUser)) {
+//                x.setReaded(1);
+//                imSingleMapper.updateByPrimaryKey(x);
+//            }
+//        });
+//        System.out.println("********" + list);
         return list;
     }
 
