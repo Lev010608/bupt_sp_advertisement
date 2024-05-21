@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Dict;
 import com.example.entity.ImSingle;
 import com.example.mapper.ImSingleMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,10 +17,13 @@ public class ImSingleService {
     @Resource
     private ImSingleMapper imSingleMapper;
 
+    @Transactional
     public ImSingle add(ImSingle imSingle) {
-        imSingleMapper.insertSelective(imSingle);
+        imSingleMapper.insert(imSingle);
         return imSingle;
     }
+
+    @Transactional
     public List<ImSingle> findByUsername(String fromUser, String toUser) {
         List<ImSingle> list = imSingleMapper.findByUsername(fromUser, toUser);
         list.forEach(x -> {
@@ -28,15 +32,16 @@ public class ImSingleService {
                 imSingleMapper.updateByPrimaryKey(x);
             }
         });
-        System.out.println("********"+list);
+        System.out.println("********" + list);
         return list;
     }
 
+    @Transactional
     public Dict findUnReadNums(String toUsername) {
         List<ImSingle> list = imSingleMapper.findByToUsername(toUsername);
         Map<String, List<ImSingle>> collect = list.stream().collect(Collectors.groupingBy(ImSingle::getFromuser));
         Dict dict = Dict.create();
-        collect.forEach((k,v) -> dict.set(k, v.size()));
+        collect.forEach((k, v) -> dict.set(k, v.size()));
         return dict;
     }
 }

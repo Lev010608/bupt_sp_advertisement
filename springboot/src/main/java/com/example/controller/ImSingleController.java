@@ -27,13 +27,11 @@ public class ImSingleController {
      */
     @GetMapping
     public Result findByFromUsername(@RequestParam String fromUser, @RequestParam String toUser) {
-
-        System.out.println(fromUser+" ***"+toUser);
-//        System.out.println("*******************\n"+all.toString()+"*******************\n");
-        fromUser="ADMIN_管理员";
-        toUser="ADMIN_管理员";
+        System.out.println(fromUser + " ***" + toUser);
+        fromUser = "ADMIN_管理员";
+        toUser = "ADMIN_管理员";
         List<ImSingle> all = imSingleService.findByUsername(fromUser, toUser);
-        System.out.println("*******************\n"+all.toString()+"*******************\n");
+        System.out.println("*******************\n" + all.toString() + "*******************\n");
         return Result.success(all);
     }
 
@@ -46,5 +44,4 @@ public class ImSingleController {
         Dict dict = imSingleService.findUnReadNums(toUsername);
         return Result.success(dict);
     }
-
 }

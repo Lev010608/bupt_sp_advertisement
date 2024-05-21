@@ -101,6 +101,12 @@
             <version>2.3.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.1.5</version> <!-- 确保版本兼容 -->
+        </dependency>
+
 
     </dependencies>
 
@@ -117,6 +123,10 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
         <repository>
             <id>public</id>
             <name>aliyun nexus</name>
