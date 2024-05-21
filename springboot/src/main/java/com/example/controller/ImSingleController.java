@@ -13,8 +13,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-*  描述：单人聊天相关接口
-*/
+ *  描述：单人聊天相关接口
+ */
 @RestController
 @RequestMapping(value = "/imsingle")
 public class ImSingleController {

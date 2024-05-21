@@ -32,7 +32,8 @@ const routes = [
       { path: 'college', name: 'College', meta: { name: '学院信息' }, component: () => import('../views/manager/College') },
       { path: 'major', name: 'Major', meta: { name: '专业信息' }, component: () => import('../views/manager/Major') },
       { path: 'classes', name: 'Classes', meta: { name: '班级信息' }, component: () => import('../views/manager/Classes') },
-      { path: 'classes', name: 'Classes', meta: { name: '班级信息' }, component: () => import('../views/manager/Classes') },
+      { path: 'classesTAdmin', name: 'ClassesTAdmin', meta: { name: '我的班级' }, component: () => import('../views/manager/ClassesTAdmin') },
+      { path: 'lessonTAdmin', name: 'LessonTAdmin', meta: { name: '班级课件管理' }, component: () => import('../views/manager/LessonTAdmin') },
     ]
   },
   {

@@ -87,7 +87,19 @@ public class UserService {
      */
     public void updateStudentFlagTo0(User user) {
         user.setStudentflag("0"); // 设置studentflag为0
+        user.setCollegeId(null);
+        user.setMajorId(null);
+        user.setClassId(null);
         userMapper.updateById(user); // 调用mapper更新用户
+    }
+
+    /**
+     * 老师将学生踢出班级
+     */
+    public void kickMyStudent(User user) {
+        // 仅设置 classId 为 null
+        user.setClassId(null);
+        userMapper.updateById(user); // 调用 mapper 更新用户
     }
 
 
@@ -130,6 +142,13 @@ public class UserService {
         List<User> list = userMapper.selectByStudentFlag(user);
         return PageInfo.of(list);
     }
+    /**
+     * 根据班级ID查询学生
+     */
+    public List<User> selectByClassId(Integer classId) {
+        return userMapper.selectByClassId(classId);
+    }
+
 
 
     /**

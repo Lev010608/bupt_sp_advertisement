@@ -40,7 +40,7 @@
             <i class="el-icon-s-home"></i>
             <span slot="title">系统首页</span>
           </el-menu-item>
-          <el-submenu index="info">
+          <el-submenu v-if="user.role === 'ADMIN'" index="info">
             <template slot="title">
               <i class="el-icon-menu"></i><span>信息管理</span>
             </template>
@@ -49,7 +49,7 @@
             <el-menu-item index="/audit">资料审核</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="administration">
+          <el-submenu v-if="user.role === 'ADMIN'" index="administration">
             <template slot="title">
               <i class="el-icon-menu"></i><span>行政管理</span>
             </template>
@@ -60,7 +60,7 @@
             <el-menu-item index="/lessonAdmin">课件管理</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="user">
+          <el-submenu v-if="user.role === 'ADMIN'" index="user">
             <template slot="title">
               <i class="el-icon-menu"></i><span>用户管理</span>
             </template>
@@ -69,12 +69,12 @@
             <el-menu-item index="/teacher">教师信息</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="teach">
+          <el-submenu v-if="user.role === 'TEACHER'" index="teach">
             <template slot="title">
               <i class="el-icon-menu"></i><span>教学管理</span>
             </template>
-            <el-menu-item>班级管理</el-menu-item>
-            <el-menu-item>课件管理</el-menu-item>
+            <el-menu-item index="/classesTAdmin">我的班级</el-menu-item>
+            <el-menu-item index="/lessonTAdmin">课件管理</el-menu-item>
           </el-submenu>
 
 

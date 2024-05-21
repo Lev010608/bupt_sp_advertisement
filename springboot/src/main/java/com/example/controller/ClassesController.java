@@ -72,6 +72,15 @@ public class ClassesController {
         List<Classes> list = classesService.selectAll(classes);
         return Result.success(list);
     }
+    /**
+     * 根据班主任ID查询所有
+     */
+    @GetMapping("/selectAllByTeacherId/{teacherId}")
+    public Result selectAllByTeacherId(@PathVariable Integer teacherId){
+        List<Classes> list = classesService.selectAllByTeacherId(teacherId);
+        return Result.success(list);
+    }
+
 
     /**
      * 分页查询
@@ -91,5 +100,6 @@ public class ClassesController {
         List<Classes> list = classesService.selectByMajorId(majorId);
         return Result.success(list);
     }
+
 
 }

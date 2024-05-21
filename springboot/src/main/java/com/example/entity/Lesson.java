@@ -2,6 +2,7 @@ package com.example.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 公告信息表
@@ -20,11 +21,11 @@ public class Lesson implements Serializable {
 
     private Integer collegeId;
     private Integer majorId;
-    private Integer classId;
+
+    private List<Integer> classIds;
 
     private String collegeName;
     private String majorName;
-    private String className;
 
     public Integer getId() {
         return id;
@@ -90,13 +91,6 @@ public class Lesson implements Serializable {
         this.majorId = majorId;
     }
 
-    public Integer getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
 
     public String getMajorName() {
         return majorName;
@@ -104,14 +98,6 @@ public class Lesson implements Serializable {
 
     public void setMajorName(String majorName) {
         this.majorName = majorName;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
     }
 
     public Integer getCollegeId() {
@@ -128,5 +114,13 @@ public class Lesson implements Serializable {
 
     public void setCollegeName(String collegeName) {
         this.collegeName = collegeName;
+    }
+
+    public List<Integer> getClassIds() {
+        return classIds;
+    }
+
+    public void setClassIds(List<Integer> classIds) {
+        this.classIds = classIds;
     }
 }

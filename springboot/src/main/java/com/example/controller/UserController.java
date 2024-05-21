@@ -72,6 +72,15 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 老师踢出学生
+     */
+    @PutMapping("/kickMyStudent")
+    public Result kickMyStudent(@RequestBody User user) {
+        userService.kickMyStudent(user);
+        return Result.success();
+    }
+
 
 
     /**
@@ -121,6 +130,15 @@ public class UserController {
                                           @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<User> page = userService.selectPageByStudentFlag(user, pageNum, pageSize);
         return Result.success(page);
+    }
+
+    /**
+     * 根据班级ID查询学生
+     */
+    @GetMapping("/selectByClassId/{classId}")
+    public Result selectByClassId(@PathVariable Integer classId) {
+        List<User> list = userService.selectByClassId(classId);
+        return Result.success(list);
     }
 
 

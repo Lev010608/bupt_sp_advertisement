@@ -41,5 +41,15 @@ public interface LessonMapper {
      * 根据课件类型查询
      */
     List<Lesson> selectByType(@Param("type") String type);
+
+    /**
+     * 插入课件与班级的关联
+     */
+    void insertLessonClass(@Param("lessonId") Integer lessonId, @Param("classId") Integer classId);
+
+    /**
+     * 删除课件的所有班级关联
+     */
+    void deleteLessonClassByLessonId(@Param("lessonId") Integer lessonId);
     
 }

@@ -53,4 +53,10 @@ public interface UserMapper {
      */
     List<User> selectByStudentFlag(User user);
 
+    /**
+     * 根据班级ID查询学生
+     */
+    List<User> selectByClassId(Integer classId);
+
+
 }

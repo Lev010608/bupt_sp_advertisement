@@ -56,6 +56,13 @@ public class ClassesService {
     }
 
     /**
+     * 根据TeacherId查询所有
+     */
+    public List<Classes> selectAllByTeacherId(Integer teacherId) {
+        return classesMapper.selectAllByTeacherId(teacherId);
+    }
+
+    /**
      * 查询所有
      */
     public List<Classes> selectAll(Classes classes) {
