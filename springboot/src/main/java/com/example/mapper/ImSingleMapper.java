@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface ImSingleMapper extends Mapper<ImSingle> {
 
-//	@Select("select * from imsingle where (fromuser = #{fromUser} and touser = #{toUser}) or (fromuser = #{toUser} and touser = #{fromUser})")
+	@Select("SELECT * FROM imsingle WHERE (fromuser = #{fromUser} AND touser = #{toUser}) OR (fromuser = #{toUser} AND touser = #{fromUser})")
 	List<ImSingle> findByUsername(String fromUser, String toUser);
 
-//	@Select("select * from imsingle where touser = #{toUser} and readed = 0")
+	@Select("SELECT * FROM imsingle WHERE touser = #{toUser} AND readed = 0")
 	List<ImSingle> findByToUsername(String toUser);
 }
