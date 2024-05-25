@@ -18,12 +18,12 @@
         <div class="center-header">
             <el-menu :default-active="$route.path" mode="horizontal" class="header-nav" router>
               <el-menu-item index="/front/home">首页</el-menu-item>
-              <el-menu-item>学院概况</el-menu-item>
               <el-menu-item index="/front/course">学院动态</el-menu-item>
               <el-menu-item index="/front/channel">学院专栏</el-menu-item>
               <el-menu-item>南太论坛</el-menu-item>
               <el-menu-item index="/front/release">我的发布</el-menu-item>
-              <el-menu-item>关于我们</el-menu-item>
+              <el-menu-item v-if="user.role ==='USER'&&user.studentflag === '1'">我的课件</el-menu-item>
+              <el-menu-item v-if="user.role ==='ADMIN' || user.role ==='TEACHER'" index="/home">前往管理端</el-menu-item>
             </el-menu>
         </div>
         <div class="right-header">
@@ -34,7 +34,7 @@
           <div v-else>
             <el-dropdown>
               <div class="front-header-dropdown">
-                <img :src="user.avatar" alt="">
+                <img :src="user.avatar|| 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="">
                 <div style="margin-left: 10px">
                   <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
                 </div>

@@ -6,22 +6,9 @@
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
 
-    <div class="operation">
-      <el-button type="primary" plain @click="handleAdd">新增</el-button>
-      <el-button type="danger" plain @click="delBatch">批量删除</el-button>
-      <el-select class="class-chooser" style="margin-left: 10px" v-model="selectedClassId" placeholder="请选择班级" @change="handleClassChange">
-        <el-option
-            v-for="item in myClass"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-        </el-option>
-      </el-select>
-    </div>
-
     <div class="table" >
-      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">{{ selectedClassName }}</div>
-      <el-table   :data="tableData" stripe  @selection-change="handleSelectionChange">
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">校级课程</div>
+      <el-table   :data="filtereUnLessonData" stripe  @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
@@ -49,7 +36,165 @@
         <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
-            <el-button plain type="primary" @click="handleEdit(scope.row)" size="mini">编辑</el-button>
+            <el-button plain type="success" @click="handleAddClass(scope.row)" size="mini">添加课程</el-button>
+
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
+        <el-pagination
+            background
+            @current-change="handleCurrentChange"
+            :current-page="pageNum"
+            :page-sizes="[5, 10, 20]"
+            :page-size="pageSize"
+            layout="total, prev, pager, next"
+            :total="total">
+        </el-pagination>
+      </div>
+    </div>
+
+    <div class="table" >
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">院级课程</div>
+      <el-table   :data="filtereCollegeLessonData" stripe  @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
+        <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
+          <template v-slot="scope">
+            <div style="display: flex; align-items: center">
+              <el-image style="width: 60px; height: 40px; border-radius: 10px" v-if="scope.row.img"
+                        :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="课件名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="content" label="课件内容" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="success" size="mini" @click="viewDataInit(scope.row.content)">点击查看</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="type" label="课件类型"></el-table-column>
+        <el-table-column prop="video" label="课件视频" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="warning" size="mini" @click="down(scope.row.video)" v-if="scope.row.type === 'VIDEO'">点击下载</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="file" label="课件资料" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="collegeName" label="所属学院" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template v-slot="scope">
+            <el-button plain type="success" @click="handleAddClass(scope.row)" size="mini">添加课程</el-button>
+
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="pagination">
+        <el-pagination
+            background
+            @current-change="handleCurrentChange"
+            :current-page="pageNum"
+            :page-sizes="[5, 10, 20]"
+            :page-size="pageSize"
+            layout="total, prev, pager, next"
+            :total="total">
+        </el-pagination>
+      </div>
+    </div>
+
+    <div class="table" >
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">专业课程</div>
+      <el-table   :data="filtereMajorLessonData" stripe  @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
+        <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
+          <template v-slot="scope">
+            <div style="display: flex; align-items: center">
+              <el-image style="width: 60px; height: 40px; border-radius: 10px" v-if="scope.row.img"
+                        :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="课件名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="content" label="课件内容" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="success" size="mini" @click="viewDataInit(scope.row.content)">点击查看</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="type" label="课件类型"></el-table-column>
+        <el-table-column prop="video" label="课件视频" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="warning" size="mini" @click="down(scope.row.video)" v-if="scope.row.type === 'VIDEO'">点击下载</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="file" label="课件资料" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="collegeName" label="所属学院" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template v-slot="scope">
+            <el-button plain type="success" @click="handleAddClass(scope.row)" size="mini">添加课程</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="pagination">
+        <el-pagination
+            background
+            @current-change="handleCurrentChange"
+            :current-page="pageNum"
+            :page-sizes="[5, 10, 20]"
+            :page-size="pageSize"
+            layout="total, prev, pager, next"
+            :total="total">
+        </el-pagination>
+      </div>
+    </div>
+
+    <div class="operation">
+      <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">管理班级课程</div>
+      <el-button type="primary" plain @click="handleAdd">上传课程</el-button>
+      <el-select class="class-chooser" style="margin-left: 10px" v-model="selectedClassId" placeholder="请选择班级" @change="handleClassChange">
+        <el-option
+            v-for="item in myClass"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+      </el-select>
+
+    </div>
+
+    <div class="table" >
+      <div v-if="selectedClassName" style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">{{ selectedClassName }}课程</div>
+      <el-table   :data="MyClassLessontableData" stripe  @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
+        <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
+          <template v-slot="scope">
+            <div style="display: flex; align-items: center">
+              <el-image style="width: 60px; height: 40px; border-radius: 10px" v-if="scope.row.img"
+                        :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="课件名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="content" label="课件内容" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="success" size="mini" @click="viewDataInit(scope.row.content)">点击查看</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="type" label="课件类型"></el-table-column>
+        <el-table-column prop="video" label="课件视频" show-overflow-tooltip>
+          <template v-slot="scope">
+            <el-button type="warning" size="mini" @click="down(scope.row.video)" v-if="scope.row.type === 'VIDEO'">点击下载</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="file" label="课件资料" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="collegeName" label="所属学院" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template v-slot="scope">
             <el-button plain type="danger" size="mini" @click=del(scope.row.id)>删除</el-button>
           </template>
         </el-table-column>
@@ -67,6 +212,26 @@
         </el-pagination>
       </div>
     </div>
+
+    <!-- Add class dialog -->
+    <el-dialog title="选择班级" :visible.sync="addClassDialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
+      <el-form :model="selectedLesson" label-width="100px">
+        <el-form-item label="选择班级">
+          <el-select v-model="form.classId" placeholder="请选择班级">
+            <el-option
+                v-for="item in myClass"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addClassDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmAddClass">确定</el-button>
+      </div>
+    </el-dialog>
 
 
     <el-dialog title="课件信息" :visible.sync="fromVisible" width="55%" :close-on-click-modal="false" destroy-on-close>
@@ -104,14 +269,14 @@
         <el-form-item prop="file" label="资料链接">
           <el-input v-model="form.file" autocomplete="off" placeholder="请输入资料链接"></el-input>
         </el-form-item>
-        <el-form-item prop="collegeId" label="课件发布学院">
-          <el-select v-model="form.collegeId" placeholder="请选择学院" style="width: 100%" @change="handleCollegeChange">
-            <el-option v-for="item in collegeData" :label="item.name" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="majorId" label="课件发布专业">
-          <el-select v-model="form.majorId" placeholder="请选择专业" style="width: 100%" @change="handleMajorChange">
-            <el-option v-for="item in majorData" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        <el-form-item label="选择班级">
+          <el-select v-model="selectedClassIdForLesson" placeholder="请选择班级">
+            <el-option
+                v-for="item in myClass"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="content" label="课件内容">
@@ -141,18 +306,22 @@ export default {
       collegeData:[],
       majorData:[],
       myClass:[],
+      MyClassLessontableData:[],
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
       name: null,
-      selectedClassId: null, // 新增：选择的班级 ID
-      selectedClassName: '', // 新增：选择的班级名称
+      selectedClassId: null, //选择的班级 ID
+      selectedClassName: '', //选择的班级名称
       fromVisible: false,
       editorVisible:false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       ids: [],
       showChannelInput: false, // 是否显示栏目输入框
+      addClassDialogVisible: false, // 控制添加班级的弹窗
+      selectedLesson: null, // 存储当前选择的课件
+      selectedClassIdForLesson: null, // 存储选择的班级ID
       
 
       //表单规则
@@ -166,6 +335,17 @@ export default {
       },
 
     }
+  },
+  computed:{
+    filtereUnLessonData(){
+      return this.tableData.filter(row => !row.collegeId && !row.majorId && !row.classId);
+    },
+    filtereCollegeLessonData() {
+      return this.tableData.filter(row => row.collegeId && !row.majorId && !row.classId);
+    },
+    filtereMajorLessonData() {
+      return this.tableData.filter(row => row.collegeId && row.majorId && !row.classId);
+    },
   },
   created() {
     this.load(1)
@@ -194,15 +374,26 @@ export default {
       this.$set(this.form, 'collegeId', null);
       this.$set(this.form, 'majorId', null);
     },
-    handleEdit(row) {   // 编辑数据
-      this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
-      this.fromVisible = true   // 打开弹窗
-      // 设置选择器的值为当前栏目名称或“编辑栏目”
-      this.initWangEditor(this.form.content || '')
-
-      // 初始化属性
-      this.$set(this.form, 'collegeId', row.collegeId || null);
-      this.$set(this.form, 'majorId', row.majorId || null);
+    handleAddClass(row) {   // 编辑数据
+      this.selectedLesson = row;
+      this.addClassDialogVisible = true;
+    },
+    confirmAddClass() { // 确定添加课件到班级
+      if (this.selectedLesson && this.selectedClassIdForLesson) {
+        this.$request.post('/lesson/addClass', {
+          lessonId: this.selectedLesson.id,
+          classId: this.selectedClassIdForLesson
+        }).then(res => {
+          if (res.code === '200') {
+            this.$message.success('课件已添加到班级');
+            this.addClassDialogVisible = false;
+            this.selectedLesson = null;
+            this.selectedClassIdForLesson = null;
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+      }
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
@@ -278,7 +469,13 @@ export default {
       })
     },
     loadClassLessons(classId) {
-      console.log(classId)
+      this.$request.get(`/lesson/selectByClassId/${classId}`).then(res => {
+        if (res.code === '200') {
+          this.MyClassLessontableData = res.data;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
     },
     loadMyClass(){
       this.$request.get(`/classes/selectAllByTeacherId/${this.user.id}`).then(res =>{

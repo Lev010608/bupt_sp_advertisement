@@ -27,6 +27,16 @@
         where id = #{id}
     </select>
 
+    <select id="selectByClassId" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+                 LEFT JOIN lesson_class ON lesson.id = lesson_class.lesson_id
+                 LEFT JOIN college ON lesson.college_id = college.id
+                 LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson_class.class_id = #{classId}
+        ORDER BY lesson.id DESC
+    </select>
+
     <select id="selectByType" resultType="com.example.entity.Lesson">
         SELECT
         <include refid="Base_Column_List" />
@@ -65,6 +75,10 @@
             <if test="majorId != null">#{majorId},</if>
         </trim>
     </insert>
+<!--添加关联表中课件与班级关联-->
+    <insert id="insertLessonClass">
+        insert into lesson_class (lesson_id, class_id) values (#{lessonId}, #{classId})
+    </insert>
 
     <update id="updateById" parameterType="com.example.entity.Lesson">
         update lesson
@@ -96,10 +110,6 @@
         </set>
         where id = #{id}
     </update>
-
-    <insert id="insertLessonClass">
-        insert into lesson_class (lesson_id, class_id) values (#{lessonId}, #{classId})
-    </insert>
 
     <delete id="deleteLessonClassByLessonId">
         delete from lesson_class where lesson_id = #{lessonId}

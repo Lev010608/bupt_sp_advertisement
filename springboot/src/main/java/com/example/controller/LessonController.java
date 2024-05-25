@@ -27,6 +27,29 @@ public class LessonController {
     }
 
     /**
+     * 添加课件到班级
+     */
+    @PostMapping("/addClass")
+    public Result addClass(@RequestBody Map<String, Integer> map) {
+        Integer lessonId = map.get("lessonId");
+        Integer classId = map.get("classId");
+        lessonService.addClassToLesson(lessonId, classId);
+        return Result.success();
+    }
+
+    /**
+     * 教师新增课件时关联班级
+     */
+    @PostMapping("/addLessonInClass")
+    public  Result addLessonInClass(@RequestBody Lesson lesson,Map<String, Integer> map){
+        Integer lessonId = map.get("lessonId");
+        Integer classId = map.get("classId");
+        lessonService.addLessonInClass(lesson,lessonId, classId);
+        return Result.success();
+    }
+
+
+    /**
      * 删除
      */
     @DeleteMapping("/delete/{id}")
@@ -60,6 +83,15 @@ public class LessonController {
     public Result selectById(@PathVariable Integer id) {
         Lesson lesson = lessonService.selectById(id);
         return Result.success(lesson);
+    }
+
+    /**
+     * 根据班级ID查询课件
+     */
+    @GetMapping("/selectByClassId/{classId}")
+    public Result selectByClassId(@PathVariable Integer classId) {
+        List<Lesson> lessons = lessonService.selectByClassId(classId);
+        return Result.success(lessons);
     }
 
     /**

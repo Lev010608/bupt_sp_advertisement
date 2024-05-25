@@ -16,6 +16,10 @@ public interface LessonMapper {
      * 新增
      */
     int insert(Lesson lesson);
+    /**
+     * 插入课件与班级的关联
+     */
+    void insertLessonClass(@Param("lessonId") Integer lessonId, @Param("classId") Integer classId);
 
     /**
      * 删除
@@ -33,6 +37,11 @@ public interface LessonMapper {
     Lesson selectById(Integer id);
 
     /**
+     * 根据班级ID查询课件
+     */
+    List<Lesson> selectByClassId(@Param("classId") Integer classId);
+
+    /**
      * 查询所有
      */
     List<Lesson> selectAll(Lesson lesson);
@@ -42,10 +51,7 @@ public interface LessonMapper {
      */
     List<Lesson> selectByType(@Param("type") String type);
 
-    /**
-     * 插入课件与班级的关联
-     */
-    void insertLessonClass(@Param("lessonId") Integer lessonId, @Param("classId") Integer classId);
+
 
     /**
      * 删除课件的所有班级关联

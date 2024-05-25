@@ -36,6 +36,24 @@ public class LessonService {
     }
 
     /**
+     * 为课件添加班级ID
+     */
+    public void addClassToLesson(Integer lessonId, Integer classId) {
+        lessonMapper.insertLessonClass(lessonId, classId);
+    }
+
+    /**
+     * 教师新增课件时关联班级
+     */
+    public void addLessonInClass(Lesson lesson, Integer lessonId, Integer classId) {
+        lessonMapper.insert(lesson);
+        lessonMapper.insertLessonClass(lessonId, classId);
+    }
+
+
+
+
+    /**
      * 删除
      */
     public void deleteById(Integer id) {
@@ -69,6 +87,13 @@ public class LessonService {
      */
     public Lesson selectById(Integer id) {
         return lessonMapper.selectById(id);
+    }
+
+    /**
+     * 根据班级ID查询课件
+     */
+    public List<Lesson> selectByClassId(Integer classId) {
+        return lessonMapper.selectByClassId(classId);
     }
 
     /**
