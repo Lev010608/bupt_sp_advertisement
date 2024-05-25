@@ -194,9 +194,7 @@
         <el-table-column prop="collegeName" label="所属学院" show-overflow-tooltip></el-table-column>
         <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="180" align="center">
-          <template v-slot="scope">
-            <el-button plain type="danger" size="mini" @click=del(scope.row.id)>删除</el-button>
-          </template>
+
         </el-table-column>
       </el-table>
 
@@ -302,27 +300,30 @@ export default {
   name: "LessonAdmin",
   data() {
     return {
-      tableData: [],  // 所有的数据
-      collegeData:[],
-      majorData:[],
-      myClass:[],
-      MyClassLessontableData:[],
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
       name: null,
-      selectedClassId: null, //选择的班级 ID
-      selectedClassName: '', //选择的班级名称
       fromVisible: false,
       editorVisible:false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       ids: [],
       showChannelInput: false, // 是否显示栏目输入框
+
+      tableData: [],  // 所有的数据
+      collegeData:[],
+      majorData:[],
+      myClass:[],
+      MyClassLessontableData:[],
+      allLessons: [],  // 从后端获取的所有课程数据
+
+      selectedClassId: null, //选择的班级 ID
+      selectedClassName: '', //选择的班级名称
       addClassDialogVisible: false, // 控制添加班级的弹窗
       selectedLesson: null, // 存储当前选择的课件
       selectedClassIdForLesson: null, // 存储选择的班级ID
-      
+
 
       //表单规则
       rules: {
@@ -336,18 +337,19 @@ export default {
 
     }
   },
-  computed:{
-    filtereUnLessonData(){
-      return this.tableData.filter(row => !row.collegeId && !row.majorId && !row.classId);
+  computed: {
+    filtereUnLessonData() {
+      return this.tableData.filter(row => !row.collegeId && !row.majorId);
     },
     filtereCollegeLessonData() {
-      return this.tableData.filter(row => row.collegeId && !row.majorId && !row.classId);
+      return this.tableData.filter(row => row.collegeId && !row.majorId);
     },
     filtereMajorLessonData() {
-      return this.tableData.filter(row => row.collegeId && row.majorId && !row.classId);
+      return this.tableData.filter(row => row.collegeId && row.majorId);
     },
   },
   created() {
+    this.loadAllLessons();
     this.load(1)
     this.loadCollege()
     this.loadMyClass()
@@ -398,8 +400,11 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          // 将选中的班级ID添加到form中
+          this.form.classIds = this.selectedClassIdForLesson ? [this.selectedClassIdForLesson] : [];
+
           this.$request({
-            url: this.form.id ? '/lesson/update' : '/lesson/add',
+            url: this.form.id ? '/lesson/update' : '/lesson/addLessonInClass',
             method: this.form.id ? 'PUT' : 'POST',
             data: this.form
           }).then(res => {
@@ -496,6 +501,37 @@ export default {
         }
       })
     },
+    loadAllLessons() {
+      this.$request.get('/lesson/selectAll').then(res => {
+        if (res.code === '200') {
+          this.allLessons = res.data;
+          this.updateTableData();
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    // 添加 updateTableData 方法，用于更新 tableData
+    updateTableData() {
+      const classId = this.selectedClassId;
+      if (classId) {
+        this.$request.get('/lesson/selectLessonsForClass', {
+          params: {
+            classId: classId,
+            collegeId: this.user.collegeId || null,
+            majorId: this.user.majorId || null,
+          }
+        }).then(res => {
+          if (res.code === '200') {
+            this.tableData = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+      } else {
+        this.tableData = this.allLessons;
+      }
+    },
     data() {
       return {
         editor: null,
@@ -534,6 +570,7 @@ export default {
       this.selectedClassId = value;
       this.selectedClassName = selectedClass ? selectedClass.name : '';
       this.loadClassLessons(value); // 加载班级学生数据
+      this.updateTableData();
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)

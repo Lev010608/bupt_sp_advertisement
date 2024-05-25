@@ -50,7 +50,7 @@
         where  id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.example.entity.Lesson" useGeneratedKeys="true">
+    <insert id="insert" parameterType="com.example.entity.Lesson" useGeneratedKeys="true" keyProperty="id">
         insert into lesson
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>

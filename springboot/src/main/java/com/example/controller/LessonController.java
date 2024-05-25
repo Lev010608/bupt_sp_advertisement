@@ -41,10 +41,8 @@ public class LessonController {
      * 教师新增课件时关联班级
      */
     @PostMapping("/addLessonInClass")
-    public  Result addLessonInClass(@RequestBody Lesson lesson,Map<String, Integer> map){
-        Integer lessonId = map.get("lessonId");
-        Integer classId = map.get("classId");
-        lessonService.addLessonInClass(lesson,lessonId, classId);
+    public Result addLessonInClass(@RequestBody Lesson lesson) {
+        lessonService.addLessonInClass(lesson);
         return Result.success();
     }
 
@@ -125,6 +123,18 @@ public class LessonController {
         PageInfo<Lesson> page = lessonService.selectByType(type, pageNum, pageSize);
         return Result.success(page);
     }
+
+    /**
+     * 查询校级、院级、班级课程
+     */
+    @GetMapping("/selectLessonsForClass")
+    public Result selectLessonsForClass(@RequestParam Integer classId,
+                                        @RequestParam(required = false) Integer collegeId,
+                                        @RequestParam(required = false) Integer majorId) {
+        List<Lesson> lessons = lessonService.getLessonsForClass(classId, collegeId, majorId);
+        return Result.success(lessons);
+    }
+
 
 
 }

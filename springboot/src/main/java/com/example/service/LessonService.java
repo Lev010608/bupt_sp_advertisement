@@ -45,10 +45,15 @@ public class LessonService {
     /**
      * 教师新增课件时关联班级
      */
-    public void addLessonInClass(Lesson lesson, Integer lessonId, Integer classId) {
+    public void addLessonInClass(Lesson lesson) {
         lessonMapper.insert(lesson);
-        lessonMapper.insertLessonClass(lessonId, classId);
+        if (lesson.getClassIds() != null) {
+            for (Integer classId : lesson.getClassIds()) {
+                lessonMapper.insertLessonClass(lesson.getId(), classId);
+            }
+        }
     }
+
 
 
 
@@ -120,6 +125,14 @@ public class LessonService {
         List<Lesson> list = lessonMapper.selectByType(type);
         return PageInfo.of(list);
     }
+
+    /**
+     * 查询校级、院级、班级课程
+     */
+    public List<Lesson> getLessonsForClass(Integer classId, Integer collegeId, Integer majorId) {
+        return lessonMapper.selectLessonsForClass(classId, collegeId, majorId);
+    }
+
 
 
 }

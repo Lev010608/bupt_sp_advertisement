@@ -57,5 +57,29 @@ public interface LessonMapper {
      * 删除课件的所有班级关联
      */
     void deleteLessonClassByLessonId(@Param("lessonId") Integer lessonId);
-    
+
+
+    /**
+     * 查询校级、院级、班级课程
+     */
+    @Select({
+            "<script>",
+            "SELECT lesson.*, college.name AS collegeName, major.name AS majorName",
+            "FROM lesson",
+            "LEFT JOIN college ON lesson.college_id = college.id",
+            "LEFT JOIN major ON lesson.major_id = major.id",
+            "LEFT JOIN lesson_class ON lesson.id = lesson_class.lesson_id",
+            "WHERE (lesson_class.class_id IS NULL OR lesson_class.class_id != #{classId})",
+            "<if test='collegeId != null'>",
+            "AND lesson.college_id = #{collegeId}",
+            "</if>",
+            "<if test='majorId != null'>",
+            "AND lesson.major_id = #{majorId}",
+            "</if>",
+            "ORDER BY lesson.id DESC",
+            "</script>"
+    })
+    List<Lesson> selectLessonsForClass(@Param("classId") Integer classId, @Param("collegeId") Integer collegeId, @Param("majorId") Integer majorId);
+
+
 }

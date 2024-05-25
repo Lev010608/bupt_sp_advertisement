@@ -123,4 +123,6 @@ public class Lesson implements Serializable {
     public void setClassIds(List<Integer> classIds) {
         this.classIds = classIds;
     }
+
+
 }
