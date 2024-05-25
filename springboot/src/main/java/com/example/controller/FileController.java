@@ -145,6 +145,29 @@ public class FileController {
     }
 
     /**
+     * wang-editor编辑器文件课件上传接口
+     */
+    @PostMapping("/wang/lesson/upload")
+    public Map<String, Object> wangEditorLessonUpload(MultipartFile file) {
+        String flag = System.currentTimeMillis() + "";
+        String fileName = file.getOriginalFilename();
+        try {
+            // 文件存储形式：时间戳-文件名
+            FileUtil.writeBytes(file.getBytes(), lessonFilePath + flag + "-" + fileName);
+            System.out.println(fileName + "--上传成功");
+            Thread.sleep(1L);
+        } catch (Exception e) {
+            System.err.println(fileName + "--文件上传失败");
+        }
+        String http = "http://" + ip + ":" + port + "/files/";
+        Map<String, Object> resMap = new HashMap<>();
+        // wangEditor上传图片成功后， 需要返回的参数
+        resMap.put("errno", 0);
+        resMap.put("data", CollUtil.newArrayList(Dict.create().set("url", http + flag + "-" + fileName)));
+        return resMap;
+    }
+
+    /**
      * 获取课件文件
      *
      * @param flag

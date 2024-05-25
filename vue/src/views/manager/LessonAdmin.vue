@@ -136,11 +136,17 @@ export default {
       total: 0,
       name: null,
       fromVisible: false,
-      editorVisible:false,
+
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       ids: [],
       showChannelInput: false, // 是否显示栏目输入框
+
+
+      // 富文本
+      editor: null,
+      viewData: null,
+      editorVisible:false,
       
 
       //表单规则
@@ -165,7 +171,7 @@ export default {
         this.editor = new E('#editor')
         this.editor.config.placeholder = '请输入内容'
         this.editor.config.uploadFileName = 'file'
-        this.editor.config.uploadImgServer = this.$baseUrl+'/files/lesson/upload'
+        this.editor.config.uploadImgServer = this.$baseUrl+'/files/wang/lesson/upload'
         console.log("图片上传"+this.editor.config.uploadImgServer)
         this.editor.create()
         setTimeout(() => {
@@ -194,6 +200,7 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          this.form.content = this.editor.txt.html();
           if (!this.form.classIds) {
             this.form.classIds = [];
           }
@@ -275,13 +282,6 @@ export default {
           this.$message.error(res.msg)
         }
       })
-    },
-    data() {
-      return {
-        editor: null,
-        viewData: null,
-        editorVisible: false,
-      }
     },
     reset() {
       this.name = null

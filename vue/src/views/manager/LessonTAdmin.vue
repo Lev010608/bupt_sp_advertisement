@@ -215,7 +215,7 @@
     <el-dialog title="选择班级" :visible.sync="addClassDialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="selectedLesson" label-width="100px">
         <el-form-item label="选择班级">
-          <el-select v-model="form.classId" placeholder="请选择班级">
+          <el-select v-model="selectedClassIdForLesson" placeholder="请选择班级">
             <el-option
                 v-for="item in myClass"
                 :key="item.id"
@@ -378,6 +378,7 @@ export default {
     },
     handleAddClass(row) {   // 编辑数据
       this.selectedLesson = row;
+      this.selectedClassIdForLesson = null;  // Reset the selected class ID for the lesson
       this.addClassDialogVisible = true;
     },
     confirmAddClass() { // 确定添加课件到班级
@@ -391,6 +392,7 @@ export default {
             this.addClassDialogVisible = false;
             this.selectedLesson = null;
             this.selectedClassIdForLesson = null;
+            this.updateTableData();  // Update table data to reflect the changes
           } else {
             this.$message.error(res.msg);
           }

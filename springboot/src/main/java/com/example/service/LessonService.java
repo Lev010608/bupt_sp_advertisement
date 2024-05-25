@@ -133,6 +133,14 @@ public class LessonService {
         return lessonMapper.selectLessonsForClass(classId, collegeId, majorId);
     }
 
+    /**
+     * 根据学生所属班级查讯课件selectPageByClassId
+     */
+    public PageInfo<Lesson> selectPageByClassId(Integer classId, String name, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Lesson> list = lessonMapper.selectPageByClassId(classId, name);
+        return PageInfo.of(list);
+    }
 
 
 }

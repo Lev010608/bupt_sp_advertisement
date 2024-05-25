@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.common.Result;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Lesson;
 import com.example.service.LessonService;
 import com.github.pagehelper.PageInfo;
@@ -33,9 +34,14 @@ public class LessonController {
     public Result addClass(@RequestBody Map<String, Integer> map) {
         Integer lessonId = map.get("lessonId");
         Integer classId = map.get("classId");
-        lessonService.addClassToLesson(lessonId, classId);
-        return Result.success();
+        if (lessonId != null && classId != null) {
+            lessonService.addClassToLesson(lessonId, classId);
+            return Result.success();
+        } else {
+            return Result.error(ResultCodeEnum.valueOf("Invalid parameters"));
+        }
     }
+
 
     /**
      * 教师新增课件时关联班级
@@ -134,6 +140,20 @@ public class LessonController {
         List<Lesson> lessons = lessonService.getLessonsForClass(classId, collegeId, majorId);
         return Result.success(lessons);
     }
+
+    /**
+     * 根据学生所属班级查讯课件
+     */
+    @GetMapping("/selectPageByClassId")
+    public Result selectPageByClassId(@RequestParam Integer classId,
+                                      @RequestParam(required = false) String name,
+                                      @RequestParam(defaultValue = "1") Integer pageNum,
+                                      @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Lesson> page = lessonService.selectPageByClassId(classId, name, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+
 
 
 

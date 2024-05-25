@@ -81,5 +81,11 @@ public interface LessonMapper {
     })
     List<Lesson> selectLessonsForClass(@Param("classId") Integer classId, @Param("collegeId") Integer collegeId, @Param("majorId") Integer majorId);
 
+    /**
+     * 根据学生所属班级查讯课件
+     */
+    List<Lesson> selectPageByClassId(@Param("classId") Integer classId, @Param("name") String name);
+
+
 
 }

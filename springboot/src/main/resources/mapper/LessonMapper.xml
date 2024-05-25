@@ -45,6 +45,21 @@
         ORDER BY id DESC
     </select>
 
+    <select id="selectPageByClassId" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name AS collegeName, major.name AS majorName
+        FROM lesson
+        LEFT JOIN lesson_class ON lesson.id = lesson_class.lesson_id
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        <where>
+            lesson_class.class_id = #{classId}
+            <if test="name != null and name != ''">
+                AND lesson.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        ORDER BY lesson.id DESC
+    </select>
+
     <delete id="deleteById">
         delete from lesson
         where  id = #{id}
