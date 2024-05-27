@@ -87,4 +87,16 @@ public class InformationController {
         return Result.success(page);
     }
 
+    @GetMapping("/getRecommend")
+    public Result getRecommend() {
+        Information information = informationService.getRecommend();
+        return Result.success(information);
+    }
+
+    @GetMapping("/selectTop8")
+    public Result selectTop8() {
+        List<Information> list = informationService.selectTop8();
+        return Result.success(list);
+    }
+
 }

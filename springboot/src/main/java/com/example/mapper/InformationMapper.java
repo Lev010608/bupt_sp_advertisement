@@ -30,6 +30,13 @@ public interface InformationMapper {
      * 查询所有
      */
     List<Information> selectAll(Information information);
-    @Select("select * from information where recommend = '是'")
+
+
+    @Select("select * from information where recommend = '是' and status = '审核通过'")
     Information selectRecommend();
+
+    @Select("select * from information where recommend = '否' and status = '审核通过' order by id desc limit 8")
+    List<Information> selectTop8();
+
+
 }

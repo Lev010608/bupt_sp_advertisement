@@ -88,6 +88,14 @@ public class InformationService {
         return PageInfo.of(list);
     }
 
+    public Information getRecommend() {
+        return informationMapper.selectRecommend();
+    }
+
+    public List<Information> selectTop8() {
+        return informationMapper.selectTop8();
+    }
+
 
 
 
