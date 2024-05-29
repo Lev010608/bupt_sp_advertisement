@@ -29,13 +29,13 @@
           </div>
         </div>
         <div class="tag-bar">
-          <el-button type="primary" @click="resetTagFilter">重置</el-button>
+          <el-tag type="success" effect="dark" @click="resetTagFilter" style="cursor: pointer;margin-right: 10px">重置</el-tag>
           <el-tag
               v-for="tag in tags"
               :key="tag"
-              :type="getTagType(tag)"
+              type="success"
               @click="filterByTag(tag)"
-              style="cursor: pointer;">
+              style="cursor: pointer;margin-right: 10px">
             {{ tag }}
           </el-tag>
         </div>
@@ -137,10 +137,6 @@ export default {
     resetTagFilter() {
       this.selectedTag = null;
       this.load(1);
-    },
-    getTagType(tag) {
-      const types = ['success', 'info', 'warning', 'danger'];
-      return types[Math.floor(Math.random() * types.length)];
     },
     reset() {
       this.name = null

@@ -5,26 +5,26 @@
 <mapper namespace="com.example.mapper.LessonMapper">
 
     <sql id="Base_Column_List">
-        id,img,name,content,type,video,file,college_id,major_id
+        id, img, name, content, type, video, file, college_id, major_id, schoolLevelflag
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Lesson">
-        select lesson.*, college.name as collegeName, major.name as majorName
-        from lesson
-        left join college on lesson.college_id = college.id
-        left join major on lesson.major_id = major.id
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
         <where>
-            <if test="id != null"> and id= #{id}</if>
-            <if test="name != null"> and name like concat('%', #{name}, '%')</if>
+            <if test="id != null"> AND lesson.id = #{id}</if>
+            <if test="name != null"> AND lesson.name LIKE CONCAT('%', #{name}, '%')</if>
         </where>
-        order by id desc
+        ORDER BY lesson.id DESC
     </select>
 
     <select id="selectById" resultType="com.example.entity.Lesson">
-        select
+        SELECT
         <include refid="Base_Column_List" />
-        from lesson
-        where id = #{id}
+        FROM lesson
+        WHERE id = #{id}
     </select>
 
     <select id="selectByClassId" resultType="com.example.entity.Lesson">
@@ -60,13 +60,90 @@
         ORDER BY lesson.id DESC
     </select>
 
+    <select id="selectSchoolLevelLessons" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson.schoolLevelflag = 1
+        <if test="name != null and name != ''">
+            AND lesson.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY lesson.id DESC
+    </select>
+
+    <select id="selectSchoolLevelLessonsForClass" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson.schoolLevelflag = 1
+        AND lesson.id NOT IN (SELECT lesson_id FROM lesson_class WHERE class_id = #{classId})
+        <if test="name != null and name != ''">
+            AND lesson.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY lesson.id DESC
+    </select>
+
+    <select id="selectCollegeLevelLessons" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson.college_id IS NOT NULL
+        AND lesson.major_id IS NULL
+        <if test="name != null and name != ''">
+            AND lesson.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY lesson.id DESC
+    </select>
+
+    <select id="selectCollegeLevelLessonsForClass" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson.college_id IS NOT NULL
+        AND lesson.major_id IS NULL
+        AND lesson.id NOT IN (SELECT lesson_id FROM lesson_class WHERE class_id = #{classId})
+        <if test="name != null and name != ''">
+            AND lesson.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY lesson.id DESC
+    </select>
+
+    <select id="selectMajorLevelLessons" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson.major_id IS NOT NULL
+        <if test="name != null and name != ''">
+            AND lesson.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY lesson.id DESC
+    </select>
+
+    <select id="selectMajorLevelLessonsForClass" resultType="com.example.entity.Lesson">
+        SELECT lesson.*, college.name as collegeName, major.name as majorName
+        FROM lesson
+        LEFT JOIN college ON lesson.college_id = college.id
+        LEFT JOIN major ON lesson.major_id = major.id
+        WHERE lesson.major_id IS NOT NULL
+        AND lesson.id NOT IN (SELECT lesson_id FROM lesson_class WHERE class_id = #{classId})
+        <if test="name != null and name != ''">
+            AND lesson.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY lesson.id DESC
+    </select>
+
     <delete id="deleteById">
-        delete from lesson
-        where  id = #{id}
+        DELETE FROM lesson
+        WHERE id = #{id}
     </delete>
 
     <insert id="insert" parameterType="com.example.entity.Lesson" useGeneratedKeys="true" keyProperty="id">
-        insert into lesson
+        INSERT INTO lesson
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="img != null">img,</if>
@@ -77,6 +154,7 @@
             <if test="file != null">file,</if>
             <if test="collegeId != null">college_id,</if>
             <if test="majorId != null">major_id,</if>
+            <if test="schoolLevelflag != null">schoolLevelflag,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -88,15 +166,17 @@
             <if test="file != null">#{file},</if>
             <if test="collegeId != null">#{collegeId},</if>
             <if test="majorId != null">#{majorId},</if>
+            <if test="schoolLevelflag != null">#{schoolLevelflag},</if>
         </trim>
     </insert>
-<!--添加关联表中课件与班级关联-->
+
+    <!--添加关联表中课件与班级关联-->
     <insert id="insertLessonClass">
-        insert into lesson_class (lesson_id, class_id) values (#{lessonId}, #{classId})
+        INSERT INTO lesson_class (lesson_id, class_id) VALUES (#{lessonId}, #{classId})
     </insert>
 
     <update id="updateById" parameterType="com.example.entity.Lesson">
-        update lesson
+        UPDATE lesson
         <set>
             <if test="img != null">
                 img = #{img},
@@ -122,12 +202,15 @@
             <if test="majorId != null">
                 major_id = #{majorId},
             </if>
+            <if test="schoolLevelflag != null">
+                schoolLevelflag = #{schoolLevelflag},
+            </if>
         </set>
-        where id = #{id}
+        WHERE id = #{id}
     </update>
 
     <delete id="deleteLessonClassByLessonId">
-        delete from lesson_class where lesson_id = #{lessonId}
+        DELETE FROM lesson_class WHERE lesson_id = #{lessonId}
     </delete>
 
 </mapper>

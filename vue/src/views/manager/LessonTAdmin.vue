@@ -8,7 +8,7 @@
 
     <div class="table" >
       <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">校级课程</div>
-      <el-table   :data="filtereUnLessonData" stripe  @selection-change="handleSelectionChange">
+      <el-table :data="schoolLevelLessons" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
@@ -44,19 +44,19 @@
       <div class="pagination">
         <el-pagination
             background
-            @current-change="handleCurrentChange"
-            :current-page="pageNum"
+            @current-change="handleSchoolLevelPageChange"
+            :current-page="schoolLevelPageNum"
             :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
+            :page-size="schoolLevelPageSize"
             layout="total, prev, pager, next"
-            :total="total">
+            :total="schoolLevelTotal">
         </el-pagination>
       </div>
     </div>
 
     <div class="table" >
       <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">院级课程</div>
-      <el-table   :data="filtereCollegeLessonData" stripe  @selection-change="handleSelectionChange">
+      <el-table :data="collegeLevelLessons" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
@@ -93,19 +93,19 @@
       <div class="pagination">
         <el-pagination
             background
-            @current-change="handleCurrentChange"
-            :current-page="pageNum"
+            @current-change="handleCollegeLevelPageChange"
+            :current-page="collegeLevelPageNum"
             :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
+            :page-size="collegeLevelPageSize"
             layout="total, prev, pager, next"
-            :total="total">
+            :total="collegeLevelTotal">
         </el-pagination>
       </div>
     </div>
 
     <div class="table" >
       <div style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">专业课程</div>
-      <el-table   :data="filtereMajorLessonData" stripe  @selection-change="handleSelectionChange">
+      <el-table :data="majorLevelLessons" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="img" label="课件封面" show-overflow-tooltip>
@@ -141,12 +141,12 @@
       <div class="pagination">
         <el-pagination
             background
-            @current-change="handleCurrentChange"
-            :current-page="pageNum"
+            @current-change="handleMajorLevelPageChange"
+            :current-page="majorLevelPageNum"
             :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
+            :page-size="majorLevelPageSize"
             layout="total, prev, pager, next"
-            :total="total">
+            :total="majorLevelTotal">
         </el-pagination>
       </div>
     </div>
@@ -300,9 +300,26 @@ export default {
   name: "LessonAdmin",
   data() {
     return {
+      //分页数据
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
+
+      schoolLevelLessons: [],
+      schoolLevelPageNum: 1,
+      schoolLevelPageSize: 10,
+      schoolLevelTotal: 0,
+
+      collegeLevelLessons: [],
+      collegeLevelPageNum: 1,
+      collegeLevelPageSize: 10,
+      collegeLevelTotal: 0,
+
+      majorLevelLessons: [],
+      majorLevelPageNum: 1,
+      majorLevelPageSize: 10,
+      majorLevelTotal: 0,
+
       name: null,
       fromVisible: false,
       editorVisible:false,
@@ -352,7 +369,10 @@ export default {
     this.loadAllLessons();
     this.load(1)
     this.loadCollege()
-    this.loadMyClass()
+    this.loadMyClass();
+    this.loadSchoolLevelLessons();
+    this.loadCollegeLevelLessons();
+    this.loadMajorLevelLessons();
   },
   methods: {
     initWangEditor(content) {
@@ -393,6 +413,9 @@ export default {
             this.selectedLesson = null;
             this.selectedClassIdForLesson = null;
             this.updateTableData();  // Update table data to reflect the changes
+            this.loadSchoolLevelLessons();
+            this.loadCollegeLevelLessons();
+            this.loadMajorLevelLessons();
           } else {
             this.$message.error(res.msg);
           }
@@ -413,6 +436,9 @@ export default {
             if (res.code === '200') {  // 表示成功保存
               this.$message.success('保存成功')
               this.load(1)
+              this.loadSchoolLevelLessons();
+              this.loadCollegeLevelLessons();
+              this.loadMajorLevelLessons();
               this.fromVisible = false
             } else {
               this.$message.error(res.msg)  // 弹出错误的信息
@@ -434,7 +460,10 @@ export default {
         this.$request.delete('/lesson/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
-            this.load(1)
+            this.load(1);
+            this.loadSchoolLevelLessons();
+            this.loadCollegeLevelLessons();
+            this.loadMajorLevelLessons();
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
           }
@@ -454,7 +483,10 @@ export default {
         this.$request.delete('/lesson/delete/batch', {data: this.ids}).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
-            this.load(1)
+            this.load(1);
+            this.loadSchoolLevelLessons();
+            this.loadCollegeLevelLessons();
+            this.loadMajorLevelLessons();
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
           }
@@ -488,7 +520,6 @@ export default {
       this.$request.get(`/classes/selectAllByTeacherId/${this.user.id}`).then(res =>{
         if(res.code === '200'){
           this.myClass = res.data; // 将获取的班级列表设置到myClass变量中
-          console.log("我的班级"+this.myClass)
         }else {
           this.$message.error(res.msg)
         }
@@ -513,6 +544,69 @@ export default {
         }
       });
     },
+    loadSchoolLevelLessons() {
+      this.$request.get('/lesson/selectSchoolLevelLessons', {
+        params: {
+          classId: this.selectedClassId,
+          name: this.name,
+          pageNum: this.schoolLevelPageNum,
+          pageSize: this.schoolLevelPageSize,
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.schoolLevelLessons = res.data.list;
+          this.schoolLevelTotal = res.data.total;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    handleSchoolLevelPageChange(pageNum) {
+      this.schoolLevelPageNum = pageNum;
+      this.loadSchoolLevelLessons();
+    },
+    loadCollegeLevelLessons() {
+      this.$request.get('/lesson/selectCollegeLevelLessons', {
+        params: {
+          classId: this.selectedClassId,
+          name: this.name,
+          pageNum: this.collegeLevelPageNum,
+          pageSize: this.collegeLevelPageSize,
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.collegeLevelLessons = res.data.list;
+          this.collegeLevelTotal = res.data.total;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    handleCollegeLevelPageChange(pageNum) {
+      this.collegeLevelPageNum = pageNum;
+      this.loadCollegeLevelLessons();
+    },
+    loadMajorLevelLessons() {
+      this.$request.get('/lesson/selectMajorLevelLessons', {
+        params: {
+          classId: this.selectedClassId,
+          name: this.name,
+          pageNum: this.majorLevelPageNum,
+          pageSize: this.majorLevelPageSize,
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.majorLevelLessons = res.data.list;
+          this.majorLevelTotal = res.data.total;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    handleMajorLevelPageChange(pageNum) {
+      this.majorLevelPageNum = pageNum;
+      this.loadMajorLevelLessons();
+    },
     // 添加 updateTableData 方法，用于更新 tableData
     updateTableData() {
       const classId = this.selectedClassId;
@@ -520,6 +614,7 @@ export default {
         this.$request.get('/lesson/selectLessonsForClass', {
           params: {
             classId: classId,
+            name: this.name,
             collegeId: this.user.collegeId || null,
             majorId: this.user.majorId || null,
           }
@@ -542,8 +637,11 @@ export default {
       }
     },
     reset() {
-      this.name = null
-      this.load(1)
+      this.name = null;
+      this.load(1);
+      this.loadSchoolLevelLessons();
+      this.loadCollegeLevelLessons();
+      this.loadMajorLevelLessons();
     },
     handleCollegeChange(collegeId) {  //在选择学院后动态展示学院
       this.form.majorId = null;
@@ -572,10 +670,14 @@ export default {
       this.selectedClassId = value;
       this.selectedClassName = selectedClass ? selectedClass.name : '';
       this.loadClassLessons(value); // 加载班级学生数据
+      this.loadSchoolLevelLessons();
+      this.loadCollegeLevelLessons();
+      this.loadMajorLevelLessons();
       this.updateTableData();
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)
+      this.ids = rows.map(v => v.id);
     },
     handleImgSuccess(res) {
       this.form.img = res.data

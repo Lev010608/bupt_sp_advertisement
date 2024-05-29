@@ -38,6 +38,7 @@
         <el-table-column prop="file" label="课件资料" show-overflow-tooltip></el-table-column>
         <el-table-column prop="collegeName" label="所属学院" show-overflow-tooltip></el-table-column>
         <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="schoolLevelflag" label="校级课程" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
             <el-button plain type="primary" @click="handleEdit(scope.row)" size="mini">编辑</el-button>
@@ -104,6 +105,9 @@
           <el-select v-model="form.majorId" placeholder="请选择专业" style="width: 100%" @change="handleMajorChange">
             <el-option v-for="item in majorData" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item prop="schoolLevelflag" label="校级课程">
+          <el-checkbox v-model="form.schoolLevelflag" :true-label="1" :false-label="0">是</el-checkbox>
         </el-form-item>
         <el-form-item prop="content" label="课件内容">
           <div id="editor"></div>
@@ -180,7 +184,7 @@ export default {
       })
     },
     handleAdd() {   // 新增数据
-      this.form = {}  // 新增数据的时候清空数据
+      this.form = {schoolLevelflag: 0}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
       this.initWangEditor('')
       // 初始化属性
@@ -197,12 +201,17 @@ export default {
       this.$set(this.form, 'collegeId', row.collegeId || null);
       this.$set(this.form, 'majorId', row.majorId || null);
     },
-    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+    save() {   // 保存按钮触发的逻辑，它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.form.content = this.editor.txt.html();
           if (!this.form.classIds) {
             this.form.classIds = [];
+          }
+          if (!this.form.collegeId && !this.form.majorId) {
+            this.form.schoolLevelflag = 1;
+          } else {
+            this.form.schoolLevelflag = 0;
           }
           this.$request({
             url: this.form.id ? '/lesson/update' : '/lesson/add',
@@ -210,15 +219,15 @@ export default {
             data: this.form
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
-              this.$message.success('保存成功')
-              this.load(1)
-              this.fromVisible = false
+              this.$message.success('保存成功');
+              this.load(1);
+              this.fromVisible = false;
             } else {
-              this.$message.error(res.msg)  // 弹出错误的信息
+              this.$message.error(res.msg);  // 弹出错误的信息
             }
-          })
+          });
         }
-      })
+      });
     },
     viewDataInit(data) {
       this.viewData = data

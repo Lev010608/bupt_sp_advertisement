@@ -87,5 +87,21 @@ public interface LessonMapper {
     List<Lesson> selectPageByClassId(@Param("classId") Integer classId, @Param("name") String name);
 
 
+    /**
+     * 教师查询课件
+     */
+    List<Lesson> selectSchoolLevelLessons(@Param("name") String name);
+
+    List<Lesson> selectSchoolLevelLessonsForClass(@Param("classId") Integer classId, @Param("name") String name);
+
+    List<Lesson> selectCollegeLevelLessons(@Param("name") String name);
+
+    List<Lesson> selectCollegeLevelLessonsForClass(@Param("classId") Integer classId, @Param("name") String name);
+
+    List<Lesson> selectMajorLevelLessons(@Param("name") String name);
+
+    List<Lesson> selectMajorLevelLessonsForClass(@Param("classId") Integer classId, @Param("name") String name);
+
+
 
 }

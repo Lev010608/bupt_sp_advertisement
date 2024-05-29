@@ -44,4 +44,6 @@ public interface ClassesMapper {
      */
     List<Classes> selectByMajorId(@Param("majorId") Integer majorId);
 
+
+
 }

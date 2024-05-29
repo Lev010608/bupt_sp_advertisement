@@ -27,6 +27,11 @@ public class LessonService {
      * 新增
      */
     public void add(Lesson lesson) {
+        if (lesson.getCollegeId() == null && lesson.getMajorId() == null) {
+            lesson.setSchoolLevelflag(1);
+        } else {
+            lesson.setSchoolLevelflag(0);
+        }
         lessonMapper.insert(lesson);
         if (lesson.getClassIds() != null) {
             for (Integer classId : lesson.getClassIds()) {
@@ -78,6 +83,11 @@ public class LessonService {
      * 修改
      */
     public void updateById(Lesson lesson) {
+        if (lesson.getCollegeId() != null || lesson.getMajorId() != null) {
+            lesson.setSchoolLevelflag(0);
+        } else {
+            lesson.setSchoolLevelflag(1);
+        }
         lessonMapper.updateById(lesson);
         lessonMapper.deleteLessonClassByLessonId(lesson.getId());
         if (lesson.getClassIds() != null) {
@@ -140,6 +150,39 @@ public class LessonService {
         PageHelper.startPage(pageNum, pageSize);
         List<Lesson> list = lessonMapper.selectPageByClassId(classId, name);
         return PageInfo.of(list);
+    }
+
+    public PageInfo<Lesson> selectSchoolLevelLessons(Integer classId, String name, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Lesson> lessons;
+        if (classId != null) {
+            lessons = lessonMapper.selectSchoolLevelLessonsForClass(classId, name);
+        } else {
+            lessons = lessonMapper.selectSchoolLevelLessons(name);
+        }
+        return PageInfo.of(lessons);
+    }
+
+    public PageInfo<Lesson> selectCollegeLevelLessons(Integer classId, String name, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Lesson> lessons;
+        if (classId != null) {
+            lessons = lessonMapper.selectCollegeLevelLessonsForClass(classId, name);
+        } else {
+            lessons = lessonMapper.selectCollegeLevelLessons(name);
+        }
+        return PageInfo.of(lessons);
+    }
+
+    public PageInfo<Lesson> selectMajorLevelLessons(Integer classId, String name, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Lesson> lessons;
+        if (classId != null) {
+            lessons = lessonMapper.selectMajorLevelLessonsForClass(classId, name);
+        } else {
+            lessons = lessonMapper.selectMajorLevelLessons(name);
+        }
+        return PageInfo.of(lessons);
     }
 
 

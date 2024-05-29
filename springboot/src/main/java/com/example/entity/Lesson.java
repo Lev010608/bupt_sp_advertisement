@@ -21,6 +21,7 @@ public class Lesson implements Serializable {
 
     private Integer collegeId;
     private Integer majorId;
+    private Integer schoolLevelflag;
 
     private List<Integer> classIds;
 
@@ -124,5 +125,11 @@ public class Lesson implements Serializable {
         this.classIds = classIds;
     }
 
+    public Integer getSchoolLevelflag() {
+        return schoolLevelflag;
+    }
 
+    public void setSchoolLevelflag(Integer schoolLevelflag) {
+        this.schoolLevelflag = schoolLevelflag;
+    }
 }

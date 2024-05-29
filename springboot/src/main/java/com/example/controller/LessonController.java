@@ -154,6 +154,34 @@ public class LessonController {
     }
 
 
+    @GetMapping("/selectSchoolLevelLessons")
+    public Result selectSchoolLevelLessons(@RequestParam(required = false) Integer classId,
+                                           @RequestParam(required = false) String name,
+                                           @RequestParam(defaultValue = "1") Integer pageNum,
+                                           @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Lesson> page = lessonService.selectSchoolLevelLessons(classId, name, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+    @GetMapping("/selectCollegeLevelLessons")
+    public Result selectCollegeLevelLessons(@RequestParam(required = false) Integer classId,
+                                            @RequestParam(required = false) String name,
+                                            @RequestParam(defaultValue = "1") Integer pageNum,
+                                            @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Lesson> page = lessonService.selectCollegeLevelLessons(classId, name, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+    @GetMapping("/selectMajorLevelLessons")
+    public Result selectMajorLevelLessons(@RequestParam(required = false) Integer classId,
+                                          @RequestParam(required = false) String name,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
+                                          @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Lesson> page = lessonService.selectMajorLevelLessons(classId, name, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+
 
 
 
