@@ -20,6 +20,7 @@
           <div class="avatar">
             <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
             <div>{{ user.name ||  '管理员' }}<i class="el-icon-arrow-down" style="margin-left: 5px"></i></div>
+            <div class="unread-badge" v-if="totalUnRead > 0">{{ totalUnRead }}</div>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
@@ -76,49 +77,57 @@
             <el-menu-item index="/classesTAdmin">我的班级</el-menu-item>
             <el-menu-item index="/lessonTAdmin">课件管理</el-menu-item>
           </el-submenu>
-
-
         </el-menu>
       </div>
 
       <!--  数据表格  -->
       <div class="manager-main-right">
-      <!--    路由，页面变化    -->
         <router-view @update:user="updateUser" />
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
+import request from "@/utils/request";
+
 export default {
   name: "Manager",
   data() {
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      totalUnRead: 0 // 新增变量
     }
   },
   created() {
     if (!this.user.id) {
-      this.$router.push('/front/home')
+      this.$router.push('/front/home');
+    } else {
+      this.loadUnReadNums(); // 新增调用
     }
   },
   methods: {
     updateUser() {
-      this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
+      this.user = JSON.parse(localStorage.getItem('xm-user') || '{}');   // 重新获取下用户的最新信息
+      this.loadUnReadNums(); // 更新用户信息后加载未读消息数量
     },
-    goToChat(){
-      this.$router.push('/chat')
+    loadUnReadNums() {
+      request.get('/imsingle/unReadNums?toUsername=' + this.user.role + '_' + this.user.name).then(res => {
+        this.totalUnRead = Object.values(res.data).reduce((sum, num) => sum + num, 0);
+        console.log("未读消息数据: ", res.data);  // 添加日志
+      });
+    },
+    goToChat() {
+      this.$router.push('/chat');
     },
     goToPerson() {
       if (this.user.role === 'ADMIN') {
-        this.$router.push('/adminPerson')
+        this.$router.push('/adminPerson');
       }
     },
     logout() {
-      localStorage.removeItem('xm-user')
-      this.$router.push('/login')
+      localStorage.removeItem('xm-user');
+      this.$router.push('/login');
     }
   }
 }
@@ -126,4 +135,18 @@ export default {
 
 <style scoped>
 @import "@/assets/css/manager.css";
+.unread-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
 </style>

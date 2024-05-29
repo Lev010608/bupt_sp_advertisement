@@ -53,10 +53,10 @@
 
         <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">学生</div>
         <div class="user-list-box" style="height: 30%; overflow-y: auto">
-          <div class="user-list-item" v-for="item in users.student" :key="item.id" @click="selectToUser(item)">
+          <div class="user-list-item" v-for="item in users.student" :key="item.id" @click="selectToUser(item)" >
             <img :src="item.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 30px; height: 30px; border-radius: 50%">
             <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.name || item.username }}</span>
-            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
+            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
           </div>
         </div>
 
@@ -65,7 +65,7 @@
           <div class="user-list-item" v-for="item in users.notstudent" :key="item.id" @click="selectToUser(item)">
             <img :src="item.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 30px; height: 30px; border-radius: 50%">
             <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.name || item.username }}</span>
-            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
+            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
           </div>
         </div>
       </div>
@@ -233,6 +233,7 @@ export default {
     setUnReadNums() {
       request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
         this.unRead = res.data;
+        this.totalUnRead = Object.values(this.unRead).reduce((sum, num) => sum + num, 0); // 计算总未读消息数量
         console.log("未读消息数据: ", this.unRead);  // 添加日志
       });
     },
@@ -246,7 +247,6 @@ export default {
         }
       });
     },
-
     loadUnReadNums() {
       // 查询未读数量
       request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
@@ -269,41 +269,40 @@ export default {
         this.users.teacher = res.data;
       });
     },
-    send(){
-      // console.log(this.user)
+    send() {
       if (!this.toUser) {
-        this.$notify.error('请选择聊天用户')
-        return
+        this.$notify.error('请选择聊天用户');
+        return;
       }
       if (client) {
-        let message = this.getMessage('text')
-        client.send(JSON.stringify(message))
+        let message = this.getMessage('text');
+        client.send(JSON.stringify(message));
       }
-      document.getElementById('im-content').innerHTML = ''  // 清空输入框
+      document.getElementById('im-content').innerHTML = '';  // 清空输入框
     },
     scrollToBottom() {
       this.$nextTick(() => {
-        // 设置聊天滚动条到底部
-        let imMessageBox = document.getElementsByClassName("im-message-box")[0]
-        //设置滚动条到最底部
-        imMessageBox.scrollTop = imMessageBox.scrollHeight
-        console.log('触发滚动')
-      })
+        let imMessageBox = document.getElementsByClassName("im-message-box")[0];
+        imMessageBox.scrollTop = imMessageBox.scrollHeight;
+      });
     },
     selectToUser(item) {
-      this.toUser = item.role + '_' + item.name
-      this.toAvatar = item.avatar
-      this.load()
+      this.toUser = item.role + '_' + item.name;
+      this.toAvatar = item.avatar;
+      this.setUnReadNums();
+      this.setUnReadMessagesAsRead(); // 标记为已读
+      this.load(); // 加载聊天记录
+      this.loadUnReadNums();
     },
     download(file) {
-      window.open(file)
+      window.open(file);
     },
     getMessage(type) {
-      let inputBox = document.getElementById('im-content')
-      const content = inputBox.innerHTML
+      let inputBox = document.getElementById('im-content');
+      const content = inputBox.innerHTML;
       if (!content && type === 'text') {
-        this.$notify.error('请输入聊天内容')
-        return
+        this.$notify.error('请输入聊天内容');
+        return;
       }
       return {
         fromuser: this.fromUser,
@@ -312,44 +311,43 @@ export default {
         toavatar: this.toAvatar,
         content: content,
         type: type
-      }
+      };
     },
     handleFile(file) {
       if (client) {
-        let message = this.getMessage('img')
-        message.content = file.data
-        let extName = file.data.substring(file.data.lastIndexOf('.') + 1)
+        let message = this.getMessage('img');
+        message.content = file.data;
+        let extName = file.data.substring(file.data.lastIndexOf('.') + 1);
         if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'svg', 'webp'].includes(extName)) {
-          message.type = 'img'
+          message.type = 'img';
         } else {
-          message.type = 'file'
+          message.type = 'file';
         }
-        client.send(JSON.stringify(message))
+        client.send(JSON.stringify(message));
       }
     },
     clickEmoji(emoji) {
-      document.getElementById('im-content').innerHTML += emoji
+      document.getElementById('im-content').innerHTML += emoji;
     },
     goToPerson() {
       if (this.user.role === 'ADMIN') {
-        this.$router.push('/adminPerson')
-      }else {
-        this.$router.push('/front/person')
+        this.$router.push('/adminPerson');
+      } else {
+        this.$router.push('/front/person');
       }
     },
     logout() {
-      localStorage.removeItem('xm-user')
-      this.$router.push('/login')
+      localStorage.removeItem('xm-user');
+      this.$router.push('/login');
     },
-    backToHome(){
+    backToHome() {
       if (this.user.role === 'USER') {
-        this.$router.push('/front/home')
-      }else {
-        this.$router.push('/home')
+        this.$router.push('/front/home');
+      } else {
+        this.$router.push('/home');
       }
     }
-
-  },
+},
 }
 </script>
 
