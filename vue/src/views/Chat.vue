@@ -21,6 +21,7 @@
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
             <el-dropdown-item @click.native="$router.push('/password')">修改密码</el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="backToHome">回到首页</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -49,7 +50,7 @@
         </div>
 
         <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">学生</div>
-        <div class="user-list-box" style="height: 30%; overflow-y: scroll">
+        <div class="user-list-box" style="height: 30%; overflow-y: auto">
           <div class="user-list-item" v-for="item in users.student" :key="item.id" @click="selectToUser(item)">
             <img :src="item.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 30px; height: 30px; border-radius: 50%">
             <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.name || item.username }}</span>
@@ -58,7 +59,7 @@
         </div>
 
         <div style="padding: 10px; border-bottom: 1px solid #ddd; color: #000; background-color: #eee">用户</div>
-        <div class="user-list-box" style="height: 30%; overflow-y: scroll">
+        <div class="user-list-box" style="height: 30%; overflow-y: auto">
           <div class="user-list-item" v-for="item in users.notstudent" :key="item.id" @click="selectToUser(item)">
             <img :src="item.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 30px; height: 30px; border-radius: 50%">
             <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.name || item.username }}</span>
@@ -68,7 +69,7 @@
       </div>
 
       <!--  中间部分  -->
-      <div class="middle-area" >
+      <div class="middle-area">
         <div style="padding: 20px 0; text-align: center; border-bottom: 1px solid #ddd; border-top-left-radius: 20px; border-top-right-radius: 20px; color: #000; background-color: #eee; height: 60px">
           {{ toUser?.substring(toUser.indexOf('_') + 1) }}
         </div>
@@ -85,7 +86,6 @@
                 </div>
                 <div class="im-message im-message-right" v-html="item.content" v-if="item.type === 'text'"></div>
                 <div class="im-message" style="padding: 0" v-if="item.type === 'img'">
-                  <!-- 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 -->
                   <el-image style="width: 100px" :src="item.content" alt="" :preview-src-list="[item.content]" @load="scrollToBottom"></el-image>
                 </div>
                 <div class="im-message im-message-download" v-if="item.type === 'file'" @click="download(item.content)">
@@ -106,7 +106,6 @@
                 </div>
                 <div class="im-message im-message-left" v-html="item.content" v-if="item.type === 'text'"></div>
                 <div class="im-message" style="padding: 0" v-if="item.type === 'img'">
-                  <!-- 注意  el-image 的load函数必须加上，否则无法触发滚动条到最底端 -->
                   <el-image style="width: 100px" :src="item.content" alt="" :preview-src-list="[item.content]" @load="scrollToBottom"></el-image>
                 </div>
                 <div class="im-message im-message-download" v-if="item.type === 'file'" @click="download(item.content)">
@@ -299,7 +298,7 @@ export default {
         toavatar: this.toAvatar,
         content: content,
         type: type
-        }
+      }
     },
     handleFile(file) {
       if (client) {
@@ -328,6 +327,13 @@ export default {
       localStorage.removeItem('xm-user')
       this.$router.push('/login')
     },
+    backToHome(){
+      if (this.user.role === 'USER') {
+        this.$router.push('/front/home')
+      }else {
+        this.$router.push('/home')
+      }
+    }
 
 
   },
