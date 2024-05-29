@@ -118,44 +118,60 @@
         </div>
 
         <div style="padding-top: 200px;">
-          <div class="information-area" style="position: relative;text-align: center;">
+          <div class="information-2" style="position: relative;text-align: center;">
             <div class="font-sub-title-whitebk" style="line-height: 50px;">
               <h3 class="font-effect" style=" font-size: xx-large;">#遇见北邮</h3>
-              <div class="tag-filter" style="margin-bottom: 20px;">
-                <el-button type="primary" @click="resetTagFilter">重置</el-button>
-                <el-tag
-                    v-for="tag in tags"
-                    :key="tag"
-                    :type="getTagType(tag)"
-                    @click="filterByTag(tag)"
-                    style="cursor: pointer;">
-                  {{ tag }}
-                </el-tag>
-              </div>
-              <div class="information-recommend" style="display: flex; margin-top: 20px; height: 300px; justify-content: center; flex-wrap: wrap;">
-                <el-card v-for="info in recommendedInfo" :key="info.id" class="box-card" :body-style="{ padding: '0px' }" style="width: 200px; margin: 10px;">
-                  <img :src="info.img" class="image" @click="openCarousel(info.id)">
-                  <div style="padding: 14px;">
-                    <span class="card-title">{{ info.name }}</span>
-                    <br>
-                  </div>
-                </el-card>
-              </div>
             </div>
           </div>
+          <div class="editable-area-4">
+            <div class="tag-filter" style="margin-bottom: 20px;">
+              <el-tag type="success" effect="dark" style="cursor: pointer;" @click="resetTagFilter">重置</el-tag>
+              <el-tag
+                  v-for="tag in tags"
+                  :key="tag"
+                  type="success"
+                  @click="filterByTag(tag)"
+                  style="cursor: pointer;margin-left: 10px">
+                #{{ tag }}
+              </el-tag>
+            </div>
+
+          </div>
+          <div class="information-recommend-container">
+            <div class="information-recommend" style="display: flex; margin-top: 20px; flex-wrap: wrap;">
+              <el-card v-for="info in filteredRecommendedInfo" :key="info.id" class="box-card" :body-style="{ padding: '0px' }" style="width: 200px;  border-radius: 15px">
+                <img :src="info.img" class="image" @click="openCarousel(info.id)">
+                <div style="padding: 14px; text-align: center">
+                  <span class="font-sub-title-whitebk"><h4>{{ info.name }}</h4></span>
+                </div>
+              </el-card>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="view-all-channel-button-container" style="display: flex;cursor: pointer;justify-content:flex-end;align-items: center" @click="navToAllInformation()">
+          <i class="el-icon-caret-right"></i>
+          <div class="font-sub-title-whitebk"><h4>查看全部发布</h4></div>
         </div>
 
-        <el-dialog :visible.sync="carouselVisible" width="80%" :before-close="handleClose">
-          <el-carousel ref="carousel" :interval="4000" arrow="always">
-            <el-carousel-item v-for="(info, index) in recommendedInfo" :key="info.id">
-              <div style="display: flex;">
-                <img :src="info.img" style="width: 50%;">
-                <div style="padding: 20px;">
-                  <h3>{{ info.name }}</h3>
-                  <p><strong>时间:</strong> {{ info.addTime }}</p>
-                  <p><strong>发布作者:</strong> {{ info.userName }}</p>
-                  <p><strong>标签:</strong> {{ info.tag }}</p>
-                  <div v-html="info.content"></div>
+<!--        custom-class="transparent-dialog"-->
+
+        <el-dialog class="info-dialog" :visible.sync="carouselVisible" width="100%" :before-close="handleClose">
+          <el-carousel ref="carousel" :interval="4000" arrow="always" style="height: 500px; " type="card">
+            <el-carousel-item v-for="(info, index) in recommendedInfo" :key="info.id" style="height: 500px;width: 800px;background-color: #ffffff;border-radius: 15px;">
+              <div style="display: flex; height: 100%;">
+                <img :src="info.img" style="width: 50%; height: 100%; object-fit: cover; border-bottom-right-radius: 15px;border-top-right-radius: 15px;">
+                <div class="carousel-content">
+                  <h1>{{ info.name }}</h1>
+                  <div style="display: flex;margin-top: 20px">
+                    <p class="font-sub-title-whitebk" style="margin-right: 20px"><strong>时间:</strong> {{ info.addTime }}</p>
+                    <p class="font-sub-title-whitebk" style="margin-right: 20px"><strong>发布作者:</strong> {{ info.userName }}</p>
+                  </div>
+
+                  <el-divider></el-divider>
+                  <div v-html="info.content" class="content-scroll"></div>
                 </div>
               </div>
             </el-carousel-item>
@@ -189,6 +205,9 @@ export default {
       recommendedChannels: [], // 存储推荐的栏目及其最新课程信息
       plogData:[],
       recommendedInfo: [],
+      filteredRecommendedInfo: [],
+      tags: [],
+      selectedTag: null,
       carouselVisible: false,
       currentCarouselIndex: 0,
     }
@@ -269,6 +288,8 @@ export default {
       this.$request.get('/information/selectRecommendedApproved').then(res => {
         if (res.code === '200') {
           this.recommendedInfo = res.data;
+          this.filteredRecommendedInfo = this.recommendedInfo;
+          this.extractTags();
         } else {
           this.$message.error(res.msg);
         }
@@ -290,19 +311,24 @@ export default {
     navToAllChannel(){
       location.href = '/front/channel'
     },
+    navToAllInformation(){
+      location.href = '/front/information'
+    },
+    extractTags() {
+      const allTags = new Set(this.recommendedInfo.map(info => info.tag));
+      this.tags = Array.from(allTags);
+    },
     filterByTag(tag) {
-      // 实现标签过滤功能
-      this.$request.get('/information/selectRecommendedApproved', {
-        params: {
-          tag: tag
-        }
-      }).then(res => {
-        if (res.code === '200') {
-          this.recommendedInfo = res.data;
-        } else {
-          this.$message.error(res.msg);
-        }
-      });
+      this.selectedTag = tag;
+      this.filteredRecommendedInfo = this.recommendedInfo.filter(info => info.tag === tag);
+    },
+    resetTagFilter() {
+      this.selectedTag = null;
+      this.filteredRecommendedInfo = this.recommendedInfo;
+    },
+    getTagType(tag) {
+      const types = ['success', 'info', 'warning', 'danger'];
+      return types[Math.floor(Math.random() * types.length)];
     },
     openCarousel(id) {
       this.currentCarouselIndex = this.recommendedInfo.findIndex(info => info.id === id);
@@ -319,25 +345,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @import "@/assets/css/home.css";
-
-.image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+.info-dialog .el-dialog{
+  background: transparent;
+  border: transparent 1px inset;
+}
+.info-dialog .el-dialog__headerbtn .el-dialog__close{
+  color:white;
+}
+.info-dialog .el-dialog__headerbtn:hover .el-dialog__close{
+  color: #b92626;
 }
 
-.card-title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.box-card {
-  cursor: pointer;
-}
-
-.el-dialog {
-  overflow: hidden;
-}
 </style>
