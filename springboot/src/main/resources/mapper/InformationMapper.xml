@@ -20,6 +20,35 @@
         order by id desc
     </select>
 
+    <select id="selectApproved" resultType="com.example.entity.Information">
+        select information.*, user.name as userName
+        from information
+        left join user on information.user_id = user.id
+        <where>
+            status = '审核通过'
+            <if test="name != null and name != ''">
+                AND information.name like concat('%', #{name}, '%')
+            </if>
+            <if test="tag != null and tag != ''">
+                AND information.tag = #{tag}
+            </if>
+        </where>
+        order by addTime desc
+    </select>
+
+    <select id="selectRecommendedApproved" resultType="com.example.entity.Information">
+        select information.*, user.name as userName
+        from information
+        left join user on information.user_id = user.id
+        <where>
+            information.status = '审核通过' and information.recommend = '是'
+        </where>
+        order by information.addTime desc
+    </select>
+
+
+
+
     <select id="selectById" resultType="com.example.entity.Information">
         select
         <include refid="Base_Column_List" />

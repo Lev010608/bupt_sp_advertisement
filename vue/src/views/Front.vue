@@ -20,7 +20,7 @@
               <el-menu-item index="/front/home">首页</el-menu-item>
               <el-menu-item index="/front/course">学院动态</el-menu-item>
               <el-menu-item index="/front/channel">学院专栏</el-menu-item>
-              <el-menu-item>南太论坛</el-menu-item>
+              <el-menu-item index="/front/information">南太论坛</el-menu-item>
               <el-menu-item index="/front/release">我的发布</el-menu-item>
               <el-menu-item v-if="user.role ==='USER'&&user.studentflag === '1'" index="/front/lesson">我的课件</el-menu-item>
               <el-menu-item v-if="user.role ==='ADMIN' || user.role ==='TEACHER'" index="/home">前往管理端</el-menu-item>

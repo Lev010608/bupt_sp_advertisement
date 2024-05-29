@@ -14,7 +14,9 @@ public enum ResultCodeEnum {
     USER_ACCOUNT_ERROR("5003", "账号或密码错误"),
     USER_NOT_EXIST_ERROR("5004", "用户不存在"),
     PARAM_PASSWORD_ERROR("5005", "原密码输入错误"),
-    RECOMMEND_ALREADY_ERROR("5006","推荐错误")
+    RECOMMEND_ALREADY_ERROR("5006","推荐错误"),
+    RECOMMEND_LIMIT_ERROR("5007", "已经达到推荐上限");
+
     ;
 
     public String code;

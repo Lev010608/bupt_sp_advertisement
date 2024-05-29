@@ -69,7 +69,7 @@ export default {
         <el-form-item label="资料封面">
           <el-upload
               class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
+              :action="$baseUrl + '/files/plog/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleImgSuccess"
@@ -130,7 +130,7 @@ export default {
         this.editor = new E('#editor')
         this.editor.config.placeholder = '请输入内容'
         this.editor.config.uploadFileName = 'file'
-        this.editor.config.uploadImgServer = this.$baseUrl+'/files/wang/upload'
+        this.editor.config.uploadImgServer = this.$baseUrl+'/files/wang/plog/upload'
         console.log("图片上传"+this.editor.config.uploadImgServer)
         this.editor.create()
         setTimeout(() => {

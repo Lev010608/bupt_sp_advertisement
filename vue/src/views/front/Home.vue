@@ -118,33 +118,52 @@
         </div>
 
         <div style="padding-top: 200px;">
-          <div class="information-2" style="position: relative;text-align: center;">
+          <div class="information-area" style="position: relative;text-align: center;">
             <div class="font-sub-title-whitebk" style="line-height: 50px;">
               <h3 class="font-effect" style=" font-size: xx-large;">#遇见北邮</h3>
-              <div style="display: flex; margin-top: 20px; height: 300px">
-                <div style="flex: 2; margin-right: 10px">
-                  <el-row :gutter="20">
-                    <el-col :span="6" style="margin-bottom: 35px" v-for="item in leftData">
-                      <img :src="item.img" alt="" style="width: 100%; height: 100px; border-radius: 5px; border: 1px solid #cccccc">
-                      <div style="color: #333333; margin-top: 10px" class="overflowShow">{{ item.name }}</div>
-                    </el-col>
-                  </el-row>
-                </div>
-                <div style="flex: 1; margin-left: 10px; width: 0">
-                  <img :src="fileRecommend?.img" alt="" style="width: 100%; height: 270px; border-radius: 5px">
-                  <div style="font-size: 15px; margin-top: 5px" class="overflowShow">{{ fileRecommend?.name }}</div>
-                </div>
+              <div class="tag-filter" style="margin-bottom: 20px;">
+                <el-button type="primary" @click="resetTagFilter">重置</el-button>
+                <el-tag
+                    v-for="tag in tags"
+                    :key="tag"
+                    :type="getTagType(tag)"
+                    @click="filterByTag(tag)"
+                    style="cursor: pointer;">
+                  {{ tag }}
+                </el-tag>
+              </div>
+              <div class="information-recommend" style="display: flex; margin-top: 20px; height: 300px; justify-content: center; flex-wrap: wrap;">
+                <el-card v-for="info in recommendedInfo" :key="info.id" class="box-card" :body-style="{ padding: '0px' }" style="width: 200px; margin: 10px;">
+                  <img :src="info.img" class="image" @click="openCarousel(info.id)">
+                  <div style="padding: 14px;">
+                    <span class="card-title">{{ info.name }}</span>
+                    <br>
+                  </div>
+                </el-card>
               </div>
             </div>
           </div>
-
-
         </div>
 
-        </div>
+        <el-dialog :visible.sync="carouselVisible" width="80%" :before-close="handleClose">
+          <el-carousel ref="carousel" :interval="4000" arrow="always">
+            <el-carousel-item v-for="(info, index) in recommendedInfo" :key="info.id">
+              <div style="display: flex;">
+                <img :src="info.img" style="width: 50%;">
+                <div style="padding: 20px;">
+                  <h3>{{ info.name }}</h3>
+                  <p><strong>时间:</strong> {{ info.addTime }}</p>
+                  <p><strong>发布作者:</strong> {{ info.userName }}</p>
+                  <p><strong>标签:</strong> {{ info.tag }}</p>
+                  <div v-html="info.content"></div>
+                </div>
+              </div>
+            </el-carousel-item>
+          </el-carousel>
+        </el-dialog>
 
+        </div>
       </div>
-
     </div>
 </template>
 
@@ -167,14 +186,19 @@ export default {
       homepageData:[],
       type:'',
       //专栏卡片
-      recommendedChannels: []  // 存储推荐的栏目及其最新课程信息
+      recommendedChannels: [], // 存储推荐的栏目及其最新课程信息
+      plogData:[],
+      recommendedInfo: [],
+      carouselVisible: false,
+      currentCarouselIndex: 0,
     }
   },
   mounted() {
     this.loadRecommendedChannels();
-    this.loadRecommend()
-    this.loadHomepageData()
-    this.getData()
+    this.loadRecommend();
+    this.loadHomepageData();
+    this.getData();
+    this.loadRecommendedInfo();
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
@@ -241,23 +265,14 @@ export default {
         }
       });
     },
-    getInformation() {
-      // 1. 获取推荐的那个资料
-      this.$request.get('/information/getRecommend').then(res => {
+    loadRecommendedInfo() {
+      this.$request.get('/information/selectRecommendedApproved').then(res => {
         if (res.code === '200') {
-          this.fileRecommend = res.data
+          this.recommendedInfo = res.data;
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.msg);
         }
-      })
-      // 2. 获取非推荐的8个资料
-      this.$request.get('/information/selectTop8').then(res => {
-        if (res.code === '200') {
-          this.leftData = res.data
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+      });
     },
     navTo(id) {
       // 往课程详情页跳
@@ -274,11 +289,55 @@ export default {
     },
     navToAllChannel(){
       location.href = '/front/channel'
-    }
+    },
+    filterByTag(tag) {
+      // 实现标签过滤功能
+      this.$request.get('/information/selectRecommendedApproved', {
+        params: {
+          tag: tag
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.recommendedInfo = res.data;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    openCarousel(id) {
+      this.currentCarouselIndex = this.recommendedInfo.findIndex(info => info.id === id);
+      this.carouselVisible = true;
+      this.$nextTick(() => {
+        this.$refs.carousel.setActiveItem(this.currentCarouselIndex);
+      });
+    },
+    handleClose(done) {
+      this.carouselVisible = false;
+      done();
+    },
   }
 }
 </script>
 
 <style scoped>
 @import "@/assets/css/home.css";
+
+.image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.box-card {
+  cursor: pointer;
+}
+
+.el-dialog {
+  overflow: hidden;
+}
 </style>

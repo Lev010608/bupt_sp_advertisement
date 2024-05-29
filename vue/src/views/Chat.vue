@@ -68,7 +68,7 @@
       </div>
 
       <!--  中间部分  -->
-      <div style="flex: 1; border: 1px solid #ddd; border-radius: 20px; background-color: #f1f1f1; margin: 0 10px; display: flex; flex-direction: column;">
+      <div class="middle-area" >
         <div style="padding: 20px 0; text-align: center; border-bottom: 1px solid #ddd; border-top-left-radius: 20px; border-top-right-radius: 20px; color: #000; background-color: #eee; height: 60px">
           {{ toUser?.substring(toUser.indexOf('_') + 1) }}
         </div>
@@ -129,7 +129,7 @@
             <i slot="reference" class="fa fa-smile-o" style="font-size: 22px; color: #666;"></i>
           </el-popover>
           <div style="margin-left: 5px">
-            <el-upload :action="`${this.$baseUrl}/files/upload`" :show-file-list="false" :on-success="handleFile">
+            <el-upload :action="`${this.$baseUrl}/files/chat/upload`" :show-file-list="false" :on-success="handleFile">
               <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>
             </el-upload>
           </div>
@@ -173,12 +173,10 @@ export default {
     };
   },
   mounted() {
-    // this.messages
+
     this.emojis = emojis.split(',')
-    // this.user = JSON.parse(localStorage.getItem('user') || "{}")
     console.log("当前用户")
     this.fromUser = this.user.role + '_' + this.user.name
-    // this.fromUser = this.user.role + '_' + '管理员'
 
     client = new WebSocket(`${this.$baseUrl.replace('http', 'ws')}/imserverSingle`)
     client.onopen = () => {
@@ -196,16 +194,16 @@ export default {
           this.scrollToBottom()  // 滚动页面到最底部
         }
         // 加载消息数字
-        // if (this.toUser === json.fromuser) {
-        //   // this.setUnReadNums()   // 清空正在聊天人的消息数字
-        // } else {
-        //   // this.loadUnReadNums()
-        // }
+        if (this.toUser === json.fromuser) {
+          this.setUnReadNums()   // 清空正在聊天人的消息数字
+        } else {
+          this.loadUnReadNums()
+        }
       }
     }
 
     // 加载聊天数据
-    // this.load();
+    this.load();
 
     // 查询用户
     this.loadUsers();
@@ -217,7 +215,6 @@ export default {
   },
   methods: {
     load() {
-      // request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
       request.get('/imsingle/findAllItems').then(res => {
         if (res.code === '200') {
           this.messages = res.data
@@ -225,50 +222,24 @@ export default {
         } else {
           this.$notify.error(res.msg)
         }
-        // this.loadUnReadNums()
+        this.loadUnReadNums()
+      })
+      // request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then((res =>{
+      //   this.loadUnReadNums()
+      // }))
+    },
+
+    setUnReadNums() {
+      request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
+        this.loadUnReadNums()
       })
     },
-    // load() {
-    //   // window.alert(this.fromUser+'   '+this.toUser);
-    //   // this.fromUser="ADMIN_管理员";
-    //   window.alert(this.fromUser+'   '+this.toUser);
-    //   request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
-    //     // window.alert(res.data.content);
-    //     if (res.code === '0') {
-    //       this.messages = res.data
-    //       window.alert("this.messages[0].fromUser:"+this.messages[0].fromUser)
-    //       this.scrollToBottom()  // 滚动条滚动到最底部
-    //     } else {
-    //       // this.$notify.error(res.msg)
-    //       // window.alert("this.messages[0].fromUser:"+this.messages[0].fromUser)
-    //       // window.alert("出错了")
-    //       this.messages = res.data
-    //       window.alert("this.messages[0].fromUser:"+this.messages[0].fromUser)
-    //       this.scrollToBottom()  // 滚动条滚动到最底部
-    //     }
-    //     // this.loadUnReadNums()
-    //   })
-    // },
-    // setUnReadNums() {
-    //   request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
-    //     this.loadUnReadNums()
-    //   })
-    // },
-    // loadUnReadNums() {
-    //   // 查询未读数量
-    //   request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
-    //     this.unRead = res.data
-    //   })
-    // },
-    // goToPerson() {
-    //   if (this.user.role === 'ADMIN') {
-    //     this.$router.push('/adminPerson')
-    //   }
-    // },
-    // logout() {
-    //   localStorage.removeItem('xm-user')@
-    //   this.$router.push('/login')
-    // },
+    loadUnReadNums() {
+      // 查询未读数量
+      request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
+        this.unRead = res.data
+      })
+    },
     loadUsers() {
       request.get('/user/selectAll').then(res => {
         this.users.student = res.data.filter(v => v.studentflag === '1');
@@ -331,7 +302,6 @@ export default {
         }
     },
     handleFile(file) {
-      // window.alert("hihihi")
       if (client) {
         let message = this.getMessage('img')
         message.content = file.data
@@ -341,7 +311,6 @@ export default {
         } else {
           message.type = 'file'
         }
-        // window.alert(message.type);
         client.send(JSON.stringify(message))
       }
     },

@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.common.Result;
 import com.example.entity.Information;
+import com.example.entity.Likes;
 import com.example.service.InformationService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
@@ -87,16 +88,41 @@ public class InformationController {
         return Result.success(page);
     }
 
-    @GetMapping("/getRecommend")
-    public Result getRecommend() {
-        Information information = informationService.getRecommend();
-        return Result.success(information);
+    @GetMapping("/selectApproved")
+    public Result selectApproved(@RequestParam(defaultValue = "1") Integer pageNum,
+                                 @RequestParam(defaultValue = "10") Integer pageSize,
+                                 @RequestParam(required = false) String name,
+                                 @RequestParam(required = false) String tag) {
+        PageInfo<Information> page = informationService.selectApproved(pageNum, pageSize, name, tag);
+        return Result.success(page);
     }
+
+    @GetMapping("/distinctTags")
+    public Result getDistinctTags() {
+        List<String> tags = informationService.getDistinctTags();
+        return Result.success(tags);
+    }
+
+    @GetMapping("/getRecommendCount")
+    public Result getRecommendCount() {
+        List<Information> recommendedList = informationService.selectRecommended();
+        System.out.println("已推荐数量: " + recommendedList.size());  // 日志输出，检查已推荐数量
+        return Result.success(recommendedList.size());
+    }
+
+
 
     @GetMapping("/selectTop8")
     public Result selectTop8() {
         List<Information> list = informationService.selectTop8();
         return Result.success(list);
     }
+
+    @GetMapping("/selectRecommendedApproved")
+    public Result selectRecommendedApproved() {
+        List<Information> list = informationService.selectRecommendedApproved();
+        return Result.success(list);
+    }
+
 
 }

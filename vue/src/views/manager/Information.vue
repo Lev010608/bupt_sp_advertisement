@@ -17,6 +17,9 @@ export default {
     </div>
 
     <div class="table">
+      <div class="recommend-info">
+        已推荐: {{ recommendedCount }} / {{ recommendLimit }}
+      </div>
       <el-table :data="tableData" stripe>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="img" label="资料封面" width="100">
@@ -67,12 +70,6 @@ export default {
         <el-form-item prop="file" label="资料链接">
           <a :href="form.file" target="_blank">{{form.file}}</a>
         </el-form-item>
-        <el-form-item prop="recommend" label="是否推荐">
-          <el-select v-model="form.recommend" placeholder="请选择" style="width: 100%">
-            <el-option label="是" value="是"></el-option>
-            <el-option label="否" value="否"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item prop="status" label="审核状态">
           <el-select v-model="form.status" placeholder="请选择" style="width: 100%">
             <el-option label="待审核" value="待审核"></el-option>
@@ -80,6 +77,13 @@ export default {
             <el-option label="审核不通过" value="审核不通过"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item prop="recommend" label="是否推荐">
+          <el-select v-model="form.recommend" :disabled="form.status !== '审核通过'" placeholder="请选择" style="width: 100%">
+            <el-option label="是" value="是"></el-option>
+            <el-option label="否" value="否"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item prop="descr" label="审核说明">
           <el-input v-model="form.descr" autocomplete="off" placeholder="请输入审核说明"></el-input>
         </el-form-item>
@@ -116,11 +120,15 @@ export default {
       rules: {
       },
       ids: [],
-      viewData: null
+      viewData: null,
+      recommendedCount: 0,
+      recommendLimit: 18,
+      recommendDisabled: false,
     }
   },
   created() {
     this.load(1)
+    this.loadRecommendCount();
   },
   methods: {
     viewDataInit(data) {
@@ -131,20 +139,25 @@ export default {
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗
     },
-    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+    save() {
+      if (this.form.recommend === '是' && this.recommendedCount >= this.recommendLimit) {
+        this.$message.error('已经达到推荐上限');
+        return;
+      }
       this.$request({
         url: this.form.id ? '/information/update' : '/information/add',
         method: this.form.id ? 'PUT' : 'POST',
         data: this.form
       }).then(res => {
-        if (res.code === '200') {  // 表示成功保存
-          this.$message.success('保存成功')
-          this.load(1)
-          this.fromVisible = false
+        if (res.code === '200') {
+          this.$message.success('保存成功');
+          this.load(1);
+          this.fromVisible = false;
+          this.loadRecommendCount();
         } else {
-          this.$message.error(res.msg)  // 弹出错误的信息
+          this.$message.error(res.msg);
         }
-      })
+      });
     },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
@@ -160,6 +173,14 @@ export default {
         this.total = res.data?.total
       })
     },
+    loadRecommendCount() {
+      this.$request.get('/information/getRecommendCount').then(res => {
+        console.log("推荐计数接口返回数据: ", res);  // 在浏览器控制台打印返回的数据，检查结构
+        this.recommendedCount = res.data;  // 确保这里的res.data是你需要的数字，不是对象或其他结构
+      }).catch(error => {
+        console.error("加载推荐计数失败: ", error);  // 错误处理，确保能看到出错信息
+      });
+    },
     reset() {
       this.name = null
       this.recommend = null
@@ -168,6 +189,14 @@ export default {
     handleCurrentChange(pageNum) {
       this.load(pageNum)
     },
+    watch: {
+      'form.status'(newStatus) {
+        if (newStatus !== '审核通过') {
+          this.form.recommend = '否';  // 如果状态不是审核通过，自动将推荐设置为否
+        }
+      }
+    },
+
   }
 }
 </script>

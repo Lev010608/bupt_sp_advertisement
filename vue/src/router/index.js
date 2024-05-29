@@ -48,6 +48,8 @@ const routes = [
       { path: 'lesson', name: 'Lesson', meta: { name: '我的课件' }, component: () => import('../views/front/Lesson') },
       { path: 'lessonDetail', name: 'LessonDetail', meta: { name: '课件详情' }, component: () => import('../views/front/LessonDetail') },
       { path: 'release', name: 'Release', meta: { name: '我的发布' }, component: () => import('../views/front/Release') },
+      { path: 'information', name: 'Information', meta: { name: '南太论坛' }, component: () => import('../views/front/Information') },
+      { path: 'informationDetail', name: 'InformationDetail', meta: { name: '发布详情' }, component: () => import('../views/front/InformationDetail') },
       { path: 'channel', name: 'Channel', meta: { name: '学院专栏' }, component: () => import('../views/front/Channel') },
     ]
   },
