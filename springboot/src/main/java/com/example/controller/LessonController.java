@@ -81,6 +81,15 @@ public class LessonController {
     }
 
     /**
+     * 获取课件关联的班级ID
+     */
+    @GetMapping("/getClassIds/{lessonId}")
+    public Result getClassIdsByLessonId(@PathVariable Integer lessonId) {
+        List<Integer> classIds = lessonService.getClassIdsByLessonId(lessonId);
+        return Result.success(classIds);
+    }
+
+    /**
      * 根据ID查询
      */
     @GetMapping("/selectById/{id}")

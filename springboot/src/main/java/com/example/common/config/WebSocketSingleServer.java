@@ -64,12 +64,14 @@ public class WebSocketSingleServer implements InitializingBean {
         log.info("服务端收到消息:{}", message);
         ImSingle imSingle = JSONUtil.toBean(message, ImSingle.class);
         imSingle.setTime(DateUtil.now());
-        // 存储数据到数据库
+        imSingle.setReaded(0);  // 确保消息的readed字段初始为0
+        log.info("存储消息: {}", imSingle);
         staticImSingleService.add(imSingle);
         String jsonStr = JSONUtil.toJsonStr(imSingle);  // 处理后的消息体
         this.sendAllMessage(jsonStr);
         log.info("[onMessage] 发送消息：{}", jsonStr);
     }
+
 
     @OnError
     public void onError(Session session, Throwable error) {

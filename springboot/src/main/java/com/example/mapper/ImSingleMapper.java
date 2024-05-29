@@ -24,4 +24,8 @@ public interface ImSingleMapper {
 
 	@Update("UPDATE imsingle SET content=#{content}, fromuser=#{fromuser}, fromavatar=#{fromavatar}, time=#{time}, type=#{type}, touser=#{touser}, toavatar=#{toavatar}, readed=#{readed} WHERE id=#{id}")
 	void updateByPrimaryKey(ImSingle imSingle);
+
+	@Update("UPDATE imsingle SET readed = 1 WHERE fromuser = #{fromUser} AND touser = #{toUser} AND readed = 0")
+	void updateMessagesAsRead(@Param("fromUser") String fromUser, @Param("toUser") String toUser);
+
 }

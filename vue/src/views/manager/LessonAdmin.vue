@@ -144,6 +144,7 @@ export default {
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       ids: [],
+
       showChannelInput: false, // 是否显示栏目输入框
 
 
@@ -191,39 +192,51 @@ export default {
       this.$set(this.form, 'collegeId', null);
       this.$set(this.form, 'majorId', null);
     },
-    handleEdit(row) {   // 编辑数据
-      this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
-      this.fromVisible = true   // 打开弹窗
-      // 设置选择器的值为当前栏目名称或“编辑栏目”
-      this.initWangEditor(this.form.content || '')
+    handleEdit(row) {
+      this.$request.get(`/lesson/getClassIds/${row.id}`).then(res => {
+        if (res.code === '200') {
+          // 保存课件的 classIds
+          row.classIds = res.data;
+          this.form = JSON.parse(JSON.stringify(row));
+          this.fromVisible = true; // 打开弹窗
+          this.initWangEditor(this.form.content || '');
 
-      // 初始化属性
-      this.$set(this.form, 'collegeId', row.collegeId || null);
-      this.$set(this.form, 'majorId', row.majorId || null);
+          // 初始化属性
+          this.$set(this.form, 'collegeId', row.collegeId || null);
+          this.$set(this.form, 'majorId', row.majorId || null);
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
     },
-    save() {   // 保存按钮触发的逻辑，它会触发新增或者更新
+    save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.form.content = this.editor.txt.html();
+
           if (!this.form.classIds) {
             this.form.classIds = [];
           }
+
           if (!this.form.collegeId && !this.form.majorId) {
             this.form.schoolLevelflag = 1;
           } else {
             this.form.schoolLevelflag = 0;
           }
+
+          console.log('Form data before sending to backend:', this.form);
+
           this.$request({
             url: this.form.id ? '/lesson/update' : '/lesson/add',
             method: this.form.id ? 'PUT' : 'POST',
             data: this.form
           }).then(res => {
-            if (res.code === '200') {  // 表示成功保存
+            if (res.code === '200') {
               this.$message.success('保存成功');
               this.load(1);
               this.fromVisible = false;
             } else {
-              this.$message.error(res.msg);  // 弹出错误的信息
+              this.$message.error(res.msg);
             }
           });
         }

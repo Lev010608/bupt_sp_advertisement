@@ -14,9 +14,15 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Service
 public class LessonService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LessonService.class);
+
 
     @Resource
     private LessonMapper lessonMapper;
@@ -88,14 +94,31 @@ public class LessonService {
         } else {
             lesson.setSchoolLevelflag(1);
         }
+
+        // 查询课件的所有关联班级ID
+        List<Integer> classIds = lessonMapper.selectClassIdsByLessonId(lesson.getId());
+
+        // 更新课件
         lessonMapper.updateById(lesson);
+
+        // 删除课件的所有班级关联
+        logger.info("Deleting lesson_class entries for lesson_id: {}", lesson.getId());
         lessonMapper.deleteLessonClassByLessonId(lesson.getId());
-        if (lesson.getClassIds() != null) {
-            for (Integer classId : lesson.getClassIds()) {
-                lessonMapper.insertLessonClass(lesson.getId(), classId);
-            }
+
+        // 恢复课件的班级关联
+        for (Integer classId : classIds) {
+            logger.info("Inserting into lesson_class: lesson_id = {}, class_id = {}", lesson.getId(), classId);
+            lessonMapper.insertLessonClass(lesson.getId(), classId);
         }
     }
+
+    /**
+     * 获取课件关联的班级ID
+     */
+    public List<Integer> getClassIdsByLessonId(Integer lessonId) {
+        return lessonMapper.selectClassIdsByLessonId(lessonId);
+    }
+
 
     /**
      * 根据ID查询

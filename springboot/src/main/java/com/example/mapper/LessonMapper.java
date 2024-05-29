@@ -32,6 +32,15 @@ public interface LessonMapper {
     int updateById(Lesson lesson);
 
     /**
+     * 查询课件关联的班级ID
+     */
+    @Select("SELECT class_id FROM lesson_class WHERE lesson_id = #{lessonId}")
+    List<Integer> selectClassIdsByLessonId(@Param("lessonId") Integer lessonId);
+
+
+
+
+    /**
      * 根据ID查询
      */
     Lesson selectById(Integer id);

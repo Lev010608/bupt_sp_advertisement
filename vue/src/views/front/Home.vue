@@ -125,7 +125,7 @@
           </div>
           <div class="editable-area-4">
             <div class="tag-filter" style="margin-bottom: 20px;">
-              <el-tag type="success" effect="dark" style="cursor: pointer;" @click="resetTagFilter">重置</el-tag>
+              <el-tag type="success" effect="dark" style="cursor: pointer;" v-if="!tags" @click="resetTagFilter">重置</el-tag>
               <el-tag
                   v-for="tag in tags"
                   :key="tag"

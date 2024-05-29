@@ -16,12 +16,14 @@
           <div class="avatar">
             <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
             <div>{{ user.name || user.username }}<i class="el-icon-arrow-down" style="margin-left: 5px"></i></div>
+            <div class="unread-badge" v-if="totalUnRead > 0">{{ totalUnRead }}</div> <!-- 添加未读消息总数 -->
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
             <el-dropdown-item @click.native="$router.push('/password')">修改密码</el-dropdown-item>
-            <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
             <el-dropdown-item @click.native="backToHome">回到首页</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -36,7 +38,7 @@
           <div class="user-list-item" v-for="item in users.admin" :key="item.id" @click="selectToUser(item)">
             <img :src="item.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 30px; height: 30px; border-radius: 50%">
             <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.name === toUser ? '#3a8ee6' : '' }">{{ item.name || item.username }}</span>
-            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
+            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
           </div>
         </div>
 
@@ -45,7 +47,7 @@
           <div class="user-list-item" v-for="item in users.teacher" :key="item.id" @click="selectToUser(item)">
             <img :src="item.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 30px; height: 30px; border-radius: 50%">
             <span style="flex: 1; margin-left: 10px;" :style="{ color: item.role + '_' + item.username === toUser ? '#3a8ee6' : '' }">{{ item.name || item.username }}</span>
-            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.username]">{{ unRead?.[item.role + '_' + item.username] }}</div>
+            <div class="user-list-item-badge" v-if="unRead?.[item.role + '_' + item.name]">{{ unRead?.[item.role + '_' + item.name] }}</div>
           </div>
         </div>
 
@@ -161,6 +163,7 @@ export default {
       fromUser: '',
       toUser: '',
       toAvatar: '',
+      totalUnRead: 0, // 新增变量
       unRead: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       users: {
@@ -176,10 +179,12 @@ export default {
     this.emojis = emojis.split(',')
     console.log("当前用户")
     this.fromUser = this.user.role + '_' + this.user.name
+    this.loadUnReadNums();
 
     client = new WebSocket(`${this.$baseUrl.replace('http', 'ws')}/imserverSingle`)
     client.onopen = () => {
       console.log('websocket open')
+      this.loadUnReadNums();
     }
     client.onclose = () => {  // 页面刷新的时候和后台websocket服务关闭的时候
       console.log('websocket close')
@@ -192,12 +197,13 @@ export default {
           this.messages.push(json)
           this.scrollToBottom()  // 滚动页面到最底部
         }
-        // 加载消息数字
-        if (this.toUser === json.fromuser) {
-          this.setUnReadNums()   // 清空正在聊天人的消息数字
-        } else {
-          this.loadUnReadNums()
+        // 加载消息数字loadUnReadNums
+        if (this.toUser === json.fromuser){
+          this.setUnReadNums()
+        }else {
+          this.loadUnReadNums();
         }
+
       }
     }
 
@@ -214,30 +220,40 @@ export default {
   },
   methods: {
     load() {
-      request.get('/imsingle/findAllItems').then(res => {
+      request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
         if (res.code === '200') {
-          this.messages = res.data
-          this.scrollToBottom()  // 滚动条滚动到最底部
+          this.messages = res.data;
+          this.scrollToBottom();  // 滚动条滚动到最底部
+          this.setUnReadMessagesAsRead();  // 设置消息为已读
         } else {
-          this.$notify.error(res.msg)
+          this.$notify.error(res.msg);
         }
-        this.loadUnReadNums()
-      })
-      // request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then((res =>{
-      //   this.loadUnReadNums()
-      // }))
+      });
+    },
+    setUnReadNums() {
+      request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
+        this.unRead = res.data;
+        console.log("未读消息数据: ", this.unRead);  // 添加日志
+      });
+    },
+    setUnReadMessagesAsRead() {
+      request.post('/imsingle/setRead', {
+        fromUser: this.toUser,
+        toUser: this.fromUser
+      }).then(res => {
+        if (res.code === '200') {
+          this.loadUnReadNums();  // 更新未读消息数量
+        }
+      });
     },
 
-    setUnReadNums() {
-      request.get('/imsingle?fromUser=' + this.fromUser + '&toUser=' + this.toUser).then(res => {
-        this.loadUnReadNums()
-      })
-    },
     loadUnReadNums() {
       // 查询未读数量
       request.get('/imsingle/unReadNums?toUsername=' + this.fromUser).then(res => {
-        this.unRead = res.data
-      })
+        this.unRead = res.data;
+        this.totalUnRead = Object.values(this.unRead).reduce((sum, num) => sum + num, 0); // 计算总未读消息数量
+        console.log("未读消息数据: ", this.unRead);  // 添加日志
+      });
     },
     loadUsers() {
       request.get('/user/selectAll').then(res => {
@@ -277,8 +293,6 @@ export default {
     selectToUser(item) {
       this.toUser = item.role + '_' + item.name
       this.toAvatar = item.avatar
-      //查询聊天记录
-      // window.alert(this.toUser)
       this.load()
     },
     download(file) {
@@ -335,7 +349,6 @@ export default {
       }
     }
 
-
   },
 }
 </script>
@@ -361,6 +374,34 @@ export default {
 .emoji-box::-webkit-scrollbar-track {
   border-radius: 0;
   background: rgba(0, 0, 0, 0.1);
+}
+
+.unread-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.user-list-item-badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: 10px;
 }
 
 </style>

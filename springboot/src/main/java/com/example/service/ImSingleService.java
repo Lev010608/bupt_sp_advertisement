@@ -19,6 +19,7 @@ public class ImSingleService {
 
     @Transactional
     public ImSingle add(ImSingle imSingle) {
+        imSingle.setReaded(0);  // 确保readed字段为0
         imSingleMapper.insert(imSingle);
         return imSingle;
     }
@@ -28,11 +29,10 @@ public class ImSingleService {
         List<ImSingle> list = imSingleMapper.findByUsername(fromUser, toUser);
         list.forEach(x -> {
             if (x.getTouser().equals(fromUser) && x.getFromuser().equals(toUser)) {
-                x.setReaded(1);
+                x.setReaded(1);  // 将消息状态更新为已读
                 imSingleMapper.updateByPrimaryKey(x);
             }
         });
-//        System.out.println("********" + list);
         return list;
     }
 
@@ -57,4 +57,16 @@ public class ImSingleService {
         collect.forEach((k, v) -> dict.set(k, v.size()));
         return dict;
     }
+
+    @Transactional
+    public void setMessagesAsRead(String fromUser, String toUser) {
+        List<ImSingle> messages = imSingleMapper.findByUsername(fromUser, toUser);
+        messages.forEach(x -> {
+            if (x.getTouser().equals(toUser) && x.getFromuser().equals(fromUser)) {
+                x.setReaded(1);
+                imSingleMapper.updateByPrimaryKey(x);
+            }
+        });
+    }
+
 }

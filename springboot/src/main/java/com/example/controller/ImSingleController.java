@@ -4,10 +4,7 @@ import cn.hutool.core.lang.Dict;
 import com.example.common.Result;
 import com.example.entity.ImSingle;
 import com.example.service.ImSingleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -50,4 +47,12 @@ public class ImSingleController {
         Dict dict = imSingleService.findUnReadNums(toUsername);
         return Result.success(dict);
     }
+
+    @PostMapping("/setRead")
+    public Result setMessagesAsRead(@RequestParam String fromUser, @RequestParam String toUser) {
+        imSingleService.setMessagesAsRead(fromUser, toUser);
+        return Result.success();
+    }
+
+
 }
