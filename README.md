@@ -84,7 +84,7 @@
 
   - 修复前后端bug若干
   - 学生管理学院、专业、班级级联查询
-    - [ ] 删除学生只会把stuentflag置为0，应该连带将所有行政信息一并删除
+    - [x] 删除学生只会把stuentflag置为0，应该连带将所有行政信息一并删除
 
 
 
@@ -129,9 +129,9 @@
 
 - [x] [15. 管理后台资料审核和推荐功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/pvabggzu2fholbly)
 
-- [ ] [16. 前台首页在线资源部分的数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/vvn3h046kcw85gp7)
+- [x] [16. 前台首页在线资源部分的数据渲染](https://www.yuque.com/xiaqing-en2ii/skflxg/vvn3h046kcw85gp7)
 
-- [ ] [17. 前台海量资源以及详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/bdqmlr1rqrq454zg)
+- [x] [17. 前台海量资源以及详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/bdqmlr1rqrq454zg)
 
 - [x] [18. 前台首页跳转到详情页功能的开发](https://www.yuque.com/xiaqing-en2ii/skflxg/vcg92wp50fpw0w57)
 
@@ -178,8 +178,14 @@
 
 ## 部署上线服务器事项
 
+> 主要说明更新项目的上传事项
+
+### 打包
+
 打包后端：
 maven-clean-package
+
+拿到jar包
 
 打包前端：
 
@@ -187,4 +193,43 @@ maven-clean-package
 cd vue
 npm run build
 ```
+
+
+
+#### 部署
+
+- 前端/dist直接放入原目录即可生效
+
+- jar包放入文件夹后：
+
+  - cd进入其所在目录
+
+  - 输入ll查看文件权限
+
+    ```
+    ll
+    ```
+
+  - 赋予权限
+
+    ```
+    chmod +x *
+    ```
+
+    赋权后重新查看全为绿色即可
+
+  - 关闭并重新启动jar包
+
+    ```
+    ./stop.sh
+    ./start.sh
+    ```
+
+  - 查看后端是否启动成功
+
+    ```
+    tail -100f server.log
+    ```
+
+    
 
