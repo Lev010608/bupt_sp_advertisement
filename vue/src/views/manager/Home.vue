@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card" style="padding: 15px">
-      您好，{{ user?.name }}！欢迎使用南太孔院宣传门户管理系统
+      您好，{{ user?.name }}！欢迎使用南太孔院信息宣传门户管理系统
     </div>
 
     <div style="display: flex; margin: 10px 0">

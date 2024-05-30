@@ -3,7 +3,7 @@
     <div class="overlay" >
       <div style="text-align: center; width: 38%; padding-top: 500px; padding-left: 6%">
         <p class="font-title" style="text-align: left">欢迎访问</p>
-        <h4 class="major-font-title" style="text-align: right">北邮南太孔院宣传门户</h4>
+        <h4 class="major-font-title" style="text-align: right">北邮南太孔院信息宣传门户</h4>
 
       </div>
     </div>

@@ -6,7 +6,7 @@
         <el-carousel height="600px">
           <div class="overlay">
             <div>
-              <h2 class="major-font-title" style="text-align: left">北邮南太孔院宣传门户</h2>
+              <h2 class="major-font-title" style="text-align: left">北邮南太孔院信息宣传门户</h2>
               <p class="font-title" style="text-align: left">BUPTSP-Confucius Institute at The University of the South Pacific</p>
             </div>
           </div>

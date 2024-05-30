@@ -10,7 +10,7 @@
                 <div class="bupt-sp-logo-container"></div>
               </a>
             </span>
-            <div class="title">北邮南太孔院宣传门户</div>
+            <div class="title">北邮南太孔院信息宣传门户</div>
           </div>
         </div>
         <div class="center-header">
