@@ -20,6 +20,19 @@
           <div style="text-align: center;padding-top: 30px">
             <span style="font-size: 20px; font-weight: 550; color: #333333; margin-left: 20px">{{ informationData.name }}</span>
           </div>
+          <div style="text-align: left; padding-top: 40px; ">
+            <span style="color: #666666; margin-left: 50px">发布时间：{{ informationData.addTime }}</span>
+            <span style="color: #666666; margin-left: 50px" v-if="informationData.file">
+              相关链接：
+              <a :href="informationData.file" target="_blank" style="color: #7aaf90; text-decoration: underline;">
+                {{ informationData.file }}
+              </a>
+            </span>
+            <span style="color: #666666; margin-left: 50px" v-if="informationData.tag">
+              标签：
+              <el-tag type="success">{{informationData.tag}}</el-tag>
+            </span>
+          </div>
           <el-divider></el-divider>
           <div style="margin-top: 20px; background-color: #fafafa">
             <div style="margin-top: 10px; background-color: #fafafa" v-html="informationData.content" class="w-e-text w-e-text-container"></div>

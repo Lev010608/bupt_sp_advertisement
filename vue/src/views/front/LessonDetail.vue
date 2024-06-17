@@ -20,6 +20,14 @@
           <div style="text-align: center;padding-top: 30px">
             <span style="font-size: 20px; font-weight: 550; color: #333333; margin-left: 20px">{{ lessonData.name }}</span>
           </div>
+          <div style="text-align: left; padding-top: 40px; ">
+            <span style="color: #666666; margin-left: 50px" v-if="lessonData.file">
+              相关链接：
+              <a :href="lessonData.file" target="_blank" style="color: #7aaf90; text-decoration: underline;">
+                {{ lessonData.file }}
+              </a>
+            </span>
+          </div>
           <el-divider></el-divider>
           <!--   课程视频区域   -->
           <div>

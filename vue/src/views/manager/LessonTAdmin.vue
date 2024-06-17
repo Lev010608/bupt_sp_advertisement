@@ -194,7 +194,14 @@
         <el-table-column prop="collegeName" label="所属学院" show-overflow-tooltip></el-table-column>
         <el-table-column prop="majorName" label="所属专业" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="180" align="center">
-
+          <template v-slot="scope">
+            <el-button
+                v-if="!scope.row.collegeId && !scope.row.majorId&& scope.row.schoolLevelflag === 0"
+                plain type="primary" @click="handleEdit(scope.row)" size="mini">编辑</el-button>
+            <el-button
+                v-if="!scope.row.collegeId && !scope.row.majorId && scope.row.schoolLevelflag === 0"
+                plain type="danger" size="mini" @click="del(scope.row.id)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -395,6 +402,23 @@ export default {
       // 初始化属性
       this.$set(this.form, 'collegeId', null);
       this.$set(this.form, 'majorId', null);
+    },
+    handleEdit(row) {
+      this.$request.get(`/lesson/getClassIds/${row.id}`).then(res => {
+        if (res.code === '200') {
+          // 保存课件的 classIds
+          row.classIds = res.data;
+          this.form = JSON.parse(JSON.stringify(row));
+          this.fromVisible = true; // 打开弹窗
+          this.initWangEditor(this.form.content || '');
+
+          // 初始化属性
+          this.$set(this.form, 'collegeId', row.collegeId || null);
+          this.$set(this.form, 'majorId', row.majorId || null);
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
     },
     handleAddClass(row) {   // 编辑数据
       this.selectedLesson = row;

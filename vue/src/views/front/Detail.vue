@@ -22,6 +22,12 @@
           </div>
           <div style="text-align: left; padding-top: 40px; ">
             <span style="color: #666666; margin-left: 50px">发布时间：{{ courseData.addTime }}</span>
+            <span style="color: #666666; margin-left: 50px" v-if="courseData.file">
+              相关链接：
+              <a :href="courseData.file" target="_blank" style="color: #7aaf90; text-decoration: underline;">
+                {{ courseData.file }}
+              </a>
+            </span>
           </div>
           <el-divider></el-divider>
           <!--   课程视频区域   -->
