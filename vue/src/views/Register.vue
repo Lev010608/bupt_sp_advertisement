@@ -3,7 +3,7 @@
     <div class="overlay" >
       <div style="text-align: center; width: 38%; padding-top: 500px; padding-left: 6%">
         <p class="font-title" style="text-align: left">欢迎访问</p>
-        <h4 class="major-font-title" style="text-align: right">北邮南太孔院信息宣传门户</h4>
+        <h4 class="major-small-font-title" style="text-align: left">北邮南太孔院信息宣传门户</h4>
 
       </div>
     </div>
@@ -23,7 +23,9 @@
           <el-button style="width: 100%; background-color: #467262; border-color: #333; color: white" @click="register">注 册</el-button>
         </el-form-item>
         <div style="display: flex; align-items: center">
-          <div style="flex: 1"></div>
+          <div style="flex: 1; text-align: left">
+            或以 <a href="/front/home" style="color: #467262">访客</a> 身份登录
+          </div>
           <div style="flex: 1; text-align: right">
             已有账号？请 <a href="/login" style="color: #467262">登录</a>
           </div>

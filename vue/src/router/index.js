@@ -66,9 +66,11 @@ const router = new VueRouter({
   routes
 })
 
-
+//禁止访客前往的后端
+const restrictedGuestPaths = ['/front/information','/front/release','/home', '/admin', '/user','/teacher', '/notice', '/audit','/course','/front','/college','/major','/classes','/student','/lessonAdmin']; // 根据需要添加更多路径
 //禁止USER前往的后端
-const restrictedPaths = ['/home', '/admin', '/user', '/notice', '/audit','/course','/front']; // 根据需要添加更多路径
+const restrictedPaths = ['/home', '/admin', '/user','/teacher', '/notice', '/audit','/course','/front','/college','/major','/classes','/student','/lessonAdmin']; // 根据需要添加更多路径
+
 
 // 路由守卫
 router.beforeEach((to ,from, next) => {
@@ -81,10 +83,12 @@ router.beforeEach((to ,from, next) => {
         next('/home')
       }
     } else {
-      next('/login')
+      next('/front/home')
     }
   }else if ((restrictedPaths.includes(to.path) &&user.role === 'USER')){
     next('/front/home');
+  }else if ((restrictedGuestPaths.includes(to.path) &&!user.role)){
+    next('/login')
   }
   else {
     next()

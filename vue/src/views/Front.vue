@@ -129,6 +129,7 @@ export default {
 
   methods: {
     loadNotice() {
+      console.log("用户身份："+this.user.role)
       this.$request.get('/notice/selectAll').then(res => {
         this.notice = res.data;
         let i = 0;

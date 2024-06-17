@@ -22,8 +22,11 @@ public class WebConfig implements  WebMvcConfigurer {
                 .excludePathPatterns("/files/**")
                 .excludePathPatterns("/notice/selectAll")
                 .excludePathPatterns("/course/**")
+                .excludePathPatterns("/course/selectFresh8")
                 .excludePathPatterns("/course/getRecommend")
                 .excludePathPatterns("/course/getRecommendedChannelsWithLatestCourse")
+                .excludePathPatterns("/information/selectRecommendedApproved")
+                .excludePathPatterns("/imsingle/unReadNums")
         ;
     }
 }
