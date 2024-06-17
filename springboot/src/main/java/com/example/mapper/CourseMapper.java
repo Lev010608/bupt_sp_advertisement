@@ -51,7 +51,7 @@ public interface CourseMapper {
     /**
      * 查询前8个课程置于首页
      */
-    @Select("select * from course where recommend = '否' order by id desc limit 8")
+    @Select("select * from course where recommend = '否' order by addTime desc limit 8")
     List<Course> selectFresh8();
 
     /**

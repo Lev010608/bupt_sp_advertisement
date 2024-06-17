@@ -17,7 +17,7 @@
             <if test="recommend != null"> and recommend= #{recommend}</if>
             <if test="name != null"> and name like concat('%', #{name}, '%')</if>
         </where>
-        order by id desc
+        order by addTime desc
     </select>
 
     <select id="selectById" resultType="com.example.entity.Course">
